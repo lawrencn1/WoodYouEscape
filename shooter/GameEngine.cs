@@ -90,6 +90,7 @@ namespace shooter
             if (inputMng.IsShootPressed && fireCooldown <= 0)
             {
                 SpawnBullet(mainWindow.canvas);
+                Console.WriteLine("hehe");
                 fireCooldown = 20;
             }
         }
