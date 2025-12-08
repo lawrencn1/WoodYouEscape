@@ -22,12 +22,12 @@ namespace shooter
         {
             get
             {
-                return this.x;
+                return this.X1;
             }
 
             set
             {
-                this.x = value;
+                this.X1 = value;
             }
         }
 
@@ -86,6 +86,8 @@ namespace shooter
                 this.sprite = value;
             }
         }
+
+        public double X1 { get => this.x; set => this.x = value; }
 
         public Enemy(double x, double y, double vitesse)
         {

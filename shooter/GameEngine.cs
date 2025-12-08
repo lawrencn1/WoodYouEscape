@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -30,7 +31,7 @@ namespace shooter
         {
             inputMng = new InputManager();
             joueur = new Player(100, 100, 350);
-            mechant = new Enemy(100, 100, 10);
+            mechant = new Enemy(100, 100, 100);
 
             canvas.Children.Add(joueur.Sprite); 
             joueur.UpdatePosition();
@@ -105,8 +106,19 @@ namespace shooter
             double dx = 0;
             double dy = 0;
 
-            dx += 1;
-            dy += 1;
+            double objx = joueur.X;
+            double objy = joueur.Y;
+
+            if (mechant.X > joueur.X)
+                dx -= (joueur.X - dx) * 10;
+            else
+                dx += (joueur.X - dx) * 10;
+
+            if (mechant.Y > joueur.Y)
+                dy -= (joueur.Y - dy) * 10;
+            else
+                dy += (joueur.Y - dy) * 10;
+
 
             double length = Math.Sqrt(dx * dx + dy * dy);
             if (length > 0)
