@@ -13,8 +13,8 @@ namespace shooter
     {
         private double x;
         private double y;
-        private double vitesse;
-        private int pv;
+        private double speed;
+        private int hp;
 
         private UIElement sprite;
 
@@ -44,33 +44,33 @@ namespace shooter
             }
         }
 
-        public double Vitesse
+        public double Speed
         {
             get
             {
-                return this.vitesse;
+                return this.speed;
             }
 
             set
             {
-                this.vitesse = value;
+                this.speed = value;
             }
         }
 
-        public int Pv
+        public int Hp // Health Points
         {
             get
             {
-                return this.pv;
+                return this.hp;
             }
 
             set
             {
-                if (pv < 0)
+                if (hp < 0)
                 {
-                    throw new ArgumentOutOfRangeException("Les PV doivent être positifs");
+                    throw new ArgumentOutOfRangeException("HP must be a positive number");
                 }
-                this.pv = value;
+                this.hp = value;
             }
         }
 
@@ -89,10 +89,11 @@ namespace shooter
 
         public Player(double x, double y, double vitesse)
         {
+            // Spawn position, movement speed, Health points & Sprite
             this.X = x;
             this.Y = y;
-            this.Vitesse = vitesse;
-            this.Pv = 100;
+            this.Speed = vitesse;
+            this.Hp = 100;
 
             Sprite = new System.Windows.Shapes.Ellipse
             {
@@ -102,10 +103,10 @@ namespace shooter
             };
 
         }
-        public void Deplacement(double dx, double dy, double deltaTime)
+        public void Deplacement(double DirX, double DirY, double deltaTime)
         {
-            X += dx * Vitesse * deltaTime;
-            Y += dy * Vitesse * deltaTime;
+            X += DirX * Speed * deltaTime;
+            Y += DirY * Speed * deltaTime;
             UpdatePosition();
         }
         public void UpdatePosition()
@@ -113,10 +114,10 @@ namespace shooter
             Canvas.SetLeft(Sprite, X);
             Canvas.SetTop(Sprite, Y);
         }
-        public void Degat(int qte)
+        public void Damage(int quantity)
         {
-            Pv -= qte;
-            if (Pv <= 0)
+            Hp -= quantity;
+            if (Hp <= 0)
             {
             }
         }
