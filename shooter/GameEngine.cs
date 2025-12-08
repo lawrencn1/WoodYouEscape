@@ -14,14 +14,14 @@ namespace shooter
     public class GameEngine
     {
         MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-
+        public Enemy mechant;
         public InputManager inputMng;
         public Player joueur;
 
         private Stopwatch _stopwatch;
         private long _lastTick;
 
-        private List<Bullet> bullets = new List<Bullet>();
+        private List<PlayerProjectile> bullets = new List<PlayerProjectile>();
         private int fireCooldown = 0;
         private double _currentCooldownDuration = 0.15; 
         private ProjectileType _currentWeapon = ProjectileType.Standard;
@@ -30,8 +30,12 @@ namespace shooter
         {
             inputMng = new InputManager();
             joueur = new Player(100, 100, 350);
+            mechant = new Enemy(100, 100, 10);
 
             canvas.Children.Add(joueur.Sprite); 
+            joueur.UpdatePosition();
+
+            canvas.Children.Add(mechant.Sprite);
             joueur.UpdatePosition();
 
             _stopwatch = new Stopwatch();
@@ -58,6 +62,7 @@ namespace shooter
 
             UpdatePlayer(deltaTime);
             UpdateBullets(deltaTime, mainWindow.canvas);
+            UpdateEnemy(deltaTime);
              
         }
 
@@ -93,6 +98,23 @@ namespace shooter
                 Console.WriteLine("hehe");
                 fireCooldown = 20;
             }
+        }
+
+        public void UpdateEnemy(double deltaTime)
+        {
+            double dx = 0;
+            double dy = 0;
+
+            dx += 1;
+            dy += 1;
+
+            double length = Math.Sqrt(dx * dx + dy * dy);
+            if (length > 0)
+            {
+                dx /= length;
+                dy /= length;
+            }
+            mechant.Deplacement(dx, dy, deltaTime);
         }
         private void SetWeapon(ProjectileType type)
         {
@@ -140,7 +162,7 @@ namespace shooter
                 dirY = diffY / length;
             }
 
-            Bullet newBullet = new Bullet(startX - 5, startY - 5, dirX, dirY, _currentWeapon);
+            PlayerProjectile newBullet = new PlayerProjectile(startX - 5, startY - 5, dirX, dirY, _currentWeapon);
 
             bullets.Add(newBullet);
             canvas.Children.Add(newBullet.Sprite);

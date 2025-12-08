@@ -10,15 +10,8 @@ using System.Windows.Shapes;
 
 namespace shooter
 {
-    public enum ProjectileType
-    {
-        Standard,
-        Sniper,
-        MachineGun,
-        Rocket
-    }
 
-    public class Bullet
+    public class EnemyProjectile
     {
         public double X { get; set; }
         public double Y { get; set; }
@@ -28,7 +21,7 @@ namespace shooter
         public UIElement Sprite { get; private set; }
         public bool IsMarkedForRemoval { get; set; } = false;
 
-        public Bullet(double x, double y, double dirX, double dirY, ProjectileType type = ProjectileType.Standard)
+        public EnemyProjectile(double x, double y, double dirX, double dirY, ProjectileType type = ProjectileType.Standard)
         {
             X = x;
             Y = y;
