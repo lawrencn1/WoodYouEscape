@@ -21,10 +21,12 @@ namespace shooter
 
         private BitmapImage _textureUp;
         private BitmapImage[] _animDownFrames;
-        private BitmapImage _textureLeft;
+        private BitmapImage[] _animLeftFrames;
         private BitmapImage _textureRight;
+        private BitmapImage _textureLeft;
 
         private int _currentDownFrame = 0;
+        private int _currentLeftFrame = 0;
         private double _animTimer = 0;
         private const double FRAME_DURATION = 0.05;
 
@@ -117,25 +119,32 @@ namespace shooter
             try
             {
                 _textureUp = LoadTexture("pack://application:,,,/playerIdleSpritesheet/backwardsIdle1.png");
-                _textureLeft = LoadTexture("pack://application:,,,/playerIdleSpritesheet/leftIdle1.png");
+
                 _textureRight = LoadTexture("pack://application:,,,/playerIdleSpritesheet/rightIdle1.png");
 
                 _animDownFrames = new BitmapImage[11];
                 _animDownFrames[0] = LoadTexture("pack://application:,,,/playerIdleSpritesheet/fowardIdle1.png");
                 for (int i = 1; i < 11; i++)
                 {
-                    _animDownFrames[i] = LoadTexture($"pack://application:,,,/playerDownSpritesheet/walkingDown{i-1}.png");
+                    _animDownFrames[i] = LoadTexture($"pack://application:,,,/playerDownSpritesheet/walkingDown{i - 1}.png");
+                }
+
+                _animLeftFrames = new BitmapImage[11];
+                _animLeftFrames[0] = LoadTexture("pack://application:,,,/playerIdleSpritesheet/leftIdle1.png");
+                for (int i = 1; i < 11; i++)
+                {
+                    _animLeftFrames[i] = LoadTexture($"pack://application:,,,/playerLeftSpritesheet/walkingLeft{i - 1}.png");
                 }
 
                 // Set default sprite
-                if (_animDownFrames[0] != null) Sprite.Source = _animDownFrames[0];
-                else if (_textureUp != null) Sprite.Source = _textureUp;
+                if (_animLeftFrames[0] != null) Sprite.Source = _animLeftFrames[0];
+                
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error loading images: " + ex.Message);
             }
-        }
+}
 
         private BitmapImage LoadTexture(string path)
         {
@@ -154,16 +163,15 @@ namespace shooter
         {
             X += DirX * Speed * deltaTime;
             Y += DirY * Speed * deltaTime;
-            if (DirY < -0.1)
-            {
-                if (_textureUp != null) Sprite.Source = _textureUp;
-            }
 
-            else if (DirY > 0.1)
+            if (DirY < -0.1) // UP
             {
-                // 4.Run the Animation Logic
+                if (_textureUp != null && Sprite.Source != _textureUp)
+                    Sprite.Source = _textureUp;
+            }
+            else if (DirY > 0.1) // DOWN
+            {
                 _animTimer += deltaTime;
-                Console.WriteLine(_animTimer);
 
                 if (_animTimer > FRAME_DURATION)
                 {
@@ -171,42 +179,71 @@ namespace shooter
                     _currentDownFrame++;
 
                     if (_currentDownFrame >= _animDownFrames.Length)
-                        _currentDownFrame = 0;
+                        _currentDownFrame = 0; 
                 }
 
-                // Display the current frame
-                if (_animDownFrames[_currentDownFrame] != null)
-                    Sprite.Source = _animDownFrames[_currentDownFrame];
+                var currentFrame = _animDownFrames[_currentDownFrame];
+                if (currentFrame != null && Sprite.Source != currentFrame)
+                    Sprite.Source = currentFrame;
+            }
+            else if (DirX < -0.1) // Moving Left
+            {
 
+                _animTimer += deltaTime;
+
+                if (_animTimer > FRAME_DURATION)
+                {
+                    _animTimer = 0;
+                    _currentLeftFrame++;
+
+                    if (_currentLeftFrame >= _animLeftFrames.Length)
+                        _currentLeftFrame = 0;
+                }
+
+                var currentFrame = _animLeftFrames[_currentLeftFrame];
+                if (currentFrame != null && Sprite.Source != currentFrame)
+                    Sprite.Source = currentFrame;
             }
-            else if (DirX < -0.1)
+            else if (DirX > 0.1) // Moving Right
             {
-                if (_textureLeft != null) Sprite.Source = _textureLeft;
+                if (_textureRight != null && Sprite.Source != _textureRight)
+                    Sprite.Source = _textureRight;
             }
-            else if (DirX > 0.1)
+            else // IDLE (Not moving)
             {
-                if (_textureRight != null) Sprite.Source = _textureRight;
-            }
-            else // IDLE 
-            {
+                
                 _currentDownFrame = 0;
+                _currentLeftFrame = 0;
                 _animTimer = 0;
 
-
-                if (Sprite.Source != _textureUp && Sprite.Source != _textureLeft && Sprite.Source != _textureRight)
+                if (Sprite.Source == _textureUp || Sprite.Source == _textureRight)
                 {
-                    if (_animDownFrames != null && _animDownFrames[0] != null)
+                    return;
+                }
+
+                bool isFacingLeft = false;
+                if (_animLeftFrames != null)
+                {
+                    foreach (var frame in _animLeftFrames)
                     {
-                        if (Sprite.Source != _animDownFrames[0])
-                        {
-                            Sprite.Source = _animDownFrames[0];
-                        }
+                        if (Sprite.Source == frame) { isFacingLeft = true; break; }
                     }
                 }
 
-                UpdatePosition();
+                if (isFacingLeft && _animLeftFrames != null && _animLeftFrames[0] != null)
+                {
+                    if (Sprite.Source != _animLeftFrames[0]) Sprite.Source = _animLeftFrames[0];
+                }
+                
+                else if (_animDownFrames != null && _animDownFrames[0] != null)
+                {
+                    if (Sprite.Source != _animDownFrames[0]) Sprite.Source = _animDownFrames[0];
+                }
             }
+
+            UpdatePosition();
         }
+
         public void UpdatePosition()
         {
             Canvas.SetLeft(Sprite, X);

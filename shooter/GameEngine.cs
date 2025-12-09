@@ -25,9 +25,13 @@ namespace shooter
 
         private List<PlayerProjectile> playerProjectiles = new List<PlayerProjectile>();
         private List<EnemyProjectile> enemyProjectiles = new List<EnemyProjectile>();
-        private int fireCooldownPlayer = 10;
-        private int fireCooldownEnemy = 50;
-        private double _currentCooldownDuration = 0.15; 
+
+        private double _fireTimerPlayer = 0;
+        private double _fireTimerEnemy = 0;
+
+        private double _currentCooldownDuration = 0.15;
+        private const double ENEMY_COOLDOWN_DURATION = 1.0;
+
         private ProjectileTypePlayer _currentWeapon = ProjectileTypePlayer.Standard;
 
         static readonly double distance_coef = 1.2;
@@ -89,6 +93,7 @@ namespace shooter
                 dy /= length;
             }
             joueur.Deplacement(dx, dy, deltaTime);
+            Console.WriteLine(dx + " " + dy);
 
             // Weapon Switching Logic
             if (inputMng.IsKey1Pressed) SetWeapon(ProjectileTypePlayer.Standard);
@@ -96,12 +101,12 @@ namespace shooter
             if (inputMng.IsKey3Pressed) SetWeapon(ProjectileTypePlayer.Sniper);
             if (inputMng.IsKey4Pressed) SetWeapon(ProjectileTypePlayer.Rocket);
 
-            if (fireCooldownPlayer > 0) fireCooldownPlayer--;
+            if (_fireTimerPlayer > 0) _fireTimerPlayer -= deltaTime;
 
-            if (inputMng.IsShootPressed && fireCooldownPlayer <= 0)
+            if (inputMng.IsShootPressed && _fireTimerPlayer <= 0)
             {
                 SpawnBullet(mainWindow.canvas, "Player");
-                fireCooldownPlayer = 20;
+                _fireTimerPlayer = _currentCooldownDuration;
             }
         }
 
@@ -131,12 +136,12 @@ namespace shooter
             }
             enemy.Deplacement(targetDx, targetDy, deltaTime);
 
-            if (fireCooldownEnemy > 0) fireCooldownEnemy--;
+            if (_fireTimerEnemy > 0) _fireTimerEnemy -= deltaTime;
 
-            if (fireCooldownEnemy <= 0)
+            if (_fireTimerEnemy <= 0)
             {
                 SpawnBullet(mainWindow.canvas, "Enemy");
-                fireCooldownEnemy = 60;
+                _fireTimerEnemy = _currentCooldownDuration;
             }
         }
         private void SetWeapon(ProjectileTypePlayer type)
@@ -147,77 +152,58 @@ namespace shooter
             switch (type)
             {
                 case ProjectileTypePlayer.MachineGun:
-                    _currentCooldownDuration = 20; // Fast fire
+                    _currentCooldownDuration = 0.15; // Fast fire
                     break;
                 case ProjectileTypePlayer.Sniper:
-                    _currentCooldownDuration = 0.5; // Slow fire
+                    _currentCooldownDuration = 1.2; // Slow fire
                     break;
                 case ProjectileTypePlayer.Rocket:
-                    _currentCooldownDuration = 0.5;
-                    fireCooldownPlayer = 40;// Medium fire
+                    _currentCooldownDuration = 1.5;
+                    // Medium fire
                     break;
                 case ProjectileTypePlayer.Standard:
                 default:
-                    _currentCooldownDuration = 0.5;
-                    fireCooldownPlayer = 20;
+                    _currentCooldownDuration = 0.25;
+
                     break;
             }
         }
 
         private void SpawnBullet(Canvas canvas, String Sprite)
         {
-            double player_startX = joueur.X + 20;
-            double player_startY = joueur.Y + 20;
-
-            double enemy_startX = enemy.X + 20;
-            double enemy_startY = enemy.Y + 20;
-
             if (Sprite == "Player")
             {
-                Point target = inputMng.MousePosition;
+                double player_startX = joueur.X + 20;
+                double player_startY = joueur.Y + 20;
 
+                Point target = inputMng.MousePosition;
                 double diffX = target.X - player_startX;
                 double diffY = target.Y - player_startY;
-
                 double length = Math.Sqrt(diffX * diffX + diffY * diffY);
 
-                double dirX = 0;
-                double dirY = -1;
-
-                if (length > 0)
-                {
-                    dirX = diffX / length;
-                    dirY = diffY / length;
-                }
+                double dirX = 0, dirY = -1;
+                if (length > 0) { dirX = diffX / length; dirY = diffY / length; }
 
                 PlayerProjectile newBullet = new PlayerProjectile(player_startX - 5, player_startY - 5, dirX, dirY, _currentWeapon);
-
                 playerProjectiles.Add(newBullet);
                 canvas.Children.Add(newBullet.Sprite);
             }
-
-            else
+            else if (Sprite == "Enemy" && enemy != null)
             {
-                Point target = new Point(player_startX,player_startY);
+                double enemy_startX = enemy.X + 20;
+                double enemy_startY = enemy.Y + 20;
 
-                double diffX = target.X - enemy_startX;
-                double diffY = target.Y - enemy_startY;
-
+                // Aim at player
+                double diffX = joueur.X - enemy_startX;
+                double diffY = joueur.Y - enemy_startY;
                 double length = Math.Sqrt(diffX * diffX + diffY * diffY);
 
-                double dirX = 0;
-                double dirY = -1;
+                double dirX = 0, dirY = 0;
+                if (length > 0) { dirX = diffX / length; dirY = diffY / length; }
 
-                if (length > 0)
-                {
-                    dirX = diffX / length;
-                    dirY = diffY / length;
-                }
-
-                EnemyProjectile newBullet = new EnemyProjectile(enemy_startX - 5, enemy_startY - 5, dirX, dirY);
-
-                enemyProjectiles.Add(newBullet);
-                canvas.Children.Add(newBullet.Sprite);
+                EnemyProjectile newEnemyBullet = new EnemyProjectile(enemy_startX - 5, enemy_startY - 5, dirX, dirY);
+                enemyProjectiles.Add(newEnemyBullet);
+                canvas.Children.Add(newEnemyBullet.Sprite);
             }
         }
 
