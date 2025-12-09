@@ -35,7 +35,12 @@ namespace shooter
             DirX = dirX;
             DirY = dirY;
 
-            
+            Sprite = new Rectangle
+            {
+                Width = 10,
+                Height = 10,
+                Fill = Brushes.Purple,
+            };
 
             Canvas.SetLeft(Sprite, X);
             Canvas.SetTop(Sprite, Y);

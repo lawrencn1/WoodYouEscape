@@ -23,9 +23,10 @@ namespace shooter
         private Stopwatch _stopwatch;
         private long _lastTick;
 
-        private List<PlayerProjectile> bullets = new List<PlayerProjectile>();
-        private int fireCooldownPlayer = 0;
-        private int fireCooldownEnemy = 0;
+        private List<PlayerProjectile> playerProjectiles = new List<PlayerProjectile>();
+        private List<EnemyProjectile> enemyProjectiles = new List<EnemyProjectile>();
+        private int fireCooldownPlayer = 10;
+        private int fireCooldownEnemy = 50;
         private double _currentCooldownDuration = 0.15; 
         private ProjectileTypePlayer _currentWeapon = ProjectileTypePlayer.Standard;
 
@@ -44,8 +45,7 @@ namespace shooter
             joueur.UpdatePosition();
 
             _stopwatch = new Stopwatch();
-
-            
+   
         }
         public void Start()
         {
@@ -100,7 +100,6 @@ namespace shooter
             if (inputMng.IsShootPressed && fireCooldownPlayer <= 0)
             {
                 SpawnBullet(mainWindow.canvas, "Player");
-                Console.WriteLine("hehe");
                 fireCooldownPlayer = 20;
             }
         }
@@ -109,6 +108,7 @@ namespace shooter
         {
             double targetDx, targetDy;
 
+            //Enemy movement for following the player
             if ((distance_coef * joueur.X) - enemy.X < 2 && (distance_coef * joueur.X) - enemy.X > -2) 
                 targetDx = 0;
             else 
@@ -121,7 +121,7 @@ namespace shooter
             
             Console.WriteLine($"{targetDx} {targetDy}");
 
-
+            //Diagonal movement normalization
             double length = Math.Sqrt(targetDx * targetDx + targetDy * targetDy);
             if (length > 0)
             {
@@ -135,8 +135,7 @@ namespace shooter
             if (fireCooldownEnemy <= 0)
             {
                 SpawnBullet(mainWindow.canvas, "Enemy");
-                Console.WriteLine("hehe");
-                fireCooldownEnemy = 20;
+                fireCooldownEnemy = 60;
             }
         }
         private void SetWeapon(ProjectileTypePlayer type)
@@ -192,7 +191,7 @@ namespace shooter
 
                 PlayerProjectile newBullet = new PlayerProjectile(player_startX - 5, player_startY - 5, dirX, dirY, _currentWeapon);
 
-                bullets.Add(newBullet);
+                playerProjectiles.Add(newBullet);
                 canvas.Children.Add(newBullet.Sprite);
             }
 
@@ -214,23 +213,35 @@ namespace shooter
                     dirY = diffY / length;
                 }
 
-                PlayerProjectile newBullet = new PlayerProjectile(enemy_startX - 5, enemy_startY - 5, dirX, dirY);
+                EnemyProjectile newBullet = new EnemyProjectile(enemy_startX - 5, enemy_startY - 5, dirX, dirY);
 
-                bullets.Add(newBullet);
+                enemyProjectiles.Add(newBullet);
                 canvas.Children.Add(newBullet.Sprite);
             }
         }
 
         private void UpdateBullets(double deltaTime, Canvas _canvas)
         {
-            for (int i = bullets.Count - 1; i >= 0; i--)
+            //Player projectiles
+            for (int i = playerProjectiles.Count - 1; i >= 0; i--)
             {
-                bullets[i].Update(deltaTime);
+                playerProjectiles[i].Update(deltaTime);
 
-                if (bullets[i].IsMarkedForRemoval)
+                if (playerProjectiles[i].IsMarkedForRemoval)
                 {
-                    _canvas.Children.Remove(bullets[i].Sprite);
-                    bullets.RemoveAt(i);
+                    _canvas.Children.Remove(playerProjectiles[i].Sprite);
+                    playerProjectiles.RemoveAt(i);
+                }
+            }
+            // Enemy projectiles
+            for (int j = enemyProjectiles.Count - 1; j >= 0; j--)
+            {
+                enemyProjectiles[j].Update(deltaTime);
+
+                if (enemyProjectiles[j].IsMarkedForRemoval)
+                {
+                    _canvas.Children.Remove(enemyProjectiles[j].Sprite);
+                    enemyProjectiles.RemoveAt(j);
                 }
             }
         }
