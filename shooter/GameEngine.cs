@@ -31,7 +31,7 @@ namespace shooter
         {
             inputMng = new InputManager();
             joueur = new Player(100, 100, 350);
-            mechant = new Enemy(100, 100, 100);
+            mechant = new Enemy(100, 100, 200);
 
             canvas.Children.Add(joueur.Sprite); 
             joueur.UpdatePosition();
@@ -103,30 +103,24 @@ namespace shooter
 
         public void UpdateEnemy(double deltaTime)
         {
-            double dx = 0;
-            double dy = 0;
+            double targetDx = joueur.X - mechant.X;
+            double targetDy = joueur.Y - mechant.Y;
 
-            double objx = joueur.X;
-            double objy = joueur.Y;
+            double distance = Math.Sqrt(targetDx * targetDx + targetDy * targetDy);
 
-            if (mechant.X > joueur.X)
-                dx -= (joueur.X - dx) * 10;
-            else
-                dx += (joueur.X - dx) * 10;
+            if (distance > 0)
+            {
+                targetDx /= distance;
+                targetDy /= distance;
+            }
 
-            if (mechant.Y > joueur.Y)
-                dy -= (joueur.Y - dy) * 10;
-            else
-                dy += (joueur.Y - dy) * 10;
-
-
-            double length = Math.Sqrt(dx * dx + dy * dy);
+            double length = Math.Sqrt(targetDx * targetDx + targetDy * targetDy);
             if (length > 0)
             {
-                dx /= length;
-                dy /= length;
+                targetDx /= length;
+                targetDy /= length;
             }
-            mechant.Deplacement(dx, dy, deltaTime);
+            mechant.Deplacement(targetDx, targetDy, deltaTime);
         }
         private void SetWeapon(ProjectileType type)
         {
