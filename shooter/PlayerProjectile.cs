@@ -10,7 +10,7 @@ using System.Windows.Shapes;
 
 namespace shooter
 {
-    public enum ProjectileType
+    public enum ProjectileTypePlayer
     {
         Standard,
         Sniper,
@@ -28,7 +28,7 @@ namespace shooter
         public UIElement Sprite { get; private set; }
         public bool IsMarkedForRemoval { get; set; } = false;
 
-        public PlayerProjectile(double x, double y, double dirX, double dirY, ProjectileType type = ProjectileType.Standard)
+        public PlayerProjectile(double x, double y, double dirX, double dirY, ProjectileTypePlayer type = ProjectileTypePlayer.Standard)
         {
             X = x;
             Y = y;
@@ -37,7 +37,7 @@ namespace shooter
 
             switch (type)
             {
-                case ProjectileType.Sniper:
+                case ProjectileTypePlayer.Sniper:
                     Speed = 80; // Very fast
                     Sprite = new Rectangle
                     {
@@ -48,7 +48,7 @@ namespace shooter
                     };
                     break;
 
-                case ProjectileType.MachineGun:
+                case ProjectileTypePlayer.MachineGun:
                     Speed = 25; // Fast
                     Sprite = new Ellipse // Round bullets
                     {
@@ -58,7 +58,7 @@ namespace shooter
                     };
                     break;
 
-                case ProjectileType.Rocket:
+                case ProjectileTypePlayer.Rocket:
                     Speed = 7; // Slow
                     Sprite = new Rectangle
                     {
@@ -70,7 +70,7 @@ namespace shooter
                     };
                     break;
 
-                case ProjectileType.Standard:
+                case ProjectileTypePlayer.Standard:
                 default:
                     Speed = 15;
                     Sprite = new Rectangle

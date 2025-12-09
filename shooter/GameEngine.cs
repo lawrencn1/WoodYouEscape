@@ -16,7 +16,7 @@ namespace shooter
     public class GameEngine
     {
         MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-        public Enemy mechant;
+        public Enemy enemy;
         public InputManager inputMng;
         public Player joueur;
 
@@ -24,9 +24,10 @@ namespace shooter
         private long _lastTick;
 
         private List<PlayerProjectile> bullets = new List<PlayerProjectile>();
-        private int fireCooldown = 0;
+        private int fireCooldownPlayer = 0;
+        private int fireCooldownEnemy = 0;
         private double _currentCooldownDuration = 0.15; 
-        private ProjectileType _currentWeapon = ProjectileType.Standard;
+        private ProjectileTypePlayer _currentWeapon = ProjectileTypePlayer.Standard;
 
         static readonly double distance_coef = 1.2;
 
@@ -34,12 +35,12 @@ namespace shooter
         {
             inputMng = new InputManager();
             joueur = new Player(100, 100, 350);
-            mechant = new Enemy(100, 100, 200);
+            enemy = new Enemy(100, 100, 200);
 
             canvas.Children.Add(joueur.Sprite); 
             joueur.UpdatePosition();
 
-            canvas.Children.Add(mechant.Sprite);
+            canvas.Children.Add(enemy.Sprite);
             joueur.UpdatePosition();
 
             _stopwatch = new Stopwatch();
@@ -89,18 +90,18 @@ namespace shooter
             joueur.Deplacement(dx, dy, deltaTime);
 
             // Weapon Switching Logic
-            if (inputMng.IsKey1Pressed) SetWeapon(ProjectileType.Standard);
-            if (inputMng.IsKey2Pressed) SetWeapon(ProjectileType.MachineGun);
-            if (inputMng.IsKey3Pressed) SetWeapon(ProjectileType.Sniper);
-            if (inputMng.IsKey4Pressed) SetWeapon(ProjectileType.Rocket);
+            if (inputMng.IsKey1Pressed) SetWeapon(ProjectileTypePlayer.Standard);
+            if (inputMng.IsKey2Pressed) SetWeapon(ProjectileTypePlayer.MachineGun);
+            if (inputMng.IsKey3Pressed) SetWeapon(ProjectileTypePlayer.Sniper);
+            if (inputMng.IsKey4Pressed) SetWeapon(ProjectileTypePlayer.Rocket);
 
-            if (fireCooldown > 0) fireCooldown--;
+            if (fireCooldownPlayer > 0) fireCooldownPlayer--;
 
-            if (inputMng.IsShootPressed && fireCooldown <= 0)
+            if (inputMng.IsShootPressed && fireCooldownPlayer <= 0)
             {
-                SpawnBullet(mainWindow.canvas);
+                SpawnBullet(mainWindow.canvas, "Player");
                 Console.WriteLine("hehe");
-                fireCooldown = 20;
+                fireCooldownPlayer = 20;
             }
         }
 
@@ -108,15 +109,15 @@ namespace shooter
         {
             double targetDx, targetDy;
 
-            if ((distance_coef * joueur.X) - mechant.X < 2 && (distance_coef * joueur.X) - mechant.X > -2) 
+            if ((distance_coef * joueur.X) - enemy.X < 2 && (distance_coef * joueur.X) - enemy.X > -2) 
                 targetDx = 0;
             else 
-                targetDx = (distance_coef * joueur.X) - mechant.X;
+                targetDx = (distance_coef * joueur.X) - enemy.X;
 
-            if ((distance_coef * joueur.Y) - mechant.Y < 2 && (distance_coef * joueur.Y) - mechant.Y > - 2) 
+            if ((distance_coef * joueur.Y) - enemy.Y < 2 && (distance_coef * joueur.Y) - enemy.Y > - 2) 
                 targetDy = 0;
             else
-                targetDy = (distance_coef * joueur.Y) - mechant.Y;
+                targetDy = (distance_coef * joueur.Y) - enemy.Y;
             
             Console.WriteLine($"{targetDx} {targetDy}");
 
@@ -127,58 +128,97 @@ namespace shooter
                 targetDx /= length;
                 targetDy /= length;
             }
-            mechant.Deplacement(targetDx, targetDy, deltaTime);
+            enemy.Deplacement(targetDx, targetDy, deltaTime);
+
+            if (fireCooldownEnemy > 0) fireCooldownEnemy--;
+
+            if (fireCooldownEnemy <= 0)
+            {
+                SpawnBullet(mainWindow.canvas, "Enemy");
+                Console.WriteLine("hehe");
+                fireCooldownEnemy = 20;
+            }
         }
-        private void SetWeapon(ProjectileType type)
+        private void SetWeapon(ProjectileTypePlayer type)
         {
             _currentWeapon = type;
 
             // Optional: Adjust fire rate based on weapon
             switch (type)
             {
-                case ProjectileType.MachineGun:
+                case ProjectileTypePlayer.MachineGun:
                     _currentCooldownDuration = 20; // Fast fire
                     break;
-                case ProjectileType.Sniper:
+                case ProjectileTypePlayer.Sniper:
                     _currentCooldownDuration = 0.5; // Slow fire
                     break;
-                case ProjectileType.Rocket:
+                case ProjectileTypePlayer.Rocket:
                     _currentCooldownDuration = 0.5;
-                    fireCooldown = 40;// Medium fire
+                    fireCooldownPlayer = 40;// Medium fire
                     break;
-                case ProjectileType.Standard:
+                case ProjectileTypePlayer.Standard:
                 default:
                     _currentCooldownDuration = 0.5;
-                    fireCooldown = 20;
+                    fireCooldownPlayer = 20;
                     break;
             }
         }
 
-        private void SpawnBullet(Canvas canvas)
+        private void SpawnBullet(Canvas canvas, String Sprite)
         {
-            double startX = joueur.X + 20;
-            double startY = joueur.Y + 20;
+            double player_startX = joueur.X + 20;
+            double player_startY = joueur.Y + 20;
 
-            Point target = inputMng.MousePosition;
+            double enemy_startX = enemy.X + 20;
+            double enemy_startY = enemy.Y + 20;
 
-            double diffX = target.X - startX;
-            double diffY = target.Y - startY;
-
-            double length = Math.Sqrt(diffX * diffX + diffY * diffY);
-
-            double dirX = 0;
-            double dirY = -1; 
-
-            if (length > 0)
+            if (Sprite == "Player")
             {
-                dirX = diffX / length;
-                dirY = diffY / length;
+                Point target = inputMng.MousePosition;
+
+                double diffX = target.X - player_startX;
+                double diffY = target.Y - player_startY;
+
+                double length = Math.Sqrt(diffX * diffX + diffY * diffY);
+
+                double dirX = 0;
+                double dirY = -1;
+
+                if (length > 0)
+                {
+                    dirX = diffX / length;
+                    dirY = diffY / length;
+                }
+
+                PlayerProjectile newBullet = new PlayerProjectile(player_startX - 5, player_startY - 5, dirX, dirY, _currentWeapon);
+
+                bullets.Add(newBullet);
+                canvas.Children.Add(newBullet.Sprite);
             }
 
-            PlayerProjectile newBullet = new PlayerProjectile(startX - 5, startY - 5, dirX, dirY, _currentWeapon);
+            else
+            {
+                Point target = new Point(player_startX,player_startY);
 
-            bullets.Add(newBullet);
-            canvas.Children.Add(newBullet.Sprite);
+                double diffX = target.X - enemy_startX;
+                double diffY = target.Y - enemy_startY;
+
+                double length = Math.Sqrt(diffX * diffX + diffY * diffY);
+
+                double dirX = 0;
+                double dirY = -1;
+
+                if (length > 0)
+                {
+                    dirX = diffX / length;
+                    dirY = diffY / length;
+                }
+
+                PlayerProjectile newBullet = new PlayerProjectile(enemy_startX - 5, enemy_startY - 5, dirX, dirY);
+
+                bullets.Add(newBullet);
+                canvas.Children.Add(newBullet.Sprite);
+            }
         }
 
         private void UpdateBullets(double deltaTime, Canvas _canvas)

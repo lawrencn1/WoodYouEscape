@@ -10,6 +10,13 @@ using System.Windows.Shapes;
 
 namespace shooter
 {
+    public enum ProjectileTypeEnemy
+    {
+        Standard,
+        Sniper,
+        MachineGun,
+        Rocket
+    }
 
     public class EnemyProjectile
     {
@@ -21,59 +28,14 @@ namespace shooter
         public UIElement Sprite { get; private set; }
         public bool IsMarkedForRemoval { get; set; } = false;
 
-        public EnemyProjectile(double x, double y, double dirX, double dirY, ProjectileType type = ProjectileType.Standard)
+        public EnemyProjectile(double x, double y, double dirX, double dirY)
         {
             X = x;
             Y = y;
             DirX = dirX;
             DirY = dirY;
 
-            switch (type)
-            {
-                case ProjectileType.Sniper:
-                    Speed = 80; // Very fast
-                    Sprite = new Rectangle
-                    {
-                        Width = 6,
-                        Height = 20,
-                        Fill = Brushes.Yellow,
-                        RenderTransform = new RotateTransform(0) // Logic for rotation could be added later
-                    };
-                    break;
-
-                case ProjectileType.MachineGun:
-                    Speed = 25; // Fast
-                    Sprite = new Ellipse // Round bullets
-                    {
-                        Width = 8,
-                        Height = 8,
-                        Fill = Brushes.Orange
-                    };
-                    break;
-
-                case ProjectileType.Rocket:
-                    Speed = 7; // Slow
-                    Sprite = new Rectangle
-                    {
-                        Width = 20,
-                        Height = 20,
-                        Fill = Brushes.DarkRed,
-                        Stroke = Brushes.Black,
-                        StrokeThickness = 2
-                    };
-                    break;
-
-                case ProjectileType.Standard:
-                default:
-                    Speed = 15;
-                    Sprite = new Rectangle
-                    {
-                        Width = 10,
-                        Height = 10,
-                        Fill = Brushes.Red
-                    };
-                    break;
-            }
+            
 
             Canvas.SetLeft(Sprite, X);
             Canvas.SetTop(Sprite, Y);
