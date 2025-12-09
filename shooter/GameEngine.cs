@@ -12,6 +12,7 @@ using System.Windows.Media;
 
 namespace shooter
 {
+    
     public class GameEngine
     {
         MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
@@ -26,6 +27,8 @@ namespace shooter
         private int fireCooldown = 0;
         private double _currentCooldownDuration = 0.15; 
         private ProjectileType _currentWeapon = ProjectileType.Standard;
+
+        static readonly double distance_coef = 1.2;
 
         public GameEngine(Canvas canvas)
         {
@@ -103,16 +106,20 @@ namespace shooter
 
         public void UpdateEnemy(double deltaTime)
         {
-            double targetDx = joueur.X - mechant.X;
-            double targetDy = joueur.Y - mechant.Y;
+            double targetDx, targetDy;
 
-            double distance = Math.Sqrt(targetDx * targetDx + targetDy * targetDy);
+            if ((distance_coef * joueur.X) - mechant.X < 2 && (distance_coef * joueur.X) - mechant.X > -2) 
+                targetDx = 0;
+            else 
+                targetDx = (distance_coef * joueur.X) - mechant.X;
 
-            if (distance > 0)
-            {
-                targetDx /= distance;
-                targetDy /= distance;
-            }
+            if ((distance_coef * joueur.Y) - mechant.Y < 2 && (distance_coef * joueur.Y) - mechant.Y > - 2) 
+                targetDy = 0;
+            else
+                targetDy = (distance_coef * joueur.Y) - mechant.Y;
+            
+            Console.WriteLine($"{targetDx} {targetDy}");
+
 
             double length = Math.Sqrt(targetDx * targetDx + targetDy * targetDy);
             if (length > 0)
