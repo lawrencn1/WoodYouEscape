@@ -35,14 +35,15 @@ namespace shooter
         public GameEngine(Canvas canvas)
         {
             inputMng = new InputManager();
+            
             joueur = new Player(100, 100, 350);
-            enemy = new Enemy(100, 100, 200);
-
             canvas.Children.Add(joueur.Sprite); 
             joueur.UpdatePosition();
 
-            canvas.Children.Add(enemy.Sprite);
-            joueur.UpdatePosition();
+
+            //enemy = new Enemy(100, 100, 200);
+            //canvas.Children.Add(enemy.Sprite);
+            //enemy.UpdatePosition();
 
             _stopwatch = new Stopwatch();
    
@@ -67,7 +68,7 @@ namespace shooter
 
             UpdatePlayer(deltaTime);
             UpdateBullets(deltaTime, mainWindow.canvas);
-            UpdateEnemy(deltaTime);
+            //UpdateEnemy(deltaTime);
              
         }
 
