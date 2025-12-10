@@ -19,16 +19,17 @@ namespace shooter
 
         private Image sprite;
 
-        private BitmapImage _textureUp;
+        private BitmapImage[] _animUpFrames;
         private BitmapImage[] _animDownFrames;
         private BitmapImage[] _animLeftFrames;
         private BitmapImage _textureRight;
         private BitmapImage _textureLeft;
 
+        private int _currentUpFrame = 0;
         private int _currentDownFrame = 0;
         private int _currentLeftFrame = 0;
         private double _animTimer = 0;
-        private const double FRAME_DURATION = 0.05;
+        private const double FRAME_DURATION = 0.04;
 
         public double X
         {
@@ -118,7 +119,13 @@ namespace shooter
             // URI Format: "pack://application:,,,/Folder/filename.png"
             try
             {
-                _textureUp = LoadTexture("pack://application:,,,/playerIdleSpritesheet/backwardsIdle1.png");
+                _animUpFrames = new BitmapImage[11];
+                _animUpFrames[0] = LoadTexture("pack://application:,,,/playerIdleSpritesheet/backwardsIdle1.png");
+                for (int i = 1; i < 11; i++)
+                {
+                    _animUpFrames[i] = LoadTexture($"pack://application:,,,/playerUpSpritesheet/walkingUp{i - 1}.png");
+                }
+                 
 
                 _textureRight = LoadTexture("pack://application:,,,/playerIdleSpritesheet/rightIdle1.png");
 
@@ -166,8 +173,20 @@ namespace shooter
 
             if (DirY < -0.1) // UP
             {
-                if (_textureUp != null && Sprite.Source != _textureUp)
-                    Sprite.Source = _textureUp;
+                _animTimer += deltaTime;
+
+                if (_animTimer > FRAME_DURATION)
+                {
+                    _animTimer = 0;
+                    _currentUpFrame++;
+
+                    if (_currentUpFrame >= _animUpFrames.Length)
+                        _currentUpFrame = 0;
+                }
+
+                var currentFrame = _animUpFrames[_currentUpFrame];
+                if (currentFrame != null && Sprite.Source != currentFrame)
+                    Sprite.Source = currentFrame;
             }
             else if (DirY > 0.1) // DOWN
             {
@@ -216,7 +235,7 @@ namespace shooter
                 _currentLeftFrame = 0;
                 _animTimer = 0;
 
-                if (Sprite.Source == _textureUp || Sprite.Source == _textureRight)
+                if (Sprite.Source == _textureRight)
                 {
                     return;
                 }
