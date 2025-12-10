@@ -45,9 +45,9 @@ namespace shooter
             joueur.UpdatePosition();
 
 
-            //enemy = new Enemy(100, 100, 200);
-            //canvas.Children.Add(enemy.Sprite);
-            //enemy.UpdatePosition();
+            enemy = new Enemy(100, 100, 200);
+            canvas.Children.Add(enemy.Sprite);
+            enemy.UpdatePosition();
 
             _stopwatch = new Stopwatch();
    
@@ -72,7 +72,7 @@ namespace shooter
 
             UpdatePlayer(deltaTime);
             UpdateBullets(deltaTime, mainWindow.canvas);
-            //UpdateEnemy(deltaTime);
+            UpdateEnemy(deltaTime);
              
         }
 
@@ -141,7 +141,7 @@ namespace shooter
             if (_fireTimerEnemy <= 0)
             {
                 SpawnBullet(mainWindow.canvas, "Enemy");
-                _fireTimerEnemy = _currentCooldownDuration;
+                _fireTimerEnemy = ENEMY_COOLDOWN_DURATION;
             }
         }
         private void SetWeapon(ProjectileTypePlayer type)
