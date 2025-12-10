@@ -16,15 +16,17 @@ namespace shooter
     public class GameEngine
     {
         MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-        public Enemy enemy;
+    
         public InputManager inputMng;
         public Player joueur;
+
 
         private Stopwatch _stopwatch;
         private long _lastTick;
 
         private List<PlayerProjectile> playerProjectiles = new List<PlayerProjectile>();
         private List<EnemyProjectile> enemyProjectiles = new List<EnemyProjectile>();
+        public List<Enemy> Enemies = new List<Enemy>();
 
         private double _fireTimerPlayer = 0;
         private double _fireTimerEnemy = 0;
@@ -45,9 +47,8 @@ namespace shooter
             joueur.UpdatePosition();
 
 
-            enemy = new Enemy(100, 100, 200);
-            canvas.Children.Add(enemy.Sprite);
-            enemy.UpdatePosition();
+            SpawnEnemies(canvas, 200, 200);
+            SpawnEnemies(canvas, 400, 0);
 
             _stopwatch = new Stopwatch();
    
@@ -72,10 +73,22 @@ namespace shooter
 
             UpdatePlayer(deltaTime);
             UpdateBullets(deltaTime, mainWindow.canvas);
-            UpdateEnemy(deltaTime);
+            for (int i = 0; i < Enemies.Count; i++)
+            {
+                Enemies[i].UpdateEnemy(deltaTime, joueur);
+                Enemies[i].UpdateBullets(deltaTime, mainWindow.canvas);
+            }
              
         }
 
+        public void SpawnEnemies(Canvas canvas, double X, double Y)
+        {
+            Enemy enemy = new Enemy(X, Y, 200);
+            canvas.Children.Add(enemy.Sprite);
+            enemy.UpdatePosition();
+
+            Enemies.Add(enemy);
+        }
         public void UpdatePlayer(double deltaTime)
         {
             double dx = 0;
@@ -110,40 +123,6 @@ namespace shooter
             }
         }
 
-        public void UpdateEnemy(double deltaTime)
-        {
-            double targetDx, targetDy;
-
-            //Enemy movement for following the player
-            if ((distance_coef * joueur.X) - enemy.X < 2 && (distance_coef * joueur.X) - enemy.X > -2) 
-                targetDx = 0;
-            else 
-                targetDx = (distance_coef * joueur.X) - enemy.X;
-
-            if ((distance_coef * joueur.Y) - enemy.Y < 2 && (distance_coef * joueur.Y) - enemy.Y > - 2) 
-                targetDy = 0;
-            else
-                targetDy = (distance_coef * joueur.Y) - enemy.Y;
-            
-            Console.WriteLine($"{targetDx} {targetDy}");
-
-            //Diagonal movement normalization
-            double length = Math.Sqrt(targetDx * targetDx + targetDy * targetDy);
-            if (length > 0)
-            {
-                targetDx /= length;
-                targetDy /= length;
-            }
-            enemy.Deplacement(targetDx, targetDy, deltaTime);
-
-            if (_fireTimerEnemy > 0) _fireTimerEnemy -= deltaTime;
-
-            if (_fireTimerEnemy <= 0)
-            {
-                SpawnBullet(mainWindow.canvas, "Enemy");
-                _fireTimerEnemy = ENEMY_COOLDOWN_DURATION;
-            }
-        }
         private void SetWeapon(ProjectileTypePlayer type)
         {
             _currentWeapon = type;
@@ -188,23 +167,7 @@ namespace shooter
                 playerProjectiles.Add(newBullet);
                 canvas.Children.Add(newBullet.Sprite);
             }
-            else if (Sprite == "Enemy" && enemy != null)
-            {
-                double enemy_startX = enemy.X + 20;
-                double enemy_startY = enemy.Y + 20;
-
-                // Aim at player
-                double diffX = joueur.X - enemy_startX;
-                double diffY = joueur.Y - enemy_startY;
-                double length = Math.Sqrt(diffX * diffX + diffY * diffY);
-
-                double dirX = 0, dirY = 0;
-                if (length > 0) { dirX = diffX / length; dirY = diffY / length; }
-
-                EnemyProjectile newEnemyBullet = new EnemyProjectile(enemy_startX - 5, enemy_startY - 5, dirX, dirY);
-                enemyProjectiles.Add(newEnemyBullet);
-                canvas.Children.Add(newEnemyBullet.Sprite);
-            }
+  
         }
 
         private void UpdateBullets(double deltaTime, Canvas _canvas)
@@ -218,17 +181,6 @@ namespace shooter
                 {
                     _canvas.Children.Remove(playerProjectiles[i].Sprite);
                     playerProjectiles.RemoveAt(i);
-                }
-            }
-            // Enemy projectiles
-            for (int j = enemyProjectiles.Count - 1; j >= 0; j--)
-            {
-                enemyProjectiles[j].Update(deltaTime);
-
-                if (enemyProjectiles[j].IsMarkedForRemoval)
-                {
-                    _canvas.Children.Remove(enemyProjectiles[j].Sprite);
-                    enemyProjectiles.RemoveAt(j);
                 }
             }
         }
