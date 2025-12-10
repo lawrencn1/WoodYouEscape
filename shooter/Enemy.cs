@@ -103,7 +103,20 @@ namespace shooter
 
         public double X1 { get => this.x; set => this.x = value; }
 
-        public Enemy(double x, double y, double vitesse)
+        public double Distance
+        {
+            get
+            {
+                return this.distance;
+            }
+
+            set
+            {
+                this.distance = value;
+            }
+        }
+
+        public Enemy(double x, double y, double vitesse, double distance)
         {
             this.X = x;
             this.Y = y;
@@ -142,15 +155,15 @@ namespace shooter
             double targetDx, targetDy;
 
             //Enemy movement for following the player
-            if ((distance * player.X) - X < 2 && (distance * player.X) - X > -2)
+            if ((Distance * player.X) - X < 2 && (Distance * player.X) - X > -2)
                 targetDx = 0;
             else
-                targetDx = (distance * player.X) - X;
+                targetDx = (Distance * player.X) - X;
 
-            if ((distance * player.Y) - Y < 2 && (distance * player.Y) - Y > -2)
+            if ((Distance * player.Y) - Y < 2 && (Distance * player.Y) - Y > -2)
                 targetDy = 0;
             else
-                targetDy = (distance * player.Y) - Y;
+                targetDy = (Distance * player.Y) - Y;
 
             //Diagonal movement normalization
             double length = Math.Sqrt(targetDx * targetDx + targetDy * targetDy);
