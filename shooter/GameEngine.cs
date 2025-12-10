@@ -40,6 +40,7 @@ namespace shooter
 
         public GameEngine(Canvas canvas)
         {
+            
             inputMng = new InputManager();
             
             joueur = new Player(100, 100, 350);
@@ -51,7 +52,10 @@ namespace shooter
             SpawnEnemies(canvas, 400, 0);
 
             _stopwatch = new Stopwatch();
-   
+
+            GameRule(canvas);
+
+
         }
         public void Start()
         {
@@ -67,6 +71,7 @@ namespace shooter
 
         private void GameLoop(object sender, EventArgs e)
         {
+            
             long currentTick = _stopwatch.ElapsedTicks;
             double deltaTime = (double)(currentTick - _lastTick) / Stopwatch.Frequency;
             _lastTick = currentTick;
@@ -185,6 +190,54 @@ namespace shooter
                     playerProjectiles.RemoveAt(i);
                 }
             }
+        }
+
+        //User controls fonctions
+        private void GameRule(Canvas canva)
+        {   
+            GameRules uc = new GameRules();
+            canva.Children.Add(uc);
+
+            uc.validate.Click += (sender, e) =>
+            {
+                canva.Children.Remove(uc);
+                GameControl(canva);
+            };
+        }
+
+        private void GameControl(Canvas canva)
+        {
+            UCGameControls uc = new UCGameControls();
+            canva.Children.Add(uc);
+
+            uc.validate.Click += (sender, e) =>
+            {
+                canva.Children.Remove(uc);
+                GameMode(canva);
+            };
+        }
+
+        private void GameMode(Canvas canva)
+        {
+            UCGameMode uc = new UCGameMode();
+            canva.Children.Add(uc);
+
+            uc.validate.Click += (sender, e) =>
+            {
+                canva.Children.Remove(uc);
+                Difficulty(canva);
+            };
+        }
+
+        private void Difficulty(Canvas canva)
+        {
+            UCDifficulty uc = new UCDifficulty();
+            canva.Children.Add(uc);
+
+            uc.play.Click += (sender, e) =>
+            {
+                canva.Children.Remove(uc);
+            };
         }
     }
 }
