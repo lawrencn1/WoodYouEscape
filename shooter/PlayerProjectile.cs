@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
 namespace shooter
@@ -25,8 +26,11 @@ namespace shooter
         public double DirX { get; set; }
         public double DirY { get; set; }
         public double Speed { get; set; } = 15;
-        public UIElement Sprite { get; private set; }
+        public Image Sprite { get; private set; }
         public bool IsMarkedForRemoval { get; set; } = false;
+        
+        private RotateTransform _rotationTransform;
+
 
         public PlayerProjectile(double x, double y, double dirX, double dirY, ProjectileTypePlayer type = ProjectileTypePlayer.Standard)
         {
@@ -38,65 +42,98 @@ namespace shooter
             switch (type)
             {
                 case ProjectileTypePlayer.Sniper:
-                    Speed = 80; // Very fast
-                    Sprite = new Rectangle
-                    {
-                        Width = 6,
-                        Height = 20,
-                        Fill = Brushes.Yellow,
-                        RenderTransform = new RotateTransform(0) // Logic for rotation could be added later
-                    };
+                    Speed = 60; // Very fast
+                    //Sprite = new Rectangle
+                    //{
+                    //    Width = 6,
+                    //    Height = 20,
+                    //    Fill = Brushes.Yellow,
+                    //    RenderTransform = new RotateTransform(0) // Logic for rotation could be added later
+                    //};
                     break;
 
                 case ProjectileTypePlayer.MachineGun:
                     Speed = 25; // Fast
-                    Sprite = new Ellipse // Round bullets
-                    {
-                        Width = 8,
-                        Height = 8,
-                        Fill = Brushes.Orange
-                    };
+                    //Sprite = new Ellipse // Round bullets
+                    //{
+                    //    Width = 8,
+                    //    Height = 8,
+                    //    Fill = Brushes.Orange
+                    //};
                     break;
 
                 case ProjectileTypePlayer.Rocket:
                     Speed = 7; // Slow
-                    Sprite = new Rectangle
-                    {
-                        Width = 20,
-                        Height = 20,
-                        Fill = Brushes.DarkRed,
-                        Stroke = Brushes.Black,
-                        StrokeThickness = 2
-                    };
+                    //Sprite = new Rectangle
+                    //{
+                    //    Width = 20,
+                    //    Height = 20,
+                    //    Fill = Brushes.DarkRed,
+                    //    Stroke = Brushes.Black,
+                    //    StrokeThickness = 2
+                    //};
                     break;
 
                 case ProjectileTypePlayer.Standard:
                 default:
-                    Speed = 15;
-                    Sprite = new Rectangle
+                    Speed = 300;
+
+                    // Create the rotation transform
+                    _rotationTransform = new RotateTransform(0);
+
+                    // Create the image sprite
+                    var axeImage = new Image
                     {
-                        Width = 10,
-                        Height = 10,
-                        Fill = Brushes.Red
+                        Width = 120, // Adjust size as needed
+                        Height = 120,
+                        Stretch = Stretch.Uniform,
+                        RenderTransformOrigin = new Point(0.5, 0.5), // Center point for spinning
+                        RenderTransform = _rotationTransform
                     };
+
+                    // Load the image safely
+                    axeImage.Source = LoadTexture("pack://application:,,,/axes/normalAxe.png");
+
+                    Sprite = axeImage;
                     break;
             }
 
-            Canvas.SetLeft(Sprite, X);
-            Canvas.SetTop(Sprite, Y);
+            if (Sprite != null)
+            {
+                Canvas.SetLeft(Sprite, X);
+                Canvas.SetTop(Sprite, Y);
+            }
 
+        }
+        private BitmapImage LoadTexture(string path)
+        {
+            try
+            {
+                return new BitmapImage(new Uri(path));
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public void Update(double deltaTime)
         {
-            // Move along the calculated vector
-            X += DirX * Speed;
-            Y += DirY * Speed;
+            X += DirX * Speed * deltaTime;
+            Y += DirY * Speed * deltaTime;
 
-            Canvas.SetLeft(Sprite, X);
-            Canvas.SetTop(Sprite, Y);
+            if (_rotationTransform != null)
+            {
 
-            // Cleanup if it goes off screen (checking all boundaries now)
+                _rotationTransform.Angle += 540 * deltaTime;
+            }
+
+            if (Sprite != null)
+            {
+                Canvas.SetLeft(Sprite, X);
+                Canvas.SetTop(Sprite, Y);
+            }
+
             if (Y < -50 || Y > 2000 || X < -50 || X > 2000)
             {
                 IsMarkedForRemoval = true;

@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="axes\normalAxe.png" />
     <None Remove="playerDownSpritesheet\walkingDown0.png" />
     <None Remove="playerDownSpritesheet\walkingDown1.png" />
     <None Remove="playerDownSpritesheet\walkingDown2.png" />
@@ -62,6 +63,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="axes\normalAxe.png" />
     <Resource Include="playerDownSpritesheet\walkingDown0.png" />
     <Resource Include="playerDownSpritesheet\walkingDown1.png" />
     <Resource Include="playerDownSpritesheet\walkingDown2.png" />

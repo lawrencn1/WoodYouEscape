@@ -31,7 +31,7 @@ namespace shooter
         private double _fireTimerPlayer = 0;
         private double _fireTimerEnemy = 0;
 
-        private double _currentCooldownDuration = 0.15;
+        private double _currentCooldownDuration = 1;
         private const double ENEMY_COOLDOWN_DURATION = 1.0;
 
         private ProjectileTypePlayer _currentWeapon = ProjectileTypePlayer.Standard;
@@ -141,7 +141,7 @@ namespace shooter
                     break;
                 case ProjectileTypePlayer.Standard:
                 default:
-                    _currentCooldownDuration = 0.25;
+                    _currentCooldownDuration = 1;
 
                     break;
             }
@@ -151,18 +151,21 @@ namespace shooter
         {
             if (Sprite == "Player")
             {
-                double player_startX = joueur.X + 20;
-                double player_startY = joueur.Y + 20;
+                double player_startX = joueur.X;
+                double player_startY = joueur.Y;
 
                 Point target = inputMng.MousePosition;
                 double diffX = target.X - player_startX;
                 double diffY = target.Y - player_startY;
                 double length = Math.Sqrt(diffX * diffX + diffY * diffY);
 
-                double dirX = 0, dirY = -1;
-                if (length > 0) { dirX = diffX / length; dirY = diffY / length; }
+                double dirX = 0, dirY = 0;
+                if (length > 0) { 
+                    dirX = diffX / length; 
+                    dirY = diffY / length; 
+                }
 
-                PlayerProjectile newBullet = new PlayerProjectile(player_startX - 5, player_startY - 5, dirX, dirY, _currentWeapon);
+                PlayerProjectile newBullet = new PlayerProjectile(player_startX-10, player_startY-10, dirX, dirY, _currentWeapon);
                 playerProjectiles.Add(newBullet);
                 canvas.Children.Add(newBullet.Sprite);
             }
