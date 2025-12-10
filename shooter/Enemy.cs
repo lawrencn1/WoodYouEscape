@@ -15,7 +15,6 @@ namespace shooter
 
         private List<EnemyProjectile> enemyProjectiles = new List<EnemyProjectile>();
 
-        static readonly double distance_coef = 1.2;
         private double x;
         private double y;
         private double vitesse;
@@ -108,6 +107,7 @@ namespace shooter
             this.X = x;
             this.Y = y;
             this.Vitesse = vitesse;
+            this.distance = distance;
             this.Pv = 100;
 
             Sprite = new System.Windows.Shapes.Ellipse
