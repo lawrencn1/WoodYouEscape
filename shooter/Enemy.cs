@@ -20,10 +20,10 @@ namespace shooter
         private double y;
         private double vitesse;
         private int pv;
+        private double distance;
 
         private double _fireTimerEnemy = 0;
         private const double ENEMY_COOLDOWN_DURATION = 1.0;
-        private double distance = 1.2;
 
         public Player player;
 
