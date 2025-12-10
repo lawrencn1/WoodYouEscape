@@ -93,7 +93,6 @@ namespace shooter
                 dy /= length;
             }
             joueur.Deplacement(dx, dy, deltaTime);
-            Console.WriteLine(dx + " " + dy);
 
             // Weapon Switching Logic
             if (inputMng.IsKey1Pressed) SetWeapon(ProjectileTypePlayer.Standard);
