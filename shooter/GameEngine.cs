@@ -83,7 +83,7 @@ namespace shooter
 
         public void SpawnEnemies(Canvas canvas, double X, double Y)
         {
-            Enemy enemy = new Enemy(X, Y, 200);
+            Enemy enemy = new Enemy(X, Y, 200, 1.2);
             canvas.Children.Add(enemy.Sprite);
             enemy.UpdatePosition();
 
