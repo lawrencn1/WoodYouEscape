@@ -25,6 +25,8 @@ namespace shooter
         private Stopwatch _stopwatch;
         private long _lastTick;
 
+        private MapLayout _mapLayout;
+
         private List<PlayerProjectile> playerProjectiles = new List<PlayerProjectile>();
         public List<EnemyProjectile> globalEnemyProjectiles = new List<EnemyProjectile>();
         public List<Enemy> Enemies = new List<Enemy>();
@@ -73,6 +75,7 @@ namespace shooter
             // 2. Spawn Enemies
             SpawnEnemies(_gameCanvas, 200, 200);
             SpawnEnemies(_gameCanvas, 400, 0);
+            _mapLayout = new MapLayout(2, _gameCanvas);
             
 
             // 3. Start Game Loop

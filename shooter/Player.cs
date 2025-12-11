@@ -81,7 +81,7 @@ namespace shooter
             {
                 if (hp < 0)
                 {
-                    throw new ArgumentOutOfRangeException("HP must be a positive number");
+                    //throw new ArgumentOutOfRangeException("HP must be a positive number");
                 }
                 this.hp = value;
             }

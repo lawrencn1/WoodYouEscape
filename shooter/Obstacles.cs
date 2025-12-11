@@ -99,7 +99,7 @@ namespace shooter
             {
                 Width = width,
                 Height = heigth,
-                Fill = Brushes.Red
+                Fill = Brushes.White
             };
 
             SetPosition(x, y);
