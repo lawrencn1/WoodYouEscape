@@ -12,9 +12,9 @@
         <RadioButton x:Name="normale" HorizontalAlignment="Left" Margin="400,250,0,0" VerticalAlignment="Top" Foreground="#FFABEC9A" FontWeight="Bold" FontSize="24"/>
         <RadioButton x:Name="difficil" HorizontalAlignment="Left" Margin="643,250,0,0" VerticalAlignment="Top" Foreground="#FFABEC9A" FontWeight="Bold" FontSize="24"/>
 
-        <Label Content="Facil" HorizontalAlignment="Left" Height="60" Margin="69,181,0,0" VerticalAlignment="Top" Width="161" Foreground="#FF7ABB81" FontWeight="Bold" FontSize="36" HorizontalContentAlignment="Center"/>
+        <Label Content="Facile" HorizontalAlignment="Left" Height="60" Margin="69,181,0,0" VerticalAlignment="Top" Width="161" Foreground="#FF7ABB81" FontWeight="Bold" FontSize="36" HorizontalContentAlignment="Center"/>
         <Label Content="Normal" HorizontalAlignment="Left" Height="60" Margin="327,181,0,0" VerticalAlignment="Top" Width="161" Foreground="#FF7ABB81" FontWeight="Bold" FontSize="36" HorizontalContentAlignment="Center"/>
-        <Label Content="Infini" HorizontalAlignment="Left" Height="60" Margin="570,181,0,0" VerticalAlignment="Top" Width="161" Foreground="#FF7ABB81" FontWeight="Bold" FontSize="36" HorizontalContentAlignment="Center"/>
+        <Label Content="Difficile" HorizontalAlignment="Left" Height="60" Margin="570,181,0,0" VerticalAlignment="Top" Width="161" Foreground="#FF7ABB81" FontWeight="Bold" FontSize="36" HorizontalContentAlignment="Center"/>
         <Button x:Name="play"  Content="Jouer" HorizontalAlignment="Center" Margin="0,352,0,0" VerticalAlignment="Top" Height="51" Width="384" FontSize="36" FontWeight="Bold" Background="#FF50841D" Foreground="#FFBAE0A9" BorderBrush="#FF20481C" Click="play_Click"/>
     </Grid>
 </UserControl>

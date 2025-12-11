@@ -5,19 +5,58 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:shooter"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Background="#FF16311A">
-        <Label Content="Deplacement" HorizontalAlignment="Left" Height="46" Margin="104,17,0,0" VerticalAlignment="Top" Width="206" Background="#FF2EC730" FontSize="24" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-        <Label Content="Tirer" HorizontalAlignment="Left" Height="46" Margin="496,17,0,0" VerticalAlignment="Top" Width="206" Background="#FF2EC730" FontSize="24" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-        <Canvas x:Name="S" HorizontalAlignment="Left" Height="40" Margin="182,160,0,0" VerticalAlignment="Top" Width="40" Background="#FFFBEBEB"/>
-        <Canvas x:Name="D" HorizontalAlignment="Left" Height="40" Margin="249,160,0,0" VerticalAlignment="Top" Width="40" Background="#FFFBEBEB"/>
-        <Canvas x:Name="Q" HorizontalAlignment="Left" Height="40" Margin="116,160,0,0" VerticalAlignment="Top" Width="40" Background="#FFFBEBEB"/>
-        <Canvas x:Name="Z" HorizontalAlignment="Left" Height="40" Margin="182,94,0,0" VerticalAlignment="Top" Width="40" Background="#FFFBEBEB"/>
-        <Canvas x:Name="up" HorizontalAlignment="Left" Height="40" Margin="182,288,0,0" VerticalAlignment="Top" Width="40" Background="#FFFBEBEB"/>
-        <Canvas x:Name="down" HorizontalAlignment="Left" Height="40" Margin="182,354,0,0" VerticalAlignment="Top" Width="40" Background="#FFFBEBEB"/>
-        <Canvas x:Name="right" HorizontalAlignment="Left" Height="40" Margin="249,354,0,0" VerticalAlignment="Top" Width="40" Background="#FFFBEBEB"/>
-        <Canvas x:Name="left" HorizontalAlignment="Left" Height="40" Margin="116,354,0,0" VerticalAlignment="Top" Width="40" Background="White"/>
-        <Label Content="espace" HorizontalAlignment="Left" Height="40" Margin="427,136,0,0" VerticalAlignment="Top" Width="344" Background="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" FontSize="24"/>
-        <Button x:Name="validate" Content="Compris" HorizontalAlignment="Left" Margin="468,353,0,0" VerticalAlignment="Top" Height="49" Width="262" FontSize="36" FontWeight="Bold" Background="#FF50841D" Foreground="#FFBAE0A9" BorderBrush="#FF20481C" Click="validate_Click"/>
-    </Grid>
+             d:DesignHeight="400" d:DesignWidth="600">
+    <Viewbox Stretch="None">
+        <Grid>
+            <Label Content="Deplacement" HorizontalAlignment="Left" Height="46" Margin="70,17,0,0" VerticalAlignment="Top" Width="206" Background="#FF2EC730" FontSize="24" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            <Label Content="Tirer" HorizontalAlignment="Right" Height="46" Margin="0,17,50,0" VerticalAlignment="Top" Width="206" Background="#FF2EC730" FontSize="24" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            <Canvas x:Name="S" HorizontalAlignment="Left" Height="40" Margin="153,135,0,0" VerticalAlignment="Top" Width="40">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/S.png"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas x:Name="D" HorizontalAlignment="Left" Height="40" Margin="198,135,0,0" VerticalAlignment="Top" Width="40">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/D.png"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas x:Name="Q" HorizontalAlignment="Left" Height="40" Margin="107,135,0,0" VerticalAlignment="Top" Width="40">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Q.png"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas x:Name="Z" HorizontalAlignment="Left" Height="40" Margin="153,95,0,0" VerticalAlignment="Top" Width="40">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Z.png"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas x:Name="up" HorizontalAlignment="Left" Height="40" Margin="153,197,0,0" VerticalAlignment="Top" Width="40">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/ARROWUP.png"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas x:Name="down" HorizontalAlignment="Left" Height="40" Margin="153,237,0,0" VerticalAlignment="Top" Width="40" RenderTransformOrigin="0.603,0.244">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/ARROWDOWN.png"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas x:Name="right" HorizontalAlignment="Left" Height="40" Margin="198,237,0,0" VerticalAlignment="Top" Width="40">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/ARROWRIGHT.png"/>
+                </Canvas.Background>
+            </Canvas>
+            <Canvas x:Name="left" HorizontalAlignment="Left" Height="40" Margin="107,237,0,0" VerticalAlignment="Top" Width="40">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/ARROWLEFT.png"/>
+                </Canvas.Background>
+            </Canvas>
+            <Label HorizontalAlignment="Left" Height="40" Margin="326,135,0,0" VerticalAlignment="Top" Width="300
+                   " HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" FontSize="24" Foreground="{x:Null}">
+                <Label.Background>
+                    <ImageBrush ImageSource="/SPACEALTERNATIVE.png" Stretch="Uniform"/>
+                </Label.Background>
+            </Label>
+            <Button x:Name="validate" Content="Compris" HorizontalAlignment="Center" Margin="0,296,0,0" VerticalAlignment="Top" Height="50" Width="250" FontSize="36" FontWeight="Bold" Background="#FF50841D" Foreground="#FFBAE0A9" BorderBrush="#FF20481C" Click="validate_Click"/>
+        </Grid>
+    </Viewbox>
 </UserControl>

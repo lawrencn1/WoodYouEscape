@@ -53,8 +53,7 @@ namespace shooter
         }
         public void Start()
         {
-            GameRule(_gameCanvas);
-            
+            GameRule(_gameCanvas);  
         }
         public void Stop()
         {
@@ -174,8 +173,8 @@ namespace shooter
                 double player_startY = joueur.Y;
 
                 Point target = inputMng.MousePosition;
-                double diffX = target.X - player_startX;
-                double diffY = target.Y - player_startY;
+                double diffX = (target.X)- player_startX;
+                double diffY = (target.Y)- player_startY;
                 double length = Math.Sqrt(diffX * diffX + diffY * diffY);
 
                 double dirX = 0, dirY = 0;
