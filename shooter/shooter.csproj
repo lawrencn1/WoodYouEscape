@@ -69,6 +69,14 @@
     <None Remove="Q.png" />
     <None Remove="S.png" />
     <None Remove="SPACEALTERNATIVE.png" />
+    <None Remove="UIAssets\ARROWDOWN.png" />
+    <None Remove="UIAssets\ARROWLEFT.png" />
+    <None Remove="UIAssets\ARROWRIGHT.png" />
+    <None Remove="UIAssets\ARROWUP.png" />
+    <None Remove="UIAssets\background.png" />
+    <None Remove="UIAssets\D.png" />
+    <None Remove="UIAssets\Q.png" />
+    <None Remove="UIAssets\S.png" />
     <None Remove="UIAssets\SimpleKeys\Jumbo\Dark\Single PNGs\0.png" />
     <None Remove="UIAssets\SimpleKeys\Jumbo\Dark\Single PNGs\1.png" />
     <None Remove="UIAssets\SimpleKeys\Jumbo\Dark\Single PNGs\2.png" />
@@ -138,6 +146,8 @@
     <None Remove="UIAssets\SimpleKeys\Jumbo\Dark\Single PNGs\X.png" />
     <None Remove="UIAssets\SimpleKeys\Jumbo\Dark\Single PNGs\Y.png" />
     <None Remove="UIAssets\SimpleKeys\Jumbo\Dark\Single PNGs\Z.png" />
+    <None Remove="UIAssets\SPACEALTERNATIVE.png" />
+    <None Remove="UIAssets\Z.png" />
     <None Remove="Z.png" />
   </ItemGroup>
 
@@ -202,6 +212,14 @@
     <Resource Include="Q.png" />
     <Resource Include="S.png" />
     <Resource Include="SPACEALTERNATIVE.png" />
+    <Resource Include="UIAssets\ARROWDOWN.png" />
+    <Resource Include="UIAssets\ARROWLEFT.png" />
+    <Resource Include="UIAssets\ARROWRIGHT.png" />
+    <Resource Include="UIAssets\ARROWUP.png" />
+    <Resource Include="UIAssets\background.png" />
+    <Resource Include="UIAssets\D.png" />
+    <Resource Include="UIAssets\Q.png" />
+    <Resource Include="UIAssets\S.png" />
     <Resource Include="UIAssets\SimpleKeys\Jumbo\Dark\Single PNGs\0.png" />
     <Resource Include="UIAssets\SimpleKeys\Jumbo\Dark\Single PNGs\1.png" />
     <Resource Include="UIAssets\SimpleKeys\Jumbo\Dark\Single PNGs\2.png" />
@@ -271,6 +289,8 @@
     <Resource Include="UIAssets\SimpleKeys\Jumbo\Dark\Single PNGs\X.png" />
     <Resource Include="UIAssets\SimpleKeys\Jumbo\Dark\Single PNGs\Y.png" />
     <Resource Include="UIAssets\SimpleKeys\Jumbo\Dark\Single PNGs\Z.png" />
+    <Resource Include="UIAssets\SPACEALTERNATIVE.png" />
+    <Resource Include="UIAssets\Z.png" />
     <Resource Include="Z.png" />
   </ItemGroup>
 

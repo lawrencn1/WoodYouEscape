@@ -26,7 +26,7 @@ namespace shooter
         private long _lastTick;
 
         private List<PlayerProjectile> playerProjectiles = new List<PlayerProjectile>();
-        private List<EnemyProjectile> enemyProjectiles = new List<EnemyProjectile>();
+        public List<EnemyProjectile> globalEnemyProjectiles = new List<EnemyProjectile>();
         public List<Enemy> Enemies = new List<Enemy>();
 
         private double _fireTimerPlayer = 0;
@@ -90,22 +90,111 @@ namespace shooter
             _lastTick = currentTick;
 
             UpdatePlayer(deltaTime);
-            UpdateBullets(deltaTime, _gameCanvas);
+            UpdatePlayerBullets(deltaTime, _gameCanvas);
+            UpdateEnemyBullets(deltaTime, _gameCanvas);
 
             for (int i = 0; i < Enemies.Count; i++)
             {
-                Enemies[i].UpdateEnemy(deltaTime, joueur);
-                Enemies[i].UpdateBullets(deltaTime, _gameCanvas);
+                Enemies[i].UpdateEnemy(deltaTime, joueur, globalEnemyProjectiles, _gameCanvas);
             }
 
+            CheckCollisions();
+
+        }
+        private void UpdatePlayerBullets(double deltaTime, Canvas canvas)
+        {
+            for (int i = playerProjectiles.Count - 1; i >= 0; i--)
+            {
+                playerProjectiles[i].Update(deltaTime);
+
+                if (playerProjectiles[i].IsMarkedForRemoval)
+                {
+                    canvas.Children.Remove(playerProjectiles[i].Sprite);
+                    playerProjectiles.RemoveAt(i);
+                }
+            }
+        }
+        private void UpdateEnemyBullets(double deltaTime, Canvas canvas)
+        {
+            for (int i = globalEnemyProjectiles.Count - 1; i >= 0; i--)
+            {
+                globalEnemyProjectiles[i].Update(deltaTime);
+
+                if (globalEnemyProjectiles[i].IsMarkedForRemoval)
+                {
+                    canvas.Children.Remove(globalEnemyProjectiles[i].Sprite);
+                    globalEnemyProjectiles.RemoveAt(i);
+                }
+            }
         }
 
+        private void CheckCollisions()
+        {
+            // 1. Player Projectiles vs Enemies
+            for (int i = playerProjectiles.Count - 1; i >= 0; i--)
+            {
+                var bullet = playerProjectiles[i];
+                // Bullet hitbox
+                Rect bulletRect = new Rect(bullet.X, bullet.Y, 10, 10);
+
+                for (int j = Enemies.Count - 1; j >= 0; j--)
+                {
+                    var enemy = Enemies[j];
+                    // Enemy hitbox 
+                    Rect enemyRect = new Rect(enemy.X, enemy.Y, 40, 40);
+
+                    if (bulletRect.IntersectsWith(enemyRect))
+                    {
+
+                        enemy.Damage(25); 
+
+                        _gameCanvas.Children.Remove(bullet.Sprite);
+                        playerProjectiles.RemoveAt(i);
+
+                        if (enemy.Pv <= 0)
+                        {
+                            _gameCanvas.Children.Remove(enemy.Sprite);
+                            Enemies.RemoveAt(j);
+                        }
+                        break; // Bullet hit something, stop checking other enemies for this specific bullet
+                    }
+                }
+            }
+
+            // 2. Enemy Bullets vs Player
+
+            // Player hitbox 
+            Rect playerRect = new Rect(joueur.X, joueur.Y, 80, 100);
+
+            foreach (var enemy in Enemies)
+            {
+                for (int k = globalEnemyProjectiles.Count - 1; k >= 0; k--)
+                {
+                    var enemyBullet = globalEnemyProjectiles[k];
+
+                    //Enemy bullet hitbox
+                    Rect eBulletRect = new Rect(enemyBullet.X, enemyBullet.Y, 10, 10);
+                    
+                    if (eBulletRect.IntersectsWith(playerRect))
+                    {
+                        joueur.Damage(10);
+                        _gameCanvas.Children.Remove(enemyBullet.Sprite);
+                        globalEnemyProjectiles.RemoveAt(k);
+                        
+                        if (joueur.Hp <= 0)
+                        {
+                            // Game Over
+                        }
+                    }
+                }
+                
+            }
+        }
         public void SpawnEnemies(Canvas canvas, double X, double Y)
         {
             Enemy enemy = new Enemy(X, Y, 200, 1.2);
             canvas.Children.Add(enemy.Sprite);
             enemy.UpdatePosition();
-
             Enemies.Add(enemy);
         }
         public void UpdatePlayer(double deltaTime)
@@ -126,11 +215,11 @@ namespace shooter
             }
             joueur.Deplacement(dx, dy, deltaTime);
 
-            // Weapon Switching Logic
+            // Weapon switching 
             if (inputMng.IsKey1Pressed) SetWeapon(ProjectileTypePlayer.Standard);
-            if (inputMng.IsKey2Pressed) SetWeapon(ProjectileTypePlayer.MachineGun);
-            if (inputMng.IsKey3Pressed) SetWeapon(ProjectileTypePlayer.Sniper);
-            if (inputMng.IsKey4Pressed) SetWeapon(ProjectileTypePlayer.Rocket);
+            //if (inputMng.IsKey2Pressed) SetWeapon(ProjectileTypePlayer.MachineGun);
+            //if (inputMng.IsKey3Pressed) SetWeapon(ProjectileTypePlayer.Sniper);
+            //if (inputMng.IsKey4Pressed) SetWeapon(ProjectileTypePlayer.Rocket);
 
             if (_fireTimerPlayer > 0) _fireTimerPlayer -= deltaTime;
 
@@ -145,23 +234,20 @@ namespace shooter
         {
             _currentWeapon = type;
 
-            // Optional: Adjust fire rate based on weapon
             switch (type)
             {
                 case ProjectileTypePlayer.MachineGun:
-                    _currentCooldownDuration = 0.15; // Fast fire
+                    _currentCooldownDuration = 0.15; // Fast 
                     break;
                 case ProjectileTypePlayer.Sniper:
-                    _currentCooldownDuration = 1.2; // Slow fire
+                    _currentCooldownDuration = 1.2; // Slow 
                     break;
                 case ProjectileTypePlayer.Rocket:
                     _currentCooldownDuration = 1.5;
-                    // Medium fire
                     break;
                 case ProjectileTypePlayer.Standard:
                 default:
                     _currentCooldownDuration = 1;
-
                     break;
             }
         }
@@ -190,23 +276,8 @@ namespace shooter
             }
   
         }
-
-        private void UpdateBullets(double deltaTime, Canvas _canvas)
-        {
-            //Player projectiles
-            for (int i = playerProjectiles.Count - 1; i >= 0; i--)
-            {
-                playerProjectiles[i].Update(deltaTime);
-
-                if (playerProjectiles[i].IsMarkedForRemoval)
-                {
-                    _canvas.Children.Remove(playerProjectiles[i].Sprite);
-                    playerProjectiles.RemoveAt(i);
-                }
-            }
-        }
-
-        //User controls fonctions
+        
+        //User controls functions
         private void GameRule(Canvas canva)
         {   
             GameRules uc = new GameRules();

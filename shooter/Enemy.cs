@@ -13,7 +13,7 @@ namespace shooter
     {
         MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
 
-        private List<EnemyProjectile> enemyProjectiles = new List<EnemyProjectile>();
+        public List<EnemyProjectile> enemyProjectiles = new List<EnemyProjectile>();
 
         private double x;
         private double y;
@@ -78,7 +78,7 @@ namespace shooter
             {
                 if (pv < 0)
                 {
-                    throw new ArgumentOutOfRangeException("Les PV doivent être positifs");
+                    //throw new ArgumentOutOfRangeException("Les PV doivent être positifs");
                 }
                 this.pv = value;
             }
@@ -102,13 +102,26 @@ namespace shooter
 
         public double X1 { get => this.x; set => this.x = value; }
 
+        public double Distance
+        {
+            get
+            {
+                return this.distance;
+            }
+
+            set
+            {
+                this.distance = value;
+            }
+        }
+
         public Enemy(double x, double y, double vitesse, double distance)
         {
             this.X = x;
             this.Y = y;
             this.Vitesse = vitesse;
-            this.distance = distance;
-            this.Pv = 100;
+            this.Distance = distance;
+            this.Pv = 25;
 
             Sprite = new System.Windows.Shapes.Ellipse
             {
@@ -129,30 +142,30 @@ namespace shooter
             Canvas.SetLeft(Sprite, X);
             Canvas.SetTop(Sprite, Y);
         }
-        public void Degat(int qte)
+        public void Damage(int qte)
         {
             Pv -= qte;
             if (Pv <= 0)
             {
+            
             }
         }
 
-        public void UpdateEnemy(double deltaTime, Player player)
+        public void UpdateEnemy(double deltaTime, Player player, List<EnemyProjectile> globalBulletList, Canvas canvas)
         {
             double targetDx, targetDy;
 
-            //Enemy movement for following the player
-            if ((distance * player.X) - X < 2 && (distance * player.X) - X > -2)
-                targetDx = 0;
-            else
-                targetDx = (distance * player.X) - X;
 
-            if ((distance * player.Y) - Y < 2 && (distance * player.Y) - Y > -2)
-                targetDy = 0;
-            else
-                targetDy = (distance * player.Y) - Y;
+            double diffX = (Distance * player.X) - X; 
+            double diffY = (Distance * player.Y) - Y;
 
-            //Diagonal movement normalization
+            if (Math.Abs(diffX) < 2) targetDx = 0;
+            else targetDx = diffX;
+
+            if (Math.Abs(diffY) < 2) targetDy = 0;
+            else targetDy = diffY;
+
+            // Normalize diagonal movement
             double length = Math.Sqrt(targetDx * targetDx + targetDy * targetDy);
             if (length > 0)
             {
@@ -161,11 +174,13 @@ namespace shooter
             }
             Deplacement(targetDx, targetDy, deltaTime);
 
+            // Shooting Logic
             if (_fireTimerEnemy > 0) _fireTimerEnemy -= deltaTime;
 
             if (_fireTimerEnemy <= 0)
             {
-                SpawnBullet(mainWindow.canvas, "Enemy", player);
+
+                SpawnBullet(canvas, player, globalBulletList);
                 _fireTimerEnemy = ENEMY_COOLDOWN_DURATION;
             }
         }
@@ -188,20 +203,27 @@ namespace shooter
             canvas.Children.Add(newEnemyBullet.Sprite);
         }
 
-        public void UpdateBullets(double deltaTime, Canvas _canvas)
+        private void SpawnBullet(Canvas canvas, Player player, List<EnemyProjectile> globalBulletList)
         {
-            // Enemy projectiles
-            for (int j = enemyProjectiles.Count - 1; j >= 0; j--)
-            {
-                enemyProjectiles[j].Update(deltaTime);
+            double enemy_startX = X + 20;
+            double enemy_startY = Y + 20;
 
-                if (enemyProjectiles[j].IsMarkedForRemoval)
-                {
-                    _canvas.Children.Remove(enemyProjectiles[j].Sprite);
-                    enemyProjectiles.RemoveAt(j);
-                }
+            // Calculate direction towards player
+            double diffX = player.X - enemy_startX;
+            double diffY = player.Y - enemy_startY;
+            double length = Math.Sqrt(diffX * diffX + diffY * diffY);
+
+            double dirX = 0, dirY = 0;
+            if (length > 0)
+            {
+                dirX = diffX / length;
+                dirY = diffY / length;
             }
 
+            // Create Bullet
+            EnemyProjectile newEnemyBullet = new EnemyProjectile(enemy_startX - 5, enemy_startY - 5, dirX, dirY);
+            globalBulletList.Add(newEnemyBullet);
+            canvas.Children.Add(newEnemyBullet.Sprite);
         }
     }
 }
