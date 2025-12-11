@@ -22,7 +22,6 @@ namespace shooter
         public InputManager inputMng;
         public Player joueur;
 
-
         private Stopwatch _stopwatch;
         private long _lastTick;
 
@@ -47,6 +46,7 @@ namespace shooter
             inputMng = new InputManager();
             
             joueur = new Player(100, 100, 350);
+
 
             _stopwatch = new Stopwatch();
 
@@ -73,6 +73,7 @@ namespace shooter
             // 2. Spawn Enemies
             SpawnEnemies(_gameCanvas, 200, 200);
             SpawnEnemies(_gameCanvas, 400, 0);
+            
 
             // 3. Start Game Loop
             _stopwatch.Start();
