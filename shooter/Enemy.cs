@@ -200,30 +200,52 @@ namespace shooter
 
         public void UpdateEnemy(double deltaTime, Player player, List<EnemyProjectile> globalBulletList, Canvas canvas)
         {
-
-            // 1. Calculate Vector to Player
+            // --- 1. Calculate Direction & Intended Movement ---
             double diffX = player.X - this.X;
             double diffY = player.Y - this.Y;
-
-            // 2. Calculate Distance
             double distanceToPlayer = Math.Sqrt(diffX * diffX + diffY * diffY);
 
-            // 3. Move only if we are further than our StopDistance
-            // (Melee stops at 0, Ranged stops at 300)
+            // Default movement is 0 (if we are stopped)
+            double moveX = 0;
+            double moveY = 0;
+
+            // Only calculate movement if we are outside the stop distance
             if (distanceToPlayer > Distance)
             {
                 double dirX = diffX / distanceToPlayer;
                 double dirY = diffY / distanceToPlayer;
 
-                // Move
-                X += dirX * Vitesse * deltaTime;
-                Y += dirY * Vitesse * deltaTime;
+                moveX = dirX * Vitesse * deltaTime;
+                moveY = dirY * Vitesse * deltaTime;
             }
+
+            // --- 2. Calculate Potential New Position ---
+            double newX = X + moveX;
+            double newY = Y + moveY;
+
+            // --- 3. Clamp to Playable Area ---
+            // Ensure GameEngine.PlayableArea is defined in your GameEngine class!
+            double spriteSize = ((FrameworkElement)Sprite).Width;
+
+            // Left/Right Walls
+            if (newX < GameEngine.PlayableArea.Left)
+                newX = GameEngine.PlayableArea.Left;
+            if (newX > GameEngine.PlayableArea.Right - spriteSize)
+                newX = GameEngine.PlayableArea.Right - spriteSize;
+
+            // Top/Bottom Walls
+            if (newY < GameEngine.PlayableArea.Top)
+                newY = GameEngine.PlayableArea.Top;
+            if (newY > GameEngine.PlayableArea.Bottom - spriteSize)
+                newY = GameEngine.PlayableArea.Bottom - spriteSize;
+
+            // --- 4. Apply Final Position ---
+            X = newX;
+            Y = newY;
 
             UpdatePosition();
 
-            // --- SHOOTING LOGIC ---
-            // Only Ranged enemies shoot
+            // --- 5. Shooting Logic ---
             if (Type == EnemyType.Ranged)
             {
                 if (_fireTimerEnemy > 0) _fireTimerEnemy -= deltaTime;
@@ -231,7 +253,7 @@ namespace shooter
                 if (_fireTimerEnemy <= 0)
                 {
                     SpawnBullet(canvas, player, globalBulletList);
-                    _fireTimerEnemy = ENEMY_COOLDOWN_DURATION;
+                    _fireTimerEnemy = ENEMY_COOLDOWN_DURATION; // Reset timer
                 }
             }
         }

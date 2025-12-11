@@ -138,6 +138,29 @@ namespace shooter
             X += DirX * Speed * deltaTime;
             Y += DirY * Speed * deltaTime;
 
+            double newX = X + (DirX * Speed * deltaTime);
+            double newY = Y + (DirY * Speed * deltaTime);
+            double spriteW = ((FrameworkElement)Sprite).Width;
+            double spriteH = ((FrameworkElement)Sprite).Height;
+
+            if (newX < GameEngine.PlayableArea.Left)
+                newX = GameEngine.PlayableArea.Left;
+
+            // Right Wall (PlayableArea.Right is X + Width)
+            if (newX > GameEngine.PlayableArea.Right - spriteW)
+                newX = GameEngine.PlayableArea.Right - spriteW;
+
+            // Top Wall (Trees above)
+            if (newY < GameEngine.PlayableArea.Top)
+                newY = GameEngine.PlayableArea.Top;
+
+            // Bottom Wall (Trees below)
+            if (newY > GameEngine.PlayableArea.Bottom - spriteH)
+                newY = GameEngine.PlayableArea.Bottom - spriteH;
+
+            X = newX;
+            Y = newY;
+
             bool isMoving = false;
 
             if (DirY < -0.1) // UP

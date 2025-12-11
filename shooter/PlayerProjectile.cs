@@ -129,7 +129,6 @@ namespace shooter
 
             if (_rotationTransform != null)
             {
-
                 _rotationTransform.Angle += _rotationSpeed * deltaTime;
             }
 

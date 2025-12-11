@@ -22,12 +22,12 @@ namespace shooter
         {
             get
             {
-                return this.X1;
+                return this.x;
             }
 
             set
             {
-                this.X1 = value;
+                this.x = value;
             }
         }
 
@@ -70,9 +70,6 @@ namespace shooter
             }
         }
 
-
-
-
         public UIElement Sprite
         {
             get
@@ -86,7 +83,6 @@ namespace shooter
             }
         }
 
-        public double X1 { get => this.x; set => this.x = value; }
 
         public Obstacles(double x, double y, double heigth, double width)
         {

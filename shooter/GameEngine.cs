@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace shooter
 {
@@ -22,6 +23,8 @@ namespace shooter
         public Player joueur;
         public List<EnemyProjectile> globalEnemyProjectiles = new List<EnemyProjectile>();
         public List<Enemy> Enemies = new List<Enemy>();
+        public static Rect PlayableArea = new Rect(100,295,1080,1080);
+
         //Private
         private double _fireTimerPlayer = 0;
         private double _fireTimerEnemy = 0;
@@ -36,13 +39,18 @@ namespace shooter
 
         public GameEngine(Canvas canvas)
         {
+
             _gameCanvas = canvas;
 
-            TextureManager.LoadTextures();
+            double nativeWidth = _gameCanvas.Width;   
+            double nativeHeight = _gameCanvas.Height;
 
+            TextureManager.LoadTextures();
             inputMng = new InputManager();
-            
-            joueur = new Player(100, 100, 350);
+
+            PlayableArea = new Rect(100, 100, nativeWidth - 200, nativeHeight - 200);
+
+            joueur = new Player(100, 100, 200);
 
             _stopwatch = new Stopwatch();
 
@@ -72,12 +80,27 @@ namespace shooter
             SpawnEnemies(_gameCanvas, 400, 0, EnemyType.Ranged);
             SpawnEnemies(_gameCanvas, 600, 0, EnemyType.MeleeTank);
 
-            _mapLayout = new MapLayout(3, _gameCanvas);
+            //_mapLayout = new MapLayout(1, _gameCanvas);
 
             // 3. Start Game Loop
+
+            var border = new Rectangle
+            {
+                Width = PlayableArea.Width,
+                Height = PlayableArea.Height,
+                Stroke = Brushes.Yellow,
+                StrokeThickness = 3
+            };
+            Canvas.SetLeft(border, PlayableArea.X);
+            Canvas.SetTop(border, PlayableArea.Y);
+            _gameCanvas.Children.Add(border);
+
+
             _stopwatch.Start();
             _lastTick = _stopwatch.ElapsedTicks;
             CompositionTarget.Rendering += GameLoop;
+
+
         }
 
         private void GameLoop(object sender, EventArgs e)
@@ -104,7 +127,15 @@ namespace shooter
         {
             for (int i = playerProjectiles.Count - 1; i >= 0; i--)
             {
+                var bullet = playerProjectiles[i];
                 playerProjectiles[i].Update(deltaTime);
+
+                Point bulletPos = new Point(bullet.X, bullet.Y);
+                
+                if (!PlayableArea.Contains(bulletPos))
+                {
+                    bullet.IsMarkedForRemoval = true;
+                }
 
                 if (playerProjectiles[i].IsMarkedForRemoval)
                 {
@@ -118,7 +149,15 @@ namespace shooter
         {
             for (int i = globalEnemyProjectiles.Count - 1; i >= 0; i--)
             {
+                var bullet = globalEnemyProjectiles[i];
                 globalEnemyProjectiles[i].Update(deltaTime);
+
+                Point bulletPos = new Point(bullet.X, bullet.Y);
+
+                if (!PlayableArea.Contains(bulletPos))
+                {
+                    bullet.IsMarkedForRemoval = true;
+                }
 
                 if (globalEnemyProjectiles[i].IsMarkedForRemoval)
                 {
@@ -282,8 +321,8 @@ namespace shooter
         {   
             GameRules uc = new GameRules();
 
-            uc.Width = SystemParameters.PrimaryScreenWidth;
-            uc.Height = SystemParameters.PrimaryScreenHeight;
+            uc.Width = canva.Width;   // 1920
+            uc.Height = canva.Height; // 1080
 
             canva.Children.Add(uc);
 
@@ -298,8 +337,8 @@ namespace shooter
         {
             UCGameControls uc = new UCGameControls();
 
-            uc.Width = SystemParameters.PrimaryScreenWidth;
-            uc.Height = SystemParameters.PrimaryScreenHeight;
+            uc.Width = canva.Width;   // 1920
+            uc.Height = canva.Height; // 1080
 
             canva.Children.Add(uc);
 
@@ -314,8 +353,8 @@ namespace shooter
         {
             UCGameMode uc = new UCGameMode();
 
-            uc.Width = SystemParameters.PrimaryScreenWidth;
-            uc.Height = SystemParameters.PrimaryScreenHeight;
+            uc.Width = canva.Width;   // 1920
+            uc.Height = canva.Height; // 1080
 
             canva.Children.Add(uc);
 
@@ -331,8 +370,8 @@ namespace shooter
             UCDifficulty uc = new UCDifficulty();
             canva.Children.Add(uc);
 
-            uc.Width = SystemParameters.PrimaryScreenWidth;
-            uc.Height = SystemParameters.PrimaryScreenHeight;
+            uc.Width = canva.Width;   // 1920
+            uc.Height = canva.Height; // 1080
 
             uc.play.Click += (sender, e) =>
             {

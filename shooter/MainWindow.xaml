@@ -5,13 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:shooter"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800"
+        Title="MainWindow" Height="720" Width="1280"
         KeyDown="Window_KeyDown"
-        KeyUp="Window_KeyUp" WindowStartupLocation="CenterScreen" WindowState="Maximized" ResizeMode="CanMinimize" Foreground="{x:Null}">
-    <Canvas x:Name="canvas" Focusable="True">
-        <Canvas.Background>
-            <ImageBrush ImageSource="/background2.png" Stretch="UniformToFill" TileMode="None"/>
-        </Canvas.Background>
+        KeyUp="Window_KeyUp" WindowStartupLocation="CenterScreen" WindowState="Maximized" Foreground="{x:Null}" SizeToContent="WidthAndHeight">
+    <Viewbox Stretch="Uniform">
+        <Canvas x:Name="canvas" 
+                Width="1920" 
+                Height="1080">
+            <Canvas.Background>
+                <ImageBrush ImageSource="/UIAssets/background.png" Stretch="UniformToFill" TileMode="None"/>
+            </Canvas.Background>
 
-    </Canvas>
+        </Canvas>
+    </Viewbox>
 </Window>
