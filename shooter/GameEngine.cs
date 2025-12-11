@@ -116,10 +116,11 @@ namespace shooter
 
             for (int i = 0; i < Enemies.Count; i++)
             {
-                Enemies[i].UpdateEnemy(deltaTime, joueur, globalEnemyProjectiles, _gameCanvas);
+                Enemies[i].UpdateEnemy(deltaTime, joueur, globalEnemyProjectiles, _gameCanvas, _mapLayout.obstacles);
             }
 
             CheckCollisions();
+            
 
         }
 
@@ -200,6 +201,8 @@ namespace shooter
                 }
             }
 
+            
+
             // 2. Enemy Bullets vs Player
 
             // Player hitbox 
@@ -229,6 +232,7 @@ namespace shooter
                 
             }
         }
+
         public void SpawnEnemies(Canvas canvas, double X, double Y, EnemyType type)
         {
             Enemy enemy = new Enemy(X, Y, type);
@@ -240,6 +244,8 @@ namespace shooter
         {
             double dx = 0;
             double dy = 0;
+            double speed = 350;
+            double pixeldist = speed * deltaTime;
 
             if (inputMng.IsLeftPressed) dx -= 1;
             if (inputMng.IsRightPressed) dx += 1;
@@ -252,6 +258,30 @@ namespace shooter
                 dx /= length;
                 dy /= length;
             }
+
+            //CollisionCheck
+            
+            Rect futureX = new Rect(joueur.X + (dx * pixeldist), joueur.Y, 80, 100);
+
+            for (int i = 0; i < _mapLayout.obstacles.Count; i++)
+            {
+                if (_mapLayout.obstacles[i].ObstacleCollision(futureX))
+                {
+                    dx = 0;
+                }
+            }
+            
+
+            Rect futureY = new Rect(joueur.X, joueur.Y + (dy * pixeldist), 80, 100);
+
+            for (int i = 0; i < _mapLayout.obstacles.Count; i++)
+            {
+                if (_mapLayout.obstacles[i].ObstacleCollision(futureY))
+                {
+                    dy = 0;
+                }
+            }
+
             joueur.Deplacement(dx, dy, deltaTime);
 
             // Weapon switching 

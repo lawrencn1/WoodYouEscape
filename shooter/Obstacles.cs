@@ -115,6 +115,20 @@ namespace shooter
                 canvas.Children.Add(Sprite);
             }
         }
+
+        public bool ObstacleCollision(Rect spriteRect)
+        {
+
+                Rect obstacleRect = new Rect(X, Y, Width, Heigth);
+
+
+                if (spriteRect.IntersectsWith(obstacleRect))
+                {
+                    return true;
+                }
+            
+            return false;
+        }
     }
 
 }
