@@ -27,7 +27,6 @@ namespace shooter
         private double vitesse;
         private int pv;
         private double distance;
-
         public EnemyType Type { get; private set; }
 
         private double _fireTimerEnemy = 0;
@@ -198,9 +197,10 @@ namespace shooter
             }
         }
 
-        public void UpdateEnemy(double deltaTime, Player player, List<EnemyProjectile> globalBulletList, Canvas canvas)
+        public void UpdateEnemy(double deltaTime, Player player, List<EnemyProjectile> globalBulletList, Canvas canvas, List<Obstacles> obstacles)
         {
-
+            double pixeldist = vitesse * deltaTime;
+            
             // 1. Calculate Vector to Player
             double diffX = player.X - this.X;
             double diffY = player.Y - this.Y;
@@ -215,7 +215,26 @@ namespace shooter
                 double dirX = diffX / distanceToPlayer;
                 double dirY = diffY / distanceToPlayer;
 
+                //Check collision
+                Rect futureX = new Rect(X + (dirX * pixeldist), Y, 80, 100);
+                for (int i = 0; i < obstacles.Count; i++)
+                {
+                    if (obstacles[i].ObstacleCollision(futureX))
+                    {
+                        dirX = 0;
+                    }
+                }
+
+                Rect futureY = new Rect(X + (dirY * pixeldist), Y, 80, 100);
+                for (int i = 0; i < obstacles.Count; i++)
+                {
+                    if (obstacles[i].ObstacleCollision(futureY))
+                    {
+                        dirY = 0;
+                    }
+                }
                 // Move
+
                 X += dirX * Vitesse * deltaTime;
                 Y += dirY * Vitesse * deltaTime;
             }
