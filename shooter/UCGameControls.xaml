@@ -12,48 +12,48 @@
             <Label Content="Tirer" HorizontalAlignment="Right" Height="50" Margin="0,17,100,0" VerticalAlignment="Top" Width="200" Background="#FF2EC730" FontSize="24" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
             <Canvas x:Name="D" HorizontalAlignment="Left" Height="50" Margin="220,131,0,0" VerticalAlignment="Top" Width="50">
                 <Canvas.Background>
-                    <ImageBrush ImageSource="/D.png"/>
+                    <ImageBrush ImageSource="/UIAssets/D.png"/>
                 </Canvas.Background>
             </Canvas>
             <Canvas x:Name="Z" HorizontalAlignment="Left" Height="50" Margin="175,91,0,0" VerticalAlignment="Top" Width="50">
                 <Canvas.Background>
-                    <ImageBrush ImageSource="/Z.png"/>
+                    <ImageBrush ImageSource="/UIAssets/Z.png"/>
                 </Canvas.Background>
             </Canvas>
             <Canvas x:Name="S" HorizontalAlignment="Left" Height="50" Margin="175,131,0,0" VerticalAlignment="Top" Width="50">
                 <Canvas.Background>
-                    <ImageBrush ImageSource="/S.png"/>
+                    <ImageBrush ImageSource="/UIAssets/S.png"/>
                 </Canvas.Background>
             </Canvas>
             <Canvas x:Name="Q" HorizontalAlignment="Left" Height="50" Margin="129,131,0,0" VerticalAlignment="Top" Width="50">
                 <Canvas.Background>
-                    <ImageBrush ImageSource="/Q.png"/>
+                    <ImageBrush ImageSource="/UIAssets/Q.png"/>
                 </Canvas.Background>
             </Canvas>
             <Canvas x:Name="up" HorizontalAlignment="Left" Height="50" Margin="175,193,0,0" VerticalAlignment="Top" Width="50">
                 <Canvas.Background>
-                    <ImageBrush ImageSource="/ARROWUP.png"/>
+                    <ImageBrush ImageSource="/UIAssets/ARROWUP.png"/>
                 </Canvas.Background>
             </Canvas>
             <Canvas x:Name="down" HorizontalAlignment="Left" Height="50" Margin="175,233,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.603,0.244">
                 <Canvas.Background>
-                    <ImageBrush ImageSource="/ARROWDOWN.png"/>
+                    <ImageBrush ImageSource="/UIAssets/ARROWDOWN.png"/>
                 </Canvas.Background>
             </Canvas>
             <Canvas x:Name="right" HorizontalAlignment="Left" Height="50" Margin="220,233,0,0" VerticalAlignment="Top" Width="50">
                 <Canvas.Background>
-                    <ImageBrush ImageSource="/ARROWRIGHT.png"/>
+                    <ImageBrush ImageSource="UIAssets/ARROWRIGHT.png"/>
                 </Canvas.Background>
             </Canvas>
             <Canvas x:Name="left" HorizontalAlignment="Left" Height="50" Margin="129,233,0,0" VerticalAlignment="Top" Width="50">
                 <Canvas.Background>
-                    <ImageBrush ImageSource="/ARROWLEFT.png"/>
+                    <ImageBrush ImageSource="UIAssets/ARROWLEFT.png"/>
                 </Canvas.Background>
             </Canvas>
             <Label HorizontalAlignment="Left" Height="44" Margin="400,134,0,0" VerticalAlignment="Top" Width="200
                    " HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" FontSize="24" Foreground="{x:Null}">
                 <Label.Background>
-                    <ImageBrush ImageSource="/SPACEALTERNATIVE.png" Stretch="Uniform"/>
+                    <ImageBrush ImageSource="UIAssets/SPACEALTERNATIVE.png" Stretch="Uniform"/>
                 </Label.Background>
             </Label>
             <Button x:Name="validate" Content="Compris" HorizontalAlignment="Center" Margin="0,320,0,0" VerticalAlignment="Top" Height="50" Width="250" FontSize="36" FontWeight="Bold" Background="#FF50841D" Foreground="#FFBAE0A9" BorderBrush="#FF20481C" Click="validate_Click"/>
