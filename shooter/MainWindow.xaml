@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800"
         KeyDown="Window_KeyDown"
-        KeyUp="Window_KeyUp">
+        KeyUp="Window_KeyUp" WindowStartupLocation="CenterScreen" WindowState="Maximized" ResizeMode="CanMinimize">
     <Canvas x:Name="canvas" Background="White" Focusable="True">
         
     </Canvas>

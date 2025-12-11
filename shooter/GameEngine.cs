@@ -16,7 +16,9 @@ namespace shooter
     public class GameEngine
     {
         MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-    
+
+        private Canvas _gameCanvas;
+        
         public InputManager inputMng;
         public Player joueur;
 
@@ -40,28 +42,19 @@ namespace shooter
 
         public GameEngine(Canvas canvas)
         {
-            
+            _gameCanvas = canvas;
+
             inputMng = new InputManager();
             
             joueur = new Player(100, 100, 350);
-            canvas.Children.Add(joueur.Sprite); 
-            joueur.UpdatePosition();
-
-
-            SpawnEnemies(canvas, 200, 200);
-            SpawnEnemies(canvas, 400, 0);
 
             _stopwatch = new Stopwatch();
-
-            GameRule(canvas);
-
 
         }
         public void Start()
         {
-            _stopwatch.Start();
-            _lastTick = _stopwatch.ElapsedTicks;
-            CompositionTarget.Rendering += GameLoop;
+            GameRule(_gameCanvas);
+            
         }
         public void Stop()
         {
@@ -69,21 +62,42 @@ namespace shooter
             _stopwatch.Stop();
         }
 
+        private void BeginGameplay()
+        {
+
+            if (!_gameCanvas.Children.Contains(joueur.Sprite))
+            {
+                _gameCanvas.Children.Add(joueur.Sprite);
+            }
+            joueur.UpdatePosition();
+
+            // 2. Spawn Enemies
+            SpawnEnemies(_gameCanvas, 200, 200);
+            SpawnEnemies(_gameCanvas, 400, 0);
+
+            // 3. Start Game Loop
+            _stopwatch.Start();
+            _lastTick = _stopwatch.ElapsedTicks;
+            CompositionTarget.Rendering += GameLoop;
+        }
+
+
         private void GameLoop(object sender, EventArgs e)
         {
-            
+
             long currentTick = _stopwatch.ElapsedTicks;
             double deltaTime = (double)(currentTick - _lastTick) / Stopwatch.Frequency;
             _lastTick = currentTick;
 
             UpdatePlayer(deltaTime);
-            UpdateBullets(deltaTime, mainWindow.canvas);
+            UpdateBullets(deltaTime, _gameCanvas);
+
             for (int i = 0; i < Enemies.Count; i++)
             {
                 Enemies[i].UpdateEnemy(deltaTime, joueur);
-                Enemies[i].UpdateBullets(deltaTime, mainWindow.canvas);
+                Enemies[i].UpdateBullets(deltaTime, _gameCanvas);
             }
-             
+
         }
 
         public void SpawnEnemies(Canvas canvas, double X, double Y)
@@ -196,6 +210,10 @@ namespace shooter
         private void GameRule(Canvas canva)
         {   
             GameRules uc = new GameRules();
+
+            uc.Width = SystemParameters.PrimaryScreenWidth;
+            uc.Height = SystemParameters.PrimaryScreenHeight;
+
             canva.Children.Add(uc);
 
             uc.validate.Click += (sender, e) =>
@@ -208,6 +226,10 @@ namespace shooter
         private void GameControl(Canvas canva)
         {
             UCGameControls uc = new UCGameControls();
+
+            uc.Width = SystemParameters.PrimaryScreenWidth;
+            uc.Height = SystemParameters.PrimaryScreenHeight;
+
             canva.Children.Add(uc);
 
             uc.validate.Click += (sender, e) =>
@@ -220,6 +242,10 @@ namespace shooter
         private void GameMode(Canvas canva)
         {
             UCGameMode uc = new UCGameMode();
+
+            uc.Width = SystemParameters.PrimaryScreenWidth;
+            uc.Height = SystemParameters.PrimaryScreenHeight;
+
             canva.Children.Add(uc);
 
             uc.validate.Click += (sender, e) =>
@@ -234,9 +260,13 @@ namespace shooter
             UCDifficulty uc = new UCDifficulty();
             canva.Children.Add(uc);
 
+            uc.Width = SystemParameters.PrimaryScreenWidth;
+            uc.Height = SystemParameters.PrimaryScreenHeight;
+
             uc.play.Click += (sender, e) =>
             {
                 canva.Children.Remove(uc);
+                BeginGameplay();
             };
         }
     }
