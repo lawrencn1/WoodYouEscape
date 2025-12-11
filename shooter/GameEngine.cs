@@ -17,27 +17,22 @@ namespace shooter
     {
         MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
 
-        private Canvas _gameCanvas;
-        
+        //Public
         public InputManager inputMng;
         public Player joueur;
-
-        private Stopwatch _stopwatch;
-        private long _lastTick;
-
-        private List<PlayerProjectile> playerProjectiles = new List<PlayerProjectile>();
         public List<EnemyProjectile> globalEnemyProjectiles = new List<EnemyProjectile>();
         public List<Enemy> Enemies = new List<Enemy>();
-
+        //Private
         private double _fireTimerPlayer = 0;
         private double _fireTimerEnemy = 0;
-
         private double _currentCooldownDuration = 1;
         private const double ENEMY_COOLDOWN_DURATION = 1.0;
-
+        private Canvas _gameCanvas;
+        private Stopwatch _stopwatch;
+        private long _lastTick;
+        private MapLayout _mapLayout;
+        private List<PlayerProjectile> playerProjectiles = new List<PlayerProjectile>();
         private ProjectileTypePlayer _currentWeapon = ProjectileTypePlayer.Standard;
-
-        static readonly double distance_coef = 1.2;
 
         public GameEngine(Canvas canvas)
         {
@@ -49,10 +44,10 @@ namespace shooter
             
             joueur = new Player(100, 100, 350);
 
-
             _stopwatch = new Stopwatch();
 
         }
+
         public void Start()
         {
             GameRule(_gameCanvas);  
@@ -62,7 +57,6 @@ namespace shooter
             CompositionTarget.Rendering -= GameLoop;
             _stopwatch.Stop();
         }
-
         private void BeginGameplay()
         {
 
@@ -78,13 +72,13 @@ namespace shooter
             SpawnEnemies(_gameCanvas, 400, 0, EnemyType.Ranged);
             SpawnEnemies(_gameCanvas, 600, 0, EnemyType.MeleeTank);
 
+            _mapLayout = new MapLayout(3, _gameCanvas);
 
             // 3. Start Game Loop
             _stopwatch.Start();
             _lastTick = _stopwatch.ElapsedTicks;
             CompositionTarget.Rendering += GameLoop;
         }
-
 
         private void GameLoop(object sender, EventArgs e)
         {
@@ -105,6 +99,7 @@ namespace shooter
             CheckCollisions();
 
         }
+
         private void UpdatePlayerBullets(double deltaTime, Canvas canvas)
         {
             for (int i = playerProjectiles.Count - 1; i >= 0; i--)
@@ -118,6 +113,7 @@ namespace shooter
                 }
             }
         }
+
         private void UpdateEnemyBullets(double deltaTime, Canvas canvas)
         {
             for (int i = globalEnemyProjectiles.Count - 1; i >= 0; i--)
