@@ -30,6 +30,8 @@ namespace shooter
         public bool IsMarkedForRemoval { get; set; } = false;
         
         private RotateTransform _rotationTransform;
+        private double _rotationSpeed;
+
 
 
         public PlayerProjectile(double x, double y, double dirX, double dirY, ProjectileTypePlayer type = ProjectileTypePlayer.Standard)
@@ -77,23 +79,36 @@ namespace shooter
                 case ProjectileTypePlayer.Standard:
                 default:
                     Speed = 300;
+                    var flipTransform = new ScaleTransform();
 
-                    // Create the rotation transform
+                    if (DirX < 0)
+                    {
+                        flipTransform.ScaleX = -1;
+                        _rotationSpeed = -540;
+                    }
+                    else
+                    {
+                        flipTransform.ScaleX = 1;
+                        _rotationSpeed = 540;
+                    }
                     _rotationTransform = new RotateTransform(0);
+
+
+                    var transformGroup = new TransformGroup();
+                    transformGroup.Children.Add(flipTransform);
+                    transformGroup.Children.Add(_rotationTransform);
+
 
                     // Create the image sprite
                     var axeImage = new Image
                     {
                         Width = 120, // Adjust size as needed
                         Height = 120,
+                        Source = TextureManager.AxeTexture,
                         Stretch = Stretch.Uniform,
                         RenderTransformOrigin = new Point(0.5, 0.5), // Center point for spinning
-                        RenderTransform = _rotationTransform
+                        RenderTransform = transformGroup
                     };
-
-                    // Load the image safely
-                    axeImage.Source = LoadTexture("pack://application:,,,/axes/normalAxe.png");
-
                     Sprite = axeImage;
                     break;
             }
@@ -105,17 +120,7 @@ namespace shooter
             }
 
         }
-        private BitmapImage LoadTexture(string path)
-        {
-            try
-            {
-                return new BitmapImage(new Uri(path));
-            }
-            catch
-            {
-                return null;
-            }
-        }
+
 
         public void Update(double deltaTime)
         {
@@ -125,7 +130,7 @@ namespace shooter
             if (_rotationTransform != null)
             {
 
-                _rotationTransform.Angle += 540 * deltaTime;
+                _rotationTransform.Angle += _rotationSpeed * deltaTime;
             }
 
             if (Sprite != null)

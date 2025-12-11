@@ -6,9 +6,16 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace shooter
 {
+    public enum EnemyType
+    {
+        MeleeBasic,
+        MeleeTank,
+        Ranged
+    }
     public class Enemy
     {
         MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
@@ -21,6 +28,8 @@ namespace shooter
         private int pv;
         private double distance;
 
+        public EnemyType Type { get; private set; }
+
         private double _fireTimerEnemy = 0;
         private const double ENEMY_COOLDOWN_DURATION = 1.0;
 
@@ -32,12 +41,12 @@ namespace shooter
         {
             get
             {
-                return this.X1;
+                return this.x;
             }
 
             set
             {
-                this.X1 = value;
+                this.x = value;
             }
         }
 
@@ -100,7 +109,6 @@ namespace shooter
             }
         }
 
-        public double X1 { get => this.x; set => this.x = value; }
 
         public double Distance
         {
@@ -115,22 +123,61 @@ namespace shooter
             }
         }
 
-        public Enemy(double x, double y, double vitesse, double distance)
+        public Enemy(double x, double y, EnemyType type)
         {
             this.X = x;
             this.Y = y;
-            this.Vitesse = vitesse;
-            this.Distance = distance;
+            this.Type = type;
             this.Pv = 25;
 
-            Sprite = new System.Windows.Shapes.Ellipse
+            // 2. Initialize Stats based on Type
+            InitializeStats();
+
+            // 3. Initialize Visuals (Sprite + Hitbox)
+            InitializeVisuals();
+        }
+        private void InitializeStats()
+        {
+            switch (Type)
             {
-                Width = 40,
-                Height = 40,
-                Fill = Brushes.Red
-            };
+                case EnemyType.MeleeBasic:
+                    Vitesse = 200;
+                    Pv = 30;
+                    Distance = 30; // Chases until collision
+                    break;
+
+                case EnemyType.MeleeTank:
+                    Vitesse = 100; // Slower
+                    Pv = 80;       // Harder to kill
+                    Distance = 40;
+                    break;
+
+                case EnemyType.Ranged:
+                    Vitesse = 180;
+                    Pv = 15;       // Weak
+                    Distance = 300; // Stops 300px away to shoot
+                    _fireTimerEnemy = 1.5;
+                    break;
+            }     
 
         }
+        private void InitializeVisuals()
+        {
+            double size = (Type == EnemyType.MeleeTank) ? 60 : 40; // Tanks are bigger
+            Brush color = Brushes.Red;
+
+            if (Type == EnemyType.MeleeTank) color = Brushes.DarkRed;
+            if (Type == EnemyType.Ranged) color = Brushes.Orange;
+
+            // Create Sprite
+            Sprite = new Ellipse
+            {
+                Width = size,
+                Height = size,
+                Fill = color
+            };
+        }
+
         public void Deplacement(double dx, double dy, double deltaTime)
         {
             X += dx * Vitesse * deltaTime;
@@ -153,54 +200,40 @@ namespace shooter
 
         public void UpdateEnemy(double deltaTime, Player player, List<EnemyProjectile> globalBulletList, Canvas canvas)
         {
-            double targetDx, targetDy;
 
+            // 1. Calculate Vector to Player
+            double diffX = player.X - this.X;
+            double diffY = player.Y - this.Y;
 
-            double diffX = (Distance * player.X) - X; 
-            double diffY = (Distance * player.Y) - Y;
+            // 2. Calculate Distance
+            double distanceToPlayer = Math.Sqrt(diffX * diffX + diffY * diffY);
 
-            if (Math.Abs(diffX) < 2) targetDx = 0;
-            else targetDx = diffX;
-
-            if (Math.Abs(diffY) < 2) targetDy = 0;
-            else targetDy = diffY;
-
-            // Normalize diagonal movement
-            double length = Math.Sqrt(targetDx * targetDx + targetDy * targetDy);
-            if (length > 0)
+            // 3. Move only if we are further than our StopDistance
+            // (Melee stops at 0, Ranged stops at 300)
+            if (distanceToPlayer > Distance)
             {
-                targetDx /= length;
-                targetDy /= length;
+                double dirX = diffX / distanceToPlayer;
+                double dirY = diffY / distanceToPlayer;
+
+                // Move
+                X += dirX * Vitesse * deltaTime;
+                Y += dirY * Vitesse * deltaTime;
             }
-            Deplacement(targetDx, targetDy, deltaTime);
 
-            // Shooting Logic
-            if (_fireTimerEnemy > 0) _fireTimerEnemy -= deltaTime;
+            UpdatePosition();
 
-            if (_fireTimerEnemy <= 0)
+            // --- SHOOTING LOGIC ---
+            // Only Ranged enemies shoot
+            if (Type == EnemyType.Ranged)
             {
+                if (_fireTimerEnemy > 0) _fireTimerEnemy -= deltaTime;
 
-                SpawnBullet(canvas, player, globalBulletList);
-                _fireTimerEnemy = ENEMY_COOLDOWN_DURATION;
+                if (_fireTimerEnemy <= 0)
+                {
+                    SpawnBullet(canvas, player, globalBulletList);
+                    _fireTimerEnemy = ENEMY_COOLDOWN_DURATION;
+                }
             }
-        }
-
-        private void SpawnBullet(Canvas canvas, String Sprite, Player player)
-        {
-            double enemy_startX = X + 20;
-            double enemy_startY = Y + 20;
-
-            // Aim at player
-            double diffX = player.X - enemy_startX;
-            double diffY = player.Y - enemy_startY;
-            double length = Math.Sqrt(diffX * diffX + diffY * diffY);
-
-            double dirX = 0, dirY = 0;
-            if (length > 0) { dirX = diffX / length; dirY = diffY / length; }
-
-            EnemyProjectile newEnemyBullet = new EnemyProjectile(enemy_startX - 5, enemy_startY - 5, dirX, dirY);
-            enemyProjectiles.Add(newEnemyBullet);
-            canvas.Children.Add(newEnemyBullet.Sprite);
         }
 
         private void SpawnBullet(Canvas canvas, Player player, List<EnemyProjectile> globalBulletList)

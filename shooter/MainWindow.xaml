@@ -10,7 +10,7 @@
         KeyUp="Window_KeyUp" WindowStartupLocation="CenterScreen" WindowState="Maximized" ResizeMode="CanMinimize" Foreground="{x:Null}">
     <Canvas x:Name="canvas" Focusable="True">
         <Canvas.Background>
-            <ImageBrush ImageSource="/background.png"/>
+            <ImageBrush ImageSource="/background2.png" Stretch="UniformToFill" TileMode="None"/>
         </Canvas.Background>
 
     </Canvas>

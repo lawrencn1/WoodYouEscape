@@ -43,6 +43,8 @@ namespace shooter
         {
             _gameCanvas = canvas;
 
+            TextureManager.LoadTextures();
+
             inputMng = new InputManager();
             
             joueur = new Player(100, 100, 350);
@@ -71,9 +73,11 @@ namespace shooter
             joueur.UpdatePosition();
 
             // 2. Spawn Enemies
-            SpawnEnemies(_gameCanvas, 200, 200);
-            SpawnEnemies(_gameCanvas, 400, 0);
-            
+
+            SpawnEnemies(_gameCanvas, 200, 0, EnemyType.MeleeBasic);
+            SpawnEnemies(_gameCanvas, 400, 0, EnemyType.Ranged);
+            SpawnEnemies(_gameCanvas, 600, 0, EnemyType.MeleeTank);
+
 
             // 3. Start Game Loop
             _stopwatch.Start();
@@ -135,7 +139,7 @@ namespace shooter
             {
                 var bullet = playerProjectiles[i];
                 // Bullet hitbox
-                Rect bulletRect = new Rect(bullet.X, bullet.Y, 10, 10);
+                Rect bulletRect = new Rect(bullet.X, bullet.Y, 60, 60);
 
                 for (int j = Enemies.Count - 1; j >= 0; j--)
                 {
@@ -190,9 +194,9 @@ namespace shooter
                 
             }
         }
-        public void SpawnEnemies(Canvas canvas, double X, double Y)
+        public void SpawnEnemies(Canvas canvas, double X, double Y, EnemyType type)
         {
-            Enemy enemy = new Enemy(X, Y, 200, 1.2);
+            Enemy enemy = new Enemy(X, Y, type);
             canvas.Children.Add(enemy.Sprite);
             enemy.UpdatePosition();
             Enemies.Add(enemy);
