@@ -11,9 +11,18 @@
     <Viewbox Stretch="Uniform">
         <Canvas x:Name="canvas" 
                 Width="1920" 
-                Height="1080">
+                Height="1060">
             <Canvas.Background>
-                <ImageBrush ImageSource="/UIAssets/background.png" Stretch="UniformToFill" TileMode="None"/>
+                <ImageBrush ImageSource="/UIAssets/background.png" Stretch="UniformToFill" TileMode="None">
+                    <ImageBrush.RelativeTransform>
+                        <TransformGroup>
+                            <ScaleTransform CenterY="0.5" CenterX="0.5" ScaleX="1.22" ScaleY="1.22"/>
+                            <SkewTransform CenterX="0.5" CenterY="0.5"/>
+                            <RotateTransform CenterX="0.5" CenterY="0.5"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </ImageBrush.RelativeTransform>
+                </ImageBrush>
             </Canvas.Background>
 
         </Canvas>

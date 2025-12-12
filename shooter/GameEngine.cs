@@ -48,9 +48,9 @@ namespace shooter
             TextureManager.LoadTextures();
             inputMng = new InputManager();
 
-            PlayableArea = new Rect(100, 100, nativeWidth - 200, nativeHeight - 200);
+            PlayableArea = new Rect(250, 240, nativeWidth - 420 , nativeHeight - 380);
 
-            joueur = new Player(100, 100, 200);
+            joueur = new Player(500, 500, 200);
 
             _stopwatch = new Stopwatch();
 
@@ -76,11 +76,11 @@ namespace shooter
 
             // 2. Spawn Enemies
 
-            SpawnEnemies(_gameCanvas, 200, 0, EnemyType.MeleeBasic);
-            SpawnEnemies(_gameCanvas, 400, 0, EnemyType.Ranged);
-            SpawnEnemies(_gameCanvas, 600, 0, EnemyType.MeleeTank);
+            SpawnEnemies(_gameCanvas, 200, 200, EnemyType.MeleeBasic);
+            SpawnEnemies(_gameCanvas, 400, 400, EnemyType.Ranged);
+            SpawnEnemies(_gameCanvas, 600, 600, EnemyType.MeleeTank);
 
-            //_mapLayout = new MapLayout(1, _gameCanvas);
+            _mapLayout = new MapLayout(1, _gameCanvas);
 
             // 3. Start Game Loop
 
