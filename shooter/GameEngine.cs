@@ -48,7 +48,7 @@ namespace shooter
             TextureManager.LoadTextures();
             inputMng = new InputManager();
 
-            PlayableArea = new Rect(250, 240, nativeWidth - 420 , nativeHeight - 380);
+            PlayableArea = new Rect(100, 150, nativeWidth - 150 , nativeHeight - 260);
 
             joueur = new Player(500, 500, 200);
             joueur = new Player(400, 400, 200);
@@ -81,7 +81,7 @@ namespace shooter
             SpawnEnemies(_gameCanvas, 400, 200, EnemyType.Ranged);
             SpawnEnemies(_gameCanvas, 600, 200, EnemyType.MeleeTank);
 
-            _mapLayout = new MapLayout(2, _gameCanvas);
+            _mapLayout = new MapLayout(4, _gameCanvas);
 
             // 3. Start Game Loop
 
@@ -132,9 +132,14 @@ namespace shooter
                 var bullet = playerProjectiles[i];
                 playerProjectiles[i].Update(deltaTime);
 
-                Point bulletPos = new Point(bullet.X, bullet.Y);
+                var sprite = bullet.Sprite as FrameworkElement;
+
+                double centerX = bullet.X + (sprite.Width / 2);
+                double centerY = bullet.Y + (sprite.Height / 2);
+
+                Point bulletCenter = new Point(centerX, centerY);
                 
-                if (!PlayableArea.Contains(bulletPos))
+                if (!PlayableArea.Contains(bulletCenter))
                 {
                     bullet.IsMarkedForRemoval = true;
                 }

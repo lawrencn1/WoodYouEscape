@@ -16,6 +16,7 @@
     <None Remove="axes\normalAxe.png" />
     <None Remove="background.png" />
     <None Remove="background2.png" />
+    <None Remove="background3.png" />
     <None Remove="D.png" />
     <None Remove="playerDownSpritesheet\walkingDown0.png" />
     <None Remove="playerDownSpritesheet\walkingDown1.png" />
@@ -160,6 +161,7 @@
     <Resource Include="axes\normalAxe.png" />
     <Resource Include="background.png" />
     <Resource Include="background2.png" />
+    <Resource Include="background3.png" />
     <Resource Include="D.png" />
     <Resource Include="playerDownSpritesheet\walkingDown0.png" />
     <Resource Include="playerDownSpritesheet\walkingDown1.png" />
