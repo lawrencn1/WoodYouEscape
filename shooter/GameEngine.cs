@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 
 namespace shooter
@@ -24,6 +25,7 @@ namespace shooter
         public List<EnemyProjectile> globalEnemyProjectiles = new List<EnemyProjectile>();
         public List<Enemy> Enemies = new List<Enemy>();
         public static Rect PlayableArea = new Rect(100,295,1080,1080);
+        public EnemiesGenerator enemiesGenerator;
 
         //Private
         private double _fireTimerPlayer = 0;
@@ -76,12 +78,15 @@ namespace shooter
             joueur.UpdatePosition();
 
             // 2. Spawn Enemies
+            // SpawnEnemies(_gameCanvas, 200, 200, EnemyType.MeleeBasic);
+            // SpawnEnemies(_gameCanvas, 400, 200, EnemyType.Ranged);
+            // SpawnEnemies(_gameCanvas, 600, 200, EnemyType.MeleeTank);
 
-            SpawnEnemies(_gameCanvas, 200, 200, EnemyType.MeleeBasic);
-            SpawnEnemies(_gameCanvas, 400, 200, EnemyType.Ranged);
-            SpawnEnemies(_gameCanvas, 600, 200, EnemyType.MeleeTank);
+            
 
             _mapLayout = new MapLayout(2, _gameCanvas);
+
+            
 
             // 3. Start Game Loop
 
@@ -100,6 +105,12 @@ namespace shooter
             _stopwatch.Start();
             _lastTick = _stopwatch.ElapsedTicks;
             CompositionTarget.Rendering += GameLoop;
+
+            //SPAWN
+
+            EnemiesRandomizer(_gameCanvas, 5, EnemyType.MeleeBasic);
+            EnemiesRandomizer(_gameCanvas, 5, EnemyType.Ranged);
+            EnemiesRandomizer(_gameCanvas, 5, EnemyType.MeleeTank);
 
 
         }
@@ -234,12 +245,50 @@ namespace shooter
             }
         }
 
-        public void SpawnEnemies(Canvas canvas, double X, double Y, EnemyType type)
+        
+
+        public void EnemiesRandomizer(Canvas canvas, int Enemiesnumber, EnemyType type)
         {
-            Enemy enemy = new Enemy(X, Y, type);
-            canvas.Children.Add(enemy.Sprite);
-            enemy.UpdatePosition();
-            Enemies.Add(enemy);
+            Random random = new Random();
+            double height = 40;
+            double width = 40;
+
+            for (int x = 0; x < Enemiesnumber; x++)
+            {
+                bool validPosition = false;
+                
+
+                while (!validPosition )
+                {
+       
+                    double randX = random.Next(0, (int)_gameCanvas.ActualWidth);
+                    double randY = random.Next(0, (int)_gameCanvas.ActualHeight);
+
+                    
+                    bool collision = false; 
+
+                    for (int i = 0; i < _mapLayout.obstacles.Count; i++)
+                    {
+                        
+                        if (_mapLayout.obstacles[i].EnemyInObstacle(randX, randY, height, width))
+                        {
+                            collision = true; 
+                            break; 
+                        }
+                    }
+
+
+                    if (!collision)
+                    {
+                        validPosition = true;
+                        Enemy enemy = new Enemy(randX, randY, type, height, width);
+                        canvas.Children.Add(enemy.Sprite);
+                        enemy.UpdatePosition();
+                        Enemies.Add(enemy);
+                    }
+                }
+            }
+
         }
         public void UpdatePlayer(double deltaTime)
         {
