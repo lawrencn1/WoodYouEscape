@@ -246,6 +246,7 @@ namespace shooter
             double dy = 0;
             double speed = 350;
             double pixeldist = speed * deltaTime;
+            double margin = 5;
 
             if (inputMng.IsLeftPressed) dx -= 1;
             if (inputMng.IsRightPressed) dx += 1;
@@ -261,8 +262,8 @@ namespace shooter
 
             //CollisionCheck
             
-            Rect futureX = new Rect(joueur.X + (dx * pixeldist), joueur.Y, 80, 100 - 5);
-            Rect futureY = new Rect(joueur.X, joueur.Y + (dy * pixeldist), 80 - 5, 100);
+            Rect futureX = new Rect(joueur.X + (dx * pixeldist), joueur.Y, 80, 100 - (margin * 2));
+            Rect futureY = new Rect(joueur.X, joueur.Y + (dy * pixeldist), 80 - (margin * 2), 100);
 
             for (int i = 0; i < _mapLayout.obstacles.Count; i++)
             {

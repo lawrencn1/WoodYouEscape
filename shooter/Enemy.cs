@@ -234,7 +234,7 @@ namespace shooter
                 }
 
                 
-                Rect futureY = new Rect(X + margin, Y + (dirY * pixelDist), 80 , 100);
+                Rect futureY = new Rect(X + margin, Y + (dirY * pixelDist), 80 - (margin * 2), 100);
 
                 for (int i = 0; i < obstacles.Count; i++)
                 {
@@ -247,7 +247,6 @@ namespace shooter
             }
 
             // --- 2. APPLY MOVEMENT (ONCE ONLY) ---
-            // We calculate the final move amounts here based on the filtered dirX/dirY
             double moveX = dirX * Vitesse * deltaTime;
             double moveY = dirY * Vitesse * deltaTime;
 
@@ -258,11 +257,15 @@ namespace shooter
             double spriteWidth = ((FrameworkElement)Sprite).Width;
             double spriteHeight = ((FrameworkElement)Sprite).Height; 
 
-            if (newX < GameEngine.PlayableArea.Left) newX = GameEngine.PlayableArea.Left;
-            if (newX > GameEngine.PlayableArea.Right - spriteWidth) newX = GameEngine.PlayableArea.Right - spriteWidth;
+            if (newX < GameEngine.PlayableArea.Left)
+                newX = GameEngine.PlayableArea.Left;
+            if (newX > GameEngine.PlayableArea.Right - spriteWidth) 
+                newX = GameEngine.PlayableArea.Right - spriteWidth;
 
-            if (newY < GameEngine.PlayableArea.Top) newY = GameEngine.PlayableArea.Top;
-            if (newY > GameEngine.PlayableArea.Bottom - spriteHeight) newY = GameEngine.PlayableArea.Bottom - spriteHeight;
+            if (newY < GameEngine.PlayableArea.Top) 
+                newY = GameEngine.PlayableArea.Top;
+            if (newY > GameEngine.PlayableArea.Bottom - spriteHeight) 
+                newY = GameEngine.PlayableArea.Bottom - spriteHeight;
 
             // --- 4. UPDATE POSITION ---
             X = newX;

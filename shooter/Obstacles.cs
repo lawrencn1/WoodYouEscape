@@ -119,7 +119,7 @@ namespace shooter
         public bool ObstacleCollision(Rect spriteRect)
         {
 
-                Rect obstacleRect = new Rect(X, Y, Width , Heigth );
+                Rect obstacleRect = new Rect(X ,Y, Width ,Heigth);
 
 
                 if (spriteRect.IntersectsWith(obstacleRect))
