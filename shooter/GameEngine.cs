@@ -50,7 +50,7 @@ namespace shooter
 
             PlayableArea = new Rect(100, 100, nativeWidth - 200, nativeHeight - 200);
 
-            joueur = new Player(100, 100, 200);
+            joueur = new Player(400, 400, 200);
 
             _stopwatch = new Stopwatch();
 
@@ -76,11 +76,11 @@ namespace shooter
 
             // 2. Spawn Enemies
 
-            SpawnEnemies(_gameCanvas, 200, 0, EnemyType.MeleeBasic);
-            SpawnEnemies(_gameCanvas, 400, 0, EnemyType.Ranged);
-            SpawnEnemies(_gameCanvas, 600, 0, EnemyType.MeleeTank);
+            SpawnEnemies(_gameCanvas, 200, 200, EnemyType.MeleeBasic);
+            SpawnEnemies(_gameCanvas, 400, 200, EnemyType.Ranged);
+            SpawnEnemies(_gameCanvas, 600, 200, EnemyType.MeleeTank);
 
-            //_mapLayout = new MapLayout(1, _gameCanvas);
+            _mapLayout = new MapLayout(2, _gameCanvas);
 
             // 3. Start Game Loop
 
@@ -261,18 +261,17 @@ namespace shooter
 
             //CollisionCheck
             
-            Rect futureX = new Rect(joueur.X + (dx * pixeldist), joueur.Y, 80, 100);
+            Rect futureX = new Rect(joueur.X + (dx * pixeldist), joueur.Y, 80, 100 - 5);
+            Rect futureY = new Rect(joueur.X, joueur.Y + (dy * pixeldist), 80 - 5, 100);
 
             for (int i = 0; i < _mapLayout.obstacles.Count; i++)
             {
                 if (_mapLayout.obstacles[i].ObstacleCollision(futureX))
                 {
+                    
                     dx = 0;
                 }
             }
-            
-
-            Rect futureY = new Rect(joueur.X, joueur.Y + (dy * pixeldist), 80, 100);
 
             for (int i = 0; i < _mapLayout.obstacles.Count; i++)
             {
