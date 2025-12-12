@@ -199,85 +199,92 @@ namespace shooter
 
         public void UpdateEnemy(double deltaTime, Player player, List<EnemyProjectile> globalBulletList, Canvas canvas, List<Obstacles> obstacles)
         {
-            double pixeldist = vitesse * deltaTime;
             
-            // 1. Calculate Vector to Player
-            // --- 1. Calculate Direction & Intended Movement ---
+            double margin = 5;
+
+           
             double diffX = player.X - this.X;
             double diffY = player.Y - this.Y;
             double distanceToPlayer = Math.Sqrt(diffX * diffX + diffY * diffY);
 
-            // Default movement is 0 (if we are stopped)
-            double moveX = 0;
-            double moveY = 0;
+            
+            double dirX = 0;
+            double dirY = 0;
 
-            // Only calculate movement if we are outside the stop distance
+           
             if (distanceToPlayer > Distance)
             {
-                double dirX = diffX / distanceToPlayer;
-                double dirY = diffY / distanceToPlayer;
+                
+                dirX = diffX / distanceToPlayer;
+                dirY = diffY / distanceToPlayer;
 
-                //Check collision
-                Rect futureX = new Rect(X + (dirX * pixeldist), Y, 80, 100);
+                
+                double pixelDist = Vitesse * deltaTime;
+
+                
+                Rect futureX = new Rect(X + (dirX * pixelDist), Y + margin,80 ,100 - (margin * 2));
+
                 for (int i = 0; i < obstacles.Count; i++)
                 {
                     if (obstacles[i].ObstacleCollision(futureX))
                     {
-                        dirX = 0;
+                        dirX = 0; 
+                        break;    
                     }
                 }
 
-                Rect futureY = new Rect(X + (dirY * pixeldist), Y, 80, 100);
+                
+                Rect futureY = new Rect(X + margin, Y + (dirY * pixelDist), 80 - (margin * 2), 100);
+
                 for (int i = 0; i < obstacles.Count; i++)
                 {
                     if (obstacles[i].ObstacleCollision(futureY))
                     {
-                        dirY = 0;
+                        dirY = 0; 
+                        break;
                     }
                 }
-                // Move
-
-                X += dirX * Vitesse * deltaTime;
-                Y += dirY * Vitesse * deltaTime;
-                moveX = dirX * Vitesse * deltaTime;
-                moveY = dirY * Vitesse * deltaTime;
             }
 
-            // --- 2. Calculate Potential New Position ---
+            // --- 2. APPLY MOVEMENT (ONCE ONLY) ---
+            double moveX = dirX * Vitesse * deltaTime;
+            double moveY = dirY * Vitesse * deltaTime;
+
             double newX = X + moveX;
             double newY = Y + moveY;
 
-            // --- 3. Clamp to Playable Area ---
-            // Ensure GameEngine.PlayableArea is defined in your GameEngine class!
-            double spriteSize = ((FrameworkElement)Sprite).Width;
+            // --- 3. CLAMP TO SCREEN (Keep inside play area) ---
+            double spriteWidth = ((FrameworkElement)Sprite).Width;
+            double spriteHeight = ((FrameworkElement)Sprite).Height; 
 
-            // Left/Right Walls
             if (newX < GameEngine.PlayableArea.Left)
                 newX = GameEngine.PlayableArea.Left;
-            if (newX > GameEngine.PlayableArea.Right - spriteSize)
-                newX = GameEngine.PlayableArea.Right - spriteSize;
+            if (newX > GameEngine.PlayableArea.Right - spriteWidth) 
+                newX = GameEngine.PlayableArea.Right - spriteWidth;
 
-            // Top/Bottom Walls
-            if (newY < GameEngine.PlayableArea.Top)
+            if (newY < GameEngine.PlayableArea.Top) 
                 newY = GameEngine.PlayableArea.Top;
-            if (newY > GameEngine.PlayableArea.Bottom - spriteSize)
-                newY = GameEngine.PlayableArea.Bottom - spriteSize;
+            if (newY > GameEngine.PlayableArea.Bottom - spriteHeight) 
+                newY = GameEngine.PlayableArea.Bottom - spriteHeight;
 
-            // --- 4. Apply Final Position ---
+            // --- 4. UPDATE POSITION ---
             X = newX;
             Y = newY;
-
             UpdatePosition();
 
-            // --- 5. Shooting Logic ---
+            // --- 5. SHOOTING LOGIC ---
             if (Type == EnemyType.Ranged)
             {
                 if (_fireTimerEnemy > 0) _fireTimerEnemy -= deltaTime;
 
                 if (_fireTimerEnemy <= 0)
                 {
-                    SpawnBullet(canvas, player, globalBulletList);
-                    _fireTimerEnemy = ENEMY_COOLDOWN_DURATION; // Reset timer
+                    // Only fire if we are actually close enough 
+                    if (distanceToPlayer <= 600) // Example range
+                    {
+                        SpawnBullet(canvas, player, globalBulletList);
+                        _fireTimerEnemy = ENEMY_COOLDOWN_DURATION;
+                    }
                 }
             }
         }
