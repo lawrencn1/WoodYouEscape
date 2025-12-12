@@ -27,6 +27,8 @@ namespace shooter
         private double vitesse;
         private int pv;
         private double distance;
+        private double height;
+        private double width;
         public EnemyType Type { get; private set; }
 
         private double _fireTimerEnemy = 0;
@@ -94,6 +96,32 @@ namespace shooter
 
         }
 
+        public double Height
+        {
+            get
+            {
+                return this.height;
+            }
+
+            set
+            {
+                this.height = value;
+            }
+        }
+
+        public double Width
+        {
+            get
+            {
+                return this.width;
+            }
+
+            set
+            {
+                this.width = value;
+            }
+        }
+
 
         public UIElement Sprite
         {
@@ -122,18 +150,20 @@ namespace shooter
             }
         }
 
-        public Enemy(double x, double y, EnemyType type)
+        public Enemy(double x, double y, EnemyType type, double heigth, double width)
         {
             this.X = x;
             this.Y = y;
             this.Type = type;
             this.Pv = 25;
+            this.Height = heigth;
+            this.Width = width;
 
             // 2. Initialize Stats based on Type
             InitializeStats();
 
             // 3. Initialize Visuals (Sprite + Hitbox)
-            InitializeVisuals();
+            InitializeVisuals(height, width);
         }
         private void InitializeStats()
         {
@@ -160,9 +190,10 @@ namespace shooter
             }     
 
         }
-        private void InitializeVisuals()
+        private void InitializeVisuals(double height, double width)
         {
-            double size = (Type == EnemyType.MeleeTank) ? 60 : 40; // Tanks are bigger
+            height = (Type == EnemyType.MeleeTank) ? height*1.2 : height; // Tanks are bigger
+            width = (Type == EnemyType.MeleeTank) ? width * 1.2 : width;
             Brush color = Brushes.Red;
 
             if (Type == EnemyType.MeleeTank) color = Brushes.DarkRed;
@@ -171,8 +202,8 @@ namespace shooter
             // Create Sprite
             Sprite = new Ellipse
             {
-                Width = size,
-                Height = size,
+                Width = width,
+                Height = height,
                 Fill = color
             };
         }

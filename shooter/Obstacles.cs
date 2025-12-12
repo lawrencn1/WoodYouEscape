@@ -129,6 +129,19 @@ namespace shooter
             
             return false;
         }
+
+        public bool EnemyInObstacle(double x, double y, double height, double width)
+        {
+            Rect obstacleRect = new Rect(X, Y, Width, Heigth);
+            Rect EnemyRect = new Rect(x, y, height, width);
+
+            if (EnemyRect.IntersectsWith(obstacleRect))
+            {
+                return true;
+            }
+
+            return false;
+        }
     }
 
 }
