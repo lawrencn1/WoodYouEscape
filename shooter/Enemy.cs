@@ -228,9 +228,10 @@ namespace shooter
             }
         }
 
-        public void UpdateEnemy(double deltaTime, Player player, List<EnemyProjectile> globalBulletList, Canvas canvas, List<Obstacles> obstacles)
+        public void UpdateEnemy(double deltaTime, Player player, List<EnemyProjectile> globalBulletList, Canvas canvas, List<Obstacles> obstacles, List<Enemy> Enemies)
         {
             
+
             double margin = 5;
 
            
@@ -252,7 +253,34 @@ namespace shooter
                 
                 double pixelDist = Vitesse * deltaTime;
 
-                
+                //enemies repulsion
+                double radius = 50; 
+
+                for (int i = 0; i < Enemies.Count; i++)
+                {
+                    
+                    if (Enemies[i] == this)
+                        continue;
+
+                    double distX = this.X - Enemies[i].X;
+                    double distY = this.Y - Enemies[i].Y;
+                    double distsq = (distX * distX) + (distY * distY);
+
+                    
+                    if (distsq < radius * radius && distsq > 0)
+                    {
+                        double dist = Math.Sqrt(distsq);
+
+                        
+                        double repX = distX / dist;
+                        double repY = distY / dist;
+
+                        dirX += repX;
+                        dirY += repY;
+                    }
+                }
+
+                //obstacle collisions detection
                 Rect futureX = new Rect(X + (dirX * pixelDist), Y + margin,80 ,100 - (margin * 2));
 
                 for (int i = 0; i < obstacles.Count; i++)

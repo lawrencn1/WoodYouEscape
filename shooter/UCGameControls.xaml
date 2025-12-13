@@ -8,8 +8,8 @@
              d:DesignHeight="400" d:DesignWidth="600">
     <Viewbox Stretch="Uniform">
         <Grid Height="420" Width="700">
-            <Label Content="Deplacement" HorizontalAlignment="Left" Height="50" Margin="100,17,0,0" VerticalAlignment="Top" Width="200" Background="#FF2EC730" FontSize="24" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-            <Label Content="Tirer" HorizontalAlignment="Right" Height="50" Margin="0,17,100,0" VerticalAlignment="Top" Width="200" Background="#FF2EC730" FontSize="24" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            <Label Content="Deplacement" HorizontalAlignment="Left" Height="50" Margin="100,17,0,0" VerticalAlignment="Top" Width="200" Background="#FF50841D" FontSize="24" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="#FFB6DFA9"/>
+            <Label Content="Tirer" HorizontalAlignment="Right" Height="50" Margin="0,17,100,0" VerticalAlignment="Top" Width="200" Background="#FF50841D" FontSize="24" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="#FFB6DFA9"/>
             <Canvas x:Name="D" HorizontalAlignment="Left" Height="50" Margin="220,131,0,0" VerticalAlignment="Top" Width="50">
                 <Canvas.Background>
                     <ImageBrush ImageSource="/UIAssets/D.png"/>

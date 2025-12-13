@@ -128,7 +128,8 @@ namespace shooter
 
             for (int i = 0; i < Enemies.Count; i++)
             {
-                Enemies[i].UpdateEnemy(deltaTime, joueur, globalEnemyProjectiles, _gameCanvas, _mapLayout.obstacles);
+
+                Enemies[i].UpdateEnemy(deltaTime, joueur, globalEnemyProjectiles, _gameCanvas, _mapLayout.obstacles, Enemies);
             }
 
             CheckCollisions();

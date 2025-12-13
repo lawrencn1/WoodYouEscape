@@ -6,12 +6,14 @@
              xmlns:local="clr-namespace:shooter"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Background="#FF16311A">
-        <Label Content="Mode de jeu" HorizontalAlignment="Center" Height="77" Margin="0,10,0,0" VerticalAlignment="Top" Width="662" Background="#FF2EC730" FontSize="48" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="#FFC9FFBE"/>
-        <RadioButton x:Name="normal" HorizontalAlignment="Left" Margin="201,250,0,0" VerticalAlignment="Top" Foreground="#FFABEC9A" FontWeight="Bold" FontSize="24" RenderTransformOrigin="1.093,0.307"/>
-        <RadioButton x:Name="infinite" HorizontalAlignment="Left" Margin="585,250,0,0" VerticalAlignment="Top" Foreground="#FFABEC9A" FontWeight="Bold" FontSize="24"/>
-        <Label Content="Normal" HorizontalAlignment="Left" Height="60" Margin="128,181,0,0" VerticalAlignment="Top" Width="161" Foreground="#FF7ABB81" FontWeight="Bold" FontSize="36"/>
-        <Label Content="Infini" HorizontalAlignment="Left" Height="60" Margin="512,181,0,0" VerticalAlignment="Top" Width="161" Foreground="#FF7ABB81" FontWeight="Bold" FontSize="36" HorizontalContentAlignment="Center"/>
-        <Button x:Name="validate"  Content="Valider" HorizontalAlignment="Center" Margin="0,352,0,0" VerticalAlignment="Top" Height="51" Width="384" FontSize="36" FontWeight="Bold" Background="#FF50841D" Foreground="#FFBAE0A9" BorderBrush="#FF20481C" Click="validate_Click"/>
-    </Grid>
+    <Viewbox Stretch="Uniform">
+        <Grid>
+            <Label Content="Mode de jeu" HorizontalAlignment="Center" Height="77" Margin="0,10,0,0" VerticalAlignment="Top" Width="662" Background="#FF50841D" FontSize="48" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="#FFC9FFBE"/>
+            <RadioButton x:Name="normal" HorizontalAlignment="Left" Margin="201,250,0,0" VerticalAlignment="Top" Foreground="#FFABEC9A" FontWeight="Bold" FontSize="24" RenderTransformOrigin="1.093,0.307"/>
+            <RadioButton x:Name="infinite" HorizontalAlignment="Left" Margin="585,250,0,0" VerticalAlignment="Top" Foreground="#FFABEC9A" FontWeight="Bold" FontSize="24"/>
+            <Label Content="Normal" HorizontalAlignment="Left" Height="60" Margin="128,181,0,0" VerticalAlignment="Top" Width="161" Foreground="#FF7ABB81" FontWeight="Bold" FontSize="36"/>
+            <Label Content="Infini" HorizontalAlignment="Left" Height="60" Margin="512,181,0,0" VerticalAlignment="Top" Width="161" Foreground="#FF7ABB81" FontWeight="Bold" FontSize="36" HorizontalContentAlignment="Center"/>
+            <Button x:Name="validate"  Content="Valider" HorizontalAlignment="Center" Margin="0,316,0,36"  Height="51" Width="384" FontSize="36" FontWeight="Bold" Background="#FF50841D" Foreground="#FFBAE0A9" BorderBrush="#FF20481C" Click="validate_Click"/>
+        </Grid>
+    </Viewbox>
 </UserControl>
