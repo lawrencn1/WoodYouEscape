@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Printing;
 using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,6 +39,8 @@ namespace shooter
         private MapLayout _mapLayout;
         private List<PlayerProjectile> playerProjectiles = new List<PlayerProjectile>();
         private ProjectileTypePlayer _currentWeapon = ProjectileTypePlayer.Standard;
+        private int _map;
+        private Random _random = new Random();
 
         public GameEngine(Canvas canvas)
         {
@@ -52,8 +55,8 @@ namespace shooter
 
             PlayableArea = new Rect(100, 150, nativeWidth - 150 , nativeHeight - 260);
 
-            joueur = new Player(500, 500, 200);
-            joueur = new Player(400, 400, 200);
+            
+            
 
             _stopwatch = new Stopwatch();
 
@@ -70,23 +73,28 @@ namespace shooter
         }
         private void BeginGameplay()
         {
+            
+            _map = _random.Next(1, 4);
+            _mapLayout = new MapLayout(2, _gameCanvas);
 
+            for (int i = 0; i < _mapLayout.obstacles.Count; i++)
+            {
+                if (_mapLayout.obstacles[i].Type == ObstacleType.Start)
+                {
+                    joueur = new Player(_mapLayout.obstacles[i].X + _mapLayout.obstacles[i].X * 0.20, _mapLayout.obstacles[i].Y , 200);
+                    Console.WriteLine(_mapLayout.obstacles[i].X);
+                    Console.WriteLine(_mapLayout.obstacles[i].Y);
+                    Console.WriteLine(joueur.X);
+                    Console.WriteLine(joueur.Y);
+                }
+            }
             if (!_gameCanvas.Children.Contains(joueur.Sprite))
             {
                 _gameCanvas.Children.Add(joueur.Sprite);
             }
-            joueur.UpdatePosition();
-
-            // 2. Spawn Enemies
-            // SpawnEnemies(_gameCanvas, 200, 200, EnemyType.MeleeBasic);
-            // SpawnEnemies(_gameCanvas, 400, 200, EnemyType.Ranged);
-            // SpawnEnemies(_gameCanvas, 600, 200, EnemyType.MeleeTank);
-
+            joueur.UpdatePosition();           
             
 
-            _mapLayout = new MapLayout(4, _gameCanvas);
-
-            
 
             // 3. Start Game Loop
 
@@ -108,9 +116,9 @@ namespace shooter
 
             //SPAWN
 
-            EnemiesRandomizer(_gameCanvas, 50, EnemyType.MeleeBasic);
-            EnemiesRandomizer(_gameCanvas, 50, EnemyType.Ranged);
-            EnemiesRandomizer(_gameCanvas, 50, EnemyType.MeleeTank);
+            EnemiesRandomizer(_gameCanvas, 2, EnemyType.MeleeBasic);
+            //EnemiesRandomizer(_gameCanvas, 50, EnemyType.Ranged);
+            //EnemiesRandomizer(_gameCanvas, 50, EnemyType.MeleeTank);
 
 
         }
@@ -323,16 +331,15 @@ namespace shooter
 
             for (int i = 0; i < _mapLayout.obstacles.Count; i++)
             {
-                if (_mapLayout.obstacles[i].ObstacleCollision(futureX))
+                if (_mapLayout.obstacles[i].ObstacleCollision(futureX) && _mapLayout.obstacles[i].Type != ObstacleType.Start)
                 {
-                    
-                    dx = 0;
+                        dx = 0;
                 }
             }
 
             for (int i = 0; i < _mapLayout.obstacles.Count; i++)
             {
-                if (_mapLayout.obstacles[i].ObstacleCollision(futureY))
+                if (_mapLayout.obstacles[i].ObstacleCollision(futureY) && _mapLayout.obstacles[i].Type != ObstacleType.Start)
                 {
                     dy = 0;
                 }
@@ -401,6 +408,8 @@ namespace shooter
             }
   
         }
+
+        
         
         //User controls functions
         private void GameRule(Canvas canva)

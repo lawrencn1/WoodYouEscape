@@ -43,38 +43,40 @@ namespace shooter
             switch (n)
             {
                 case 1: // 4 Corners (We gonna improve itccuz it's shi)
-                    AddObstacle(canva, 0, 0, h * size1, w * size2);
-                    AddObstacle(canva, canva.ActualWidth - w * size2, 0, h * size1, w * size2); 
-                    AddObstacle(canva, 0, canva.ActualHeight - h * size1, h * size1, w * size2); 
-                    AddObstacle(canva, canva.ActualWidth - w * size1, canva.ActualHeight - h * size1, h * size1, w * size2); 
+                    AddObstacle(canva, 0, 0, h * size1, w * size2, ObstacleType.Wall);
+                    AddObstacle(canva, canva.ActualWidth - w * size2, 0, h * size1, w * size2, ObstacleType.Wall); 
+                    AddObstacle(canva, 0, canva.ActualHeight - h * size1, h * size1, w * size2, ObstacleType.Wall); 
+                    AddObstacle(canva, canva.ActualWidth - w * size1, canva.ActualHeight - h * size1, h * size1, w * size2, ObstacleType.Wall); 
                     break;
                 case 2: //4 Corners and a centered block (We gonna improve it cuz it's shi)
-                    AddObstacle(canva, 0, 0, h * size1, w * size2);
-                    AddObstacle(canva, canva.ActualWidth - w * size2, 0, h * size1, w * size2);
-                    AddObstacle(canva, 0, canva.ActualHeight - h * size1, h * size1, w * size2);
-                    AddObstacle(canva, canva.ActualWidth - w * size2, canva.ActualHeight - h * size1, h * size1, w * size2);
-                    AddObstacle(canva, (canva.ActualWidth - (w * size2)) / 2, (canva.ActualHeight - (h * size1)) / 2, h * size1, w * size2);
+                    AddObstacle(canva, 0, 0, h * size1, w * size2, ObstacleType.Wall);
+                    AddObstacle(canva, canva.ActualWidth - w * size2, 0, h * size1, w * size2, ObstacleType.Wall);
+                    AddObstacle(canva, 0, canva.ActualHeight - h * size1, h * size1, w * size2, ObstacleType.Wall);
+                    AddObstacle(canva, canva.ActualWidth - w * size2, canva.ActualHeight - h * size1, h * size1, w * size2, ObstacleType.Wall);
+                    AddObstacle(canva, (canva.ActualWidth - (w * size2)) / 2, (canva.ActualHeight - (h * size1)) / 2, h * size1, w * size2, ObstacleType.Wall);
+                    AddObstacle(canva, 300, (canva.ActualHeight - (h * size1)) / 2, h * 0.1, w * 0.1, ObstacleType.Start);
+
 
                     break;
                 case 3: //Cross (We gonna improve it cuz it's shi)
                     //ver
-                    AddObstacle(canva, (w - w * 0.1) / 2, (h - h * 0.75) / 2, h * 0.75,  w * 0.1);
+                    AddObstacle(canva, (w - w * 0.1) / 2, (h - h * 0.75) / 2, h * 0.75,  w * 0.1, ObstacleType.Wall);
                     //hor
-                    AddObstacle(canva, (w - w * 0.75) / 2, (h - w * 0.1) / 2, w * 0.1, w * 0.75);
+                    AddObstacle(canva, (w - w * 0.75) / 2, (h - w * 0.1) / 2, w * 0.1, w * 0.75, ObstacleType.Wall);
                     break;
                 case 4: //idk for now
 
                     break;
                 case 5: //idk for now
-                    AddObstacle(canva, 0, 0, canva.ActualHeight * 0.3, canva.ActualWidth * 0.4);
+                    AddObstacle(canva, 0, 0, canva.ActualHeight * 0.3, canva.ActualWidth * 0.4, ObstacleType.Wall);
                     break;
             }
             
         }
 
-        public void AddObstacle(Canvas canva, double x, double y, double height, double width)
+        public void AddObstacle(Canvas canva, double x, double y, double height, double width, ObstacleType type)
         {
-            Obstacles  ob = new Obstacles(x, y, height, width);
+            Obstacles  ob = new Obstacles(x, y, height, width, type);
             ob.AddToCanva(canva);
 
             obstacles.Add(ob);

@@ -9,12 +9,22 @@ using System.Windows.Media;
 
 namespace shooter
 {
+    public enum ObstacleType
+    {
+       Wall, 
+       Puddle,
+       Start,
+       End
+    }
+
     public class Obstacles
     {
         private double x;
         private double y;
         private double heigth;
         private double width;
+
+        public ObstacleType Type { get; private set; }
 
         private UIElement sprite;
 
@@ -84,12 +94,13 @@ namespace shooter
         }
 
 
-        public Obstacles(double x, double y, double heigth, double width)
+        public Obstacles(double x, double y, double heigth, double width, ObstacleType type)
         {
             this.X = x;
             this.Y = y;
             this.heigth = heigth;
             this.width = width;
+            this.Type = type;
 
             Sprite = new System.Windows.Shapes.Rectangle
             {
@@ -99,7 +110,7 @@ namespace shooter
             };
 
             SetPosition(x, y);
-
+            
         }
 
         public void SetPosition(double X, double Y)
