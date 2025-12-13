@@ -108,9 +108,9 @@ namespace shooter
 
             //SPAWN
 
-            EnemiesRandomizer(_gameCanvas, 5, EnemyType.MeleeBasic);
-            EnemiesRandomizer(_gameCanvas, 5, EnemyType.Ranged);
-            EnemiesRandomizer(_gameCanvas, 5, EnemyType.MeleeTank);
+            EnemiesRandomizer(_gameCanvas, 50, EnemyType.MeleeBasic);
+            EnemiesRandomizer(_gameCanvas, 50, EnemyType.Ranged);
+            EnemiesRandomizer(_gameCanvas, 50, EnemyType.MeleeTank);
 
 
         }
