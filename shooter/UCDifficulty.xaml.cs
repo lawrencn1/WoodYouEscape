@@ -29,5 +29,20 @@ namespace shooter
         {
 
         }
+
+        private void easy_Click(object sender, RoutedEventArgs e)
+        {
+            play.IsEnabled = true;
+        }
+
+        private void normal_Click(object sender, RoutedEventArgs e)
+        {
+            play.IsEnabled = true;
+        }
+
+        private void hard_Checked(object sender, RoutedEventArgs e)
+        {
+            play.IsEnabled = true;
+        }
     }
 }

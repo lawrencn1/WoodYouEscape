@@ -68,14 +68,48 @@ namespace shooter
         }
         public void Stop()
         {
+            
             CompositionTarget.Rendering -= GameLoop;
-            _stopwatch.Stop();
+            _stopwatch.Stop(); // Stops the deltaTime calculation.
+
+    
+            for (int i = 0; i < playerProjectiles.Count; i++)
+            {
+                _gameCanvas.Children.Remove(playerProjectiles[i].Sprite);
+            }
+            playerProjectiles.Clear();
+
+            
+            for (int i = 0;i < globalEnemyProjectiles.Count; i++)
+            {
+                _gameCanvas.Children.Remove(globalEnemyProjectiles[i].Sprite);
+            }
+            globalEnemyProjectiles.Clear();
+
+            // Clear Enemies
+            for (int i = 0; i < Enemies.Count; i++) 
+            {
+                _gameCanvas.Children.Remove(Enemies[i].Sprite);
+            }
+            Enemies.Clear();
+
+            for (int i = 0; i < _mapLayout.obstacles.Count; i++)
+            {
+                _gameCanvas.Children.Remove(_mapLayout.obstacles[i].Sprite);
+            }
+            _mapLayout.obstacles.Clear();
+
+            if (_gameCanvas.Children.Contains(joueur.Sprite))
+            {
+                _gameCanvas.Children.Remove(joueur.Sprite);
+            }
+
+            
         }
         private void BeginGameplay()
         {
-            
-            _map = _random.Next(1, 4);
-            _mapLayout = new MapLayout(2, _gameCanvas);
+
+            mapChange(_gameCanvas);
 
             for (int i = 0; i < _mapLayout.obstacles.Count; i++)
             {
@@ -136,7 +170,6 @@ namespace shooter
 
             for (int i = 0; i < Enemies.Count; i++)
             {
-
                 Enemies[i].UpdateEnemy(deltaTime, joueur, globalEnemyProjectiles, _gameCanvas, _mapLayout.obstacles, Enemies);
             }
 
@@ -331,17 +364,44 @@ namespace shooter
 
             for (int i = 0; i < _mapLayout.obstacles.Count; i++)
             {
-                if (_mapLayout.obstacles[i].ObstacleCollision(futureX) && _mapLayout.obstacles[i].Type != ObstacleType.Start)
+                if (_mapLayout.obstacles[i].ObstacleCollision(futureX) && _mapLayout.obstacles[i].Type != ObstacleType.Start && _mapLayout.obstacles[i].Type != ObstacleType.End)
                 {
                         dx = 0;
+                }
+
+                else if (_mapLayout.obstacles[i].ObstacleCollision(futureX) && _mapLayout.obstacles[i].Type == ObstacleType.End && Enemies.Count == 0)
+                {
+                    for (int j = 0; j < _mapLayout.obstacles.Count; j++)
+                    {
+                        if (_mapLayout.obstacles[j].Type == ObstacleType.Start)
+                        {
+                            Stop();
+                            BeginGameplay();
+
+                        }
+                        Console.WriteLine(dx);
+                    }
                 }
             }
 
             for (int i = 0; i < _mapLayout.obstacles.Count; i++)
             {
-                if (_mapLayout.obstacles[i].ObstacleCollision(futureY) && _mapLayout.obstacles[i].Type != ObstacleType.Start)
+                if (_mapLayout.obstacles[i].ObstacleCollision(futureY) && _mapLayout.obstacles[i].Type != ObstacleType.Start && _mapLayout.obstacles[i].Type != ObstacleType.End)
                 {
                     dy = 0;
+                }
+
+                else if (_mapLayout.obstacles[i].ObstacleCollision(futureY) && _mapLayout.obstacles[i].Type == ObstacleType.End && Enemies.Count == 0)
+                {
+                    for (int j = 0; j < _mapLayout.obstacles.Count; j++)
+                    {
+                        if (_mapLayout.obstacles[j].Type == ObstacleType.Start)
+                        {
+                            Stop();
+                            BeginGameplay();
+                        }
+                        Console.WriteLine(dy);
+                    }
                 }
             }
 
@@ -473,6 +533,12 @@ namespace shooter
                 canva.Children.Remove(uc);
                 BeginGameplay();
             };
+        }
+
+        private void mapChange(Canvas canva)
+        {
+            _map = _random.Next(1, 4);
+            _mapLayout = new MapLayout(_map, _gameCanvas);
         }
     }
 }
