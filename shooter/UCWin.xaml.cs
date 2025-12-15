@@ -16,29 +16,13 @@ using System.Windows.Shapes;
 namespace shooter
 {
     /// <summary>
-    /// Interaction logic for UCGameMode.xaml
+    /// Interaction logic for UCWin.xaml
     /// </summary>
-    public partial class UCGameMode : UserControl
+    public partial class UCWin : UserControl
     {
-        public UCGameMode()
+        public UCWin()
         {
             InitializeComponent();
-        }
-
-        private void validate_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-
-        private void normal_Checked(object sender, RoutedEventArgs e)
-        {
-            validate.IsEnabled = true;
-        }
-
-        private void infinite_Checked(object sender, RoutedEventArgs e)
-        {
-            validate.IsEnabled = false;
         }
     }
 }

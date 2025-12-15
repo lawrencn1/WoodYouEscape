@@ -20,7 +20,7 @@ namespace shooter
     /// </summary>
     public partial class MainWindow : Window
     {
-
+        public static string Difficulty { get; set; }
         private GameEngine engine;
 
         public MainWindow()
