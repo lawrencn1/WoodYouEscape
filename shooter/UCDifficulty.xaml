@@ -9,7 +9,7 @@
     <Viewbox Stretch="Uniform">
         <Grid>
             <Label Content="Difficulté" HorizontalAlignment="Center" Height="77" Margin="0,10,0,0" VerticalAlignment="Top" Width="661" Background="#FF50841D" FontSize="48" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="#FFC9FFBE"/>
-            <RadioButton x:Name="easy" HorizontalAlignment="Left" Margin="142,250,0,0" VerticalAlignment="Top" Foreground="#FFABEC9A" FontWeight="Bold" FontSize="24" Click="easy_Click"/>
+            <RadioButton x:Name="easy" HorizontalAlignment="Left" Margin="142,250,0,0" VerticalAlignment="Top" Foreground="#FFABEC9A" FontWeight="Bold" FontSize="24" Click="easy_Click" IsChecked="True"/>
             <RadioButton x:Name="normal" HorizontalAlignment="Left" Margin="400,250,0,0" VerticalAlignment="Top" Foreground="#FFABEC9A" FontWeight="Bold" FontSize="24" Click="normal_Click"/>
             <RadioButton x:Name="hard" HorizontalAlignment="Left" Margin="643,250,0,0" VerticalAlignment="Top" Foreground="#FFABEC9A" FontWeight="Bold" FontSize="24" Checked="hard_Checked"/>
 
