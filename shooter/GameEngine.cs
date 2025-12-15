@@ -114,6 +114,7 @@ namespace shooter
         }
         private void BeginGameplay()
         {
+            UCGUI.Weapon.Content = "Standard";
 
             mapChange(_gameCanvas);
 
@@ -181,7 +182,7 @@ namespace shooter
 
         private void GameLoop(object sender, EventArgs e)
         {
-            Console.WriteLine(joueur.Hp);
+          
             if (joueur.Hp < 0)
             {
                 Stop();
@@ -481,16 +482,20 @@ namespace shooter
             {
                 case ProjectileTypePlayer.MachineGun:
                     _currentCooldownDuration = 0.15; // Fast 
+                    UCGUI.Weapon.Content = "MachineGun";
                     break;
                 case ProjectileTypePlayer.FireAxe:
                     _currentCooldownDuration = 1.2; // Slow 
+                    UCGUI.Weapon.Content = "FireAxe";
                     break;
                 case ProjectileTypePlayer.Rocket:
                     _currentCooldownDuration = 1.5;
+                    UCGUI.Weapon.Content = "Rocket";
                     break;
                 case ProjectileTypePlayer.Standard:
                 default:
                     _currentCooldownDuration = 1;
+                    UCGUI.Weapon.Content = "Standard";
                     break;
             }
         }
@@ -615,6 +620,8 @@ namespace shooter
             uc.Height = canva.Height; // 1080
 
             canva.Children.Add(uc);
+
+            Panel.SetZIndex(uc, 99);
         }
 
         private void mapChange(Canvas canva)
@@ -625,15 +632,26 @@ namespace shooter
 
         public void Life(Canvas canvas, Player player)
         {
+            double put;
             int playerMaxLife = 100;
             int life = player.Hp;
             double lenght = 1000;
-
             double coef = ((100 * life) / playerMaxLife) * 0.1;
+            
+            put = (lenght * coef) / 20;
+            if  (!(put < 0))
+                UCGUI.Green.Width = put;
 
-            UCGUI.Green.Width = (lenght * coef) / 20;
-            Console.WriteLine(UCGUI.Green.Width);
             UCGUI.Life.Content = $"{life}/{playerMaxLife}";
+            UCGUI.Lvl.Content = $"Lvl : {_mapnum + 1} / {_mapmax}";
+        }
+
+        private void  WeaponGUI(Canvas canvas, ProjectileTypePlayer type)
+        {
+            if (type == ProjectileTypePlayer.Standard)
+            {
+                UCGUI.Weapon.Content = "Standard";
+            }
         }
     }
 }

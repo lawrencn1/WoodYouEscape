@@ -10,8 +10,10 @@
         <Grid>
             <Image  Margin="-542,-6,1949,1332" Source="/playerIdleSpritesheet/fowardIdle1.png" Grid.RowSpan="2" />
             <Rectangle  x:Name="Red" Stroke="#FFFF0606" Margin="-347,46,1405,1444" Fill="#FFFF0101" Width="500"/>
-            <Rectangle x:Name="Green"  HorizontalAlignment="Left"  Stroke="#FF4FFF01" Margin="-347,46,0,1444" Fill="#FF4FFF01" Width="500"/>
+            <Rectangle x:Name="Green"  HorizontalAlignment="Left"  Stroke="#FF4FFF01" Margin="202,46,0,1444" Fill="#FF4FFF01" Width="500"/>
             <Label x:Name="Life"  Content="" HorizontalAlignment="Left" Height="31" Margin="-114,41,0,0" VerticalAlignment="Top" Width="86" Foreground="White" FontSize="18"/>
+            <Label x:Name="Lvl"  Content="AA" HorizontalAlignment="Left" Height="108" Margin="2292,2,0,0" VerticalAlignment="Top" Width="364" Foreground="#FFA3E6A7" FontSize="72" HorizontalContentAlignment="Center" FontWeight="Bold"/>
+            <Label x:Name="Weapon" Content="" HorizontalAlignment="Left" Margin="202,99,0,0" VerticalAlignment="Top" Width="367" Foreground="#FFB8D0B0" FontSize="48" FontWeight="Bold"/>
         </Grid>
     </Viewbox>
 </UserControl>
