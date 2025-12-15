@@ -80,7 +80,7 @@ namespace shooter
                     }
                     else
                     {
-                        _scaleTransform.ScaleX = -1;  // Normal
+                        _scaleTransform.ScaleX = 1;  // Normal
                         _rotationSpeed = 540;        // Spin Clockwise
                     }
 
@@ -88,8 +88,6 @@ namespace shooter
 
                 case ProjectileTypePlayer.MachineGun:
                     Speed = 900; // Very fast
-                    
-
                     Sprite.Width = 20;
                     Sprite.Height = 20;
                     // Placeholder if you don't have a bullet texture yet

@@ -42,8 +42,8 @@ namespace shooter
         private ProjectileTypePlayer _currentWeapon = ProjectileTypePlayer.Standard;
         private int _map;
         private Random _random = new Random();
-        private int _mapnum = 0;
-        private int _mapmax;
+        private int _mapNumber = 0;
+        private int _mapMax;
         private UCDUI UCGUI = new UCDUI();
 
         public GameEngine(Canvas canvas)
@@ -158,7 +158,7 @@ namespace shooter
                 EnemiesRandomizer(_gameCanvas, 1, EnemyType.MeleeBasic);
                 EnemiesRandomizer(_gameCanvas, 1, EnemyType.Ranged);
                 EnemiesRandomizer(_gameCanvas, 1, EnemyType.MeleeTank);
-                _mapmax = 2;
+                _mapMax = 2;
             }
 
             else if (MainWindow.Difficulty == "normal")
@@ -166,7 +166,7 @@ namespace shooter
                 EnemiesRandomizer(_gameCanvas, 2, EnemyType.MeleeBasic);
                 EnemiesRandomizer(_gameCanvas, 2, EnemyType.Ranged);
                 EnemiesRandomizer(_gameCanvas, 1, EnemyType.MeleeTank);
-                _mapmax = 3;
+                _mapMax = 3;
             }
 
             else
@@ -174,7 +174,7 @@ namespace shooter
                 EnemiesRandomizer(_gameCanvas, 3, EnemyType.MeleeBasic);
                 EnemiesRandomizer(_gameCanvas, 3, EnemyType.Ranged);
                 EnemiesRandomizer(_gameCanvas, 1, EnemyType.MeleeTank);
-                _mapmax = 4;
+                _mapMax = 4;
             }
 
            
@@ -200,6 +200,14 @@ namespace shooter
             for (int i = 0; i < Enemies.Count; i++)
             {
                 Enemies[i].UpdateEnemy(deltaTime, joueur, globalEnemyProjectiles, _gameCanvas, _mapLayout.obstacles, Enemies);
+
+                if (Enemies[i].Pv <= 0)
+                {
+                    // Remove visual sprite
+                    _gameCanvas.Children.Remove(Enemies[i].Sprite);
+                    // Remove logic object
+                    Enemies.RemoveAt(i);
+                }
             }
 
             CheckCollisions();
@@ -273,22 +281,19 @@ namespace shooter
 
                     if (bulletRect.IntersectsWith(enemyRect))
                     {
-
+                        
                         enemy.Damage(25);
+
                         
                         if (bullet.CausesBurn)
                         {
                             enemy.ApplyBurn(3.0); // Burn for 3 seconds
+                            
                         }
 
                         _gameCanvas.Children.Remove(bullet.Sprite);
                         playerProjectiles.RemoveAt(i);
 
-                        if (enemy.Pv <= 0)
-                        {
-                            _gameCanvas.Children.Remove(enemy.Sprite);
-                            Enemies.RemoveAt(j);
-                        }
                         break; // Bullet hit something, stop checking other enemies for this specific bullet
                     }
                 }
@@ -324,8 +329,6 @@ namespace shooter
             }
         }
 
-        
-
         public void EnemiesRandomizer(Canvas canvas, int Enemiesnumber, EnemyType type)
         {
             Random random = new Random();
@@ -336,13 +339,11 @@ namespace shooter
             {
                 bool validPosition = false;
                 
-
                 while (!validPosition )
                 {
        
                     double randX = random.Next(0, (int)_gameCanvas.ActualWidth);
                     double randY = random.Next(0, (int)_gameCanvas.ActualHeight);
-
                     
                     bool collision = false; 
 
@@ -355,7 +356,6 @@ namespace shooter
                             break; 
                         }
                     }
-
 
                     if (!collision)
                     {
@@ -437,8 +437,6 @@ namespace shooter
                 }
             }
 
-            
-
             joueur.Deplacement(dx, dy, deltaTime);
 
             // Weapon switching 
@@ -458,7 +456,7 @@ namespace shooter
             
             if (restartGame)
             {
-                if (_mapnum == _mapmax - 1)
+                if (_mapNumber == _mapMax - 1)
                 {
                     Stop();
                     Win(_gameCanvas);
@@ -468,7 +466,7 @@ namespace shooter
                 {
                     Stop();
                     BeginGameplay();
-                    _mapnum++;
+                    _mapNumber++;
                 }
             }
             
@@ -485,7 +483,7 @@ namespace shooter
                     UCGUI.Weapon.Content = "MachineGun";
                     break;
                 case ProjectileTypePlayer.FireAxe:
-                    _currentCooldownDuration = 1.2; // Slow 
+                    _currentCooldownDuration = 1.5; // Slow 
                     UCGUI.Weapon.Content = "FireAxe";
                     break;
                 case ProjectileTypePlayer.Rocket:
@@ -494,7 +492,7 @@ namespace shooter
                     break;
                 case ProjectileTypePlayer.Standard:
                 default:
-                    _currentCooldownDuration = 1;
+                    _currentCooldownDuration = 0.8;
                     UCGUI.Weapon.Content = "Standard";
                     break;
             }
@@ -643,7 +641,7 @@ namespace shooter
                 UCGUI.Green.Width = put;
 
             UCGUI.Life.Content = $"{life}/{playerMaxLife}";
-            UCGUI.Lvl.Content = $"Lvl : {_mapnum + 1} / {_mapmax}";
+            UCGUI.Lvl.Content = $"Lvl : {_mapNumber + 1} / {_mapMax}";
         }
 
         private void  WeaponGUI(Canvas canvas, ProjectileTypePlayer type)

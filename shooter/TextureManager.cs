@@ -41,9 +41,9 @@ namespace shooter
             {
                 // Load Enemy Textures (WILL UPDATE TO ANIMS)
                 // Bushbush
-                MeleeUpFrames = LoadPlayerDirection("pack://application:,,,/playerIdleSpritesheet/backwardsIdle1.png", "pack://application:,,,/playerUpSpritesheet/walkingUp");
-                MeleeDownFrames = LoadPlayerDirection("pack://application:,,,/playerIdleSpritesheet/fowardIdle1.png", "pack://application:,,,/playerDownSpritesheet/walkingDown");
-                MeleeSideFrames = LoadPlayerDirection("pack://application:,,,/playerIdleSpritesheet/leftIdle1.png", "pack://application:,,,/playerLeftSpritesheet/walkingLeft");
+                MeleeUpFrames = LoadPlayerDirection("pack://application:,,,/enemySpritesheet/enemyDown.png", "pack://application:,,,/playerUpSpritesheet/walkingUp");
+                MeleeDownFrames = LoadPlayerDirection("pack://application:,,,/enemySpritesheet/enemyUp.png", "pack://application:,,,/playerDownSpritesheet/walkingDown");
+                MeleeSideFrames = LoadPlayerDirection("pack://application:,,,/enemySpritesheet/enemySide.png", "pack://application:,,,/playerLeftSpritesheet/walkingLeft");
 
                 // 
                 TankUpFrames = LoadPlayerDirection("pack://application:,,,/playerIdleSpritesheet/backwardsIdle1.png", "pack://application:,,,/playerUpSpritesheet/walkingUp");

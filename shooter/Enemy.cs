@@ -49,7 +49,7 @@ namespace shooter
         private double _burnDurationTimer = 0;
         private double _burnTickTimer = 0;
         private const double BURN_TICK_RATE = 0.5;
-        private const int BURN_DAMAGE = 5;
+        private const int BURN_DAMAGE = 8;
         private double _burnBlinkTimer = 0;
         private const double BURN_BLINK_SPEED = 0.1; 
 
