@@ -15,11 +15,13 @@ namespace shooter
         public static BitmapImage AxeTexture;
 
         //ENEMY TEXTURES
-        public static BitmapImage MeleeTexture;
+        public static BitmapImage[] MeleeUpFrames;
+        public static BitmapImage[] MeleeDownFrames;
+        public static BitmapImage[] MeleeSideFrames;
 
-        public static BitmapImage TankTexture;
-
-
+        public static BitmapImage[] TankUpFrames;
+        public static BitmapImage[] TankDownFrames;
+        public static BitmapImage[] TankSideFrames;
 
         public static BitmapImage[] RangedUpFrames;
         public static BitmapImage[] RangedDownFrames;
@@ -39,10 +41,14 @@ namespace shooter
             {
                 // Load Enemy Textures (WILL UPDATE TO ANIMS)
                 // Bushbush
-                MeleeTexture = LoadBitmap("pack://application:,,,/enemySpritesheet/enemyDown.png");                
+                MeleeUpFrames = LoadPlayerDirection("pack://application:,,,/playerIdleSpritesheet/backwardsIdle1.png", "pack://application:,,,/playerUpSpritesheet/walkingUp");
+                MeleeDownFrames = LoadPlayerDirection("pack://application:,,,/playerIdleSpritesheet/fowardIdle1.png", "pack://application:,,,/playerDownSpritesheet/walkingDown");
+                MeleeSideFrames = LoadPlayerDirection("pack://application:,,,/playerIdleSpritesheet/leftIdle1.png", "pack://application:,,,/playerLeftSpritesheet/walkingLeft");
 
                 // 
-                TankTexture = LoadBitmap("pack://application:,,,/enemySpritesheet/enemyDown.png");
+                TankUpFrames = LoadPlayerDirection("pack://application:,,,/playerIdleSpritesheet/backwardsIdle1.png", "pack://application:,,,/playerUpSpritesheet/walkingUp");
+                TankDownFrames = LoadPlayerDirection("pack://application:,,,/playerIdleSpritesheet/fowardIdle1.png", "pack://application:,,,/playerDownSpritesheet/walkingDown");
+                TankSideFrames = LoadPlayerDirection("pack://application:,,,/playerIdleSpritesheet/leftIdle1.png", "pack://application:,,,/playerLeftSpritesheet/walkingLeft");
 
                 RangedUpFrames = LoadPlayerDirection("pack://application:,,,/playerIdleSpritesheet/backwardsIdle1.png", "pack://application:,,,/playerUpSpritesheet/walkingUp");
                 RangedDownFrames = LoadPlayerDirection("pack://application:,,,/playerIdleSpritesheet/fowardIdle1.png", "pack://application:,,,/playerDownSpritesheet/walkingDown");

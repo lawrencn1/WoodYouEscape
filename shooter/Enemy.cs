@@ -31,6 +31,7 @@ namespace shooter
         private double y;
         private double vitesse;
         private int pv;
+        private bool _isTakingDamage = false;
         private double distance;
         private double height;
         private double width;
@@ -48,7 +49,9 @@ namespace shooter
         private double _burnDurationTimer = 0;
         private double _burnTickTimer = 0;
         private const double BURN_TICK_RATE = 0.5;
-        private const int BURN_DAMAGE = 10;
+        private const int BURN_DAMAGE = 5;
+        private double _burnBlinkTimer = 0;
+        private const double BURN_BLINK_SPEED = 0.1; 
 
 
         // Animation State
@@ -56,6 +59,8 @@ namespace shooter
         private double _animTimer = 0;
         private const double FRAME_DURATION = 0.05;
         private ScaleTransform _flipTransform;
+        private Image _bodyImage;      // The actual sprite we animate
+        private System.Windows.Shapes.Rectangle _redOverlay; // The red filter
 
         public double X
         {
@@ -63,7 +68,6 @@ namespace shooter
             {
                 return this.x;
             }
-
             set
             {
                 this.x = value;
@@ -141,8 +145,6 @@ namespace shooter
             }
         }
 
-
-
         public double Distance
         {
             get
@@ -155,7 +157,6 @@ namespace shooter
                 this.distance = value;
             }
         }
-
         public Enemy(double x, double y, EnemyType type, double heigth, double width)
         {
             this.X = x;
@@ -203,43 +204,76 @@ namespace shooter
         private void InitializeVisuals()
         {
             _flipTransform = new ScaleTransform();
-
-            // 1. Determine which texture to use based on Enemy Type
             ImageSource targetTexture = null;
 
+            // 1. Determine which texture to use
             switch (Type)
             {
                 case EnemyType.MeleeTank:
-                    targetTexture = TextureManager.TankTexture;
+                    if (TextureManager.TankDownFrames != null && TextureManager.TankDownFrames.Length > 0)
+                        targetTexture = TextureManager.TankDownFrames[0];
+                    else
+                        targetTexture = TextureManager.AxeTexture;
                     break;
-
+                case EnemyType.Ranged:
+                    // Use the first frame if available, otherwise fallback
+                    if (TextureManager.RangedDownFrames != null && TextureManager.RangedDownFrames.Length > 0)
+                        targetTexture = TextureManager.RangedDownFrames[0];
+                    else
+                        targetTexture = TextureManager.AxeTexture;
                     break;
                 case EnemyType.MeleeBasic:
                 default:
-                    targetTexture = TextureManager.MeleeTexture;
+                    if (TextureManager.MeleeDownFrames != null && TextureManager.MeleeDownFrames.Length > 0)
+                        targetTexture = TextureManager.MeleeDownFrames[0];
+                    else
+                        targetTexture = TextureManager.AxeTexture;
                     break;
             }
 
-            // 2. Create the Visual (Image or Fallback Rectangle)
+            // 2. Build the Visual Structure
             if (targetTexture != null)
             {
-                // TEXTURE FOUND: Create an Image
-                var img = new Image
+                // --- TEXTURE FOUND: Create the Flash-ready Grid ---
+
+                // A. Create the Body Image
+                _bodyImage = new Image
                 {
-                    Width = this.Width,
-                    Height = this.Height,
                     Stretch = Stretch.Uniform,
-                    Source = targetTexture, 
+                    Source = targetTexture,
                     RenderTransformOrigin = new Point(0.5, 0.5),
                     RenderTransform = _flipTransform
                 };
-                Sprite = img;
+
+                // B. Create the Red Overlay (Hidden by default)
+                _redOverlay = new System.Windows.Shapes.Rectangle
+                {
+                    Fill = Brushes.Red,  // You can also try Brushes.White for a classic arcade flash
+                    Opacity = 0.7,       // 0.7 = Strong Flash, 0.4 = Weak Tint
+                    Visibility = Visibility.Hidden,
+                    Width = this.Width,  // Ensure sizes match exactly
+                    Height = this.Height
+                };
+
+                var initialMask = new ImageBrush();
+                initialMask.ImageSource = targetTexture;
+                _redOverlay.OpacityMask = initialMask;
+                // C. Combine them in a Grid
+                var container = new Grid
+                {
+                    Width = this.Width,
+                    Height = this.Height
+                };
+
+                container.Children.Add(_bodyImage);  // Layer 0
+                container.Children.Add(_redOverlay); // Layer 1 (Top)
+
+                Sprite = container;
             }
             else
             {
-                // TEXTURE MISSING: Create a Colored Rectangle (Fallback)
-                // This ensures you see the enemy even if the file path is wrong
-                var fallbackRect = new Rectangle
+                // --- TEXTURE MISSING: Create Fallback Rectangle ---
+                var fallbackRect = new System.Windows.Shapes.Rectangle
                 {
                     Width = this.Width,
                     Height = this.Height,
@@ -249,7 +283,6 @@ namespace shooter
                     RenderTransform = _flipTransform
                 };
 
-                // Color coding
                 switch (Type)
                 {
                     case EnemyType.MeleeTank: fallbackRect.Fill = Brushes.DarkRed; break;
@@ -275,12 +308,27 @@ namespace shooter
             Canvas.SetLeft(Sprite, X);
             Canvas.SetTop(Sprite, Y);
         }
-        public void Damage(int qte)
+        public async void Damage(int amount)
         {
-            Pv -= qte;
-            if (Pv <= 0)
+            Pv -= amount;
+            if (Pv <= 0) { return; }
+            if (_redOverlay != null)
             {
+                if (_isTakingDamage) return;
 
+                _isTakingDamage = true; // Locks the Burn Visuals out
+
+                // 1. FORCE COLOR BACK TO RED (In case it was Orange)
+                _redOverlay.Fill = Brushes.Red;
+                _redOverlay.Visibility = Visibility.Visible;
+
+                // 2. Wait
+                await Task.Delay(100);
+
+                // 3. Hide
+                _redOverlay.Visibility = Visibility.Hidden;
+
+                _isTakingDamage = false; // Re-enables the Burn Visuals
             }
         }
         public void ApplyBurn(double duration)
@@ -291,8 +339,6 @@ namespace shooter
 
             Sprite.Opacity = 0.5;
         }
-
-
 
 
         public void UpdateEnemy(double deltaTime, Player player, List<EnemyProjectile> globalBulletList, Canvas canvas, List<Obstacles> obstacles, List<Enemy> Enemies)
@@ -441,6 +487,8 @@ namespace shooter
                 SetSprite(currentAnimSet, 0);
             }
 
+            UpdateBurnVisuals(deltaTime);
+
             // --- 4. UPDATE POSITION ---
             X = newX;
             Y = newY;
@@ -466,13 +514,11 @@ namespace shooter
             {
                 _burnDurationTimer -= deltaTime;
                 _burnTickTimer -= deltaTime;
-
                 if (_burnTickTimer <= 0)
                 {
                     Damage(BURN_DAMAGE);
                     _burnTickTimer = BURN_TICK_RATE;
                 }
-
                 if (_burnDurationTimer <= 0)
                 {
                     _isBurning = false;
@@ -523,15 +569,58 @@ namespace shooter
                 SetSprite(frames, _currentFrame);
             }
         }
-        private void SetSprite(BitmapImage[] frames, int index)
+        private void SetSprite(BitmapSource[] frames, int index)
         {
-            if (Sprite is Image img)
+            // 1. Safety Checks
+            if (_bodyImage == null || frames == null || frames.Length == 0) return;
+            if (index < 0 || index >= frames.Length) return;
+
+            // 2. Get the current frame
+            var currentFrame = frames[index];
+
+            // 3. Update the visible Body
+            _bodyImage.Source = currentFrame;
+
+            // 4. Update the Red Overlay Mask 
+            // This tells the red rectangle to only appear where the sprite pixels are
+            if (_redOverlay != null)
             {
-                // Safety check to prevent crashing if index is out of bounds
-                if (index >= 0 && index < frames.Length)
+                var maskBrush = new ImageBrush();
+                maskBrush.ImageSource = currentFrame;
+                _redOverlay.OpacityMask = maskBrush;
+            }
+        }
+
+        private void UpdateBurnVisuals(double deltaTime)
+        {
+            // 1. If we are currently taking "Hit Damage" (Red Flash), do not interfere!
+            // The Damage() method has priority.
+            if (_isTakingDamage) return;
+
+            // 2. Are we Burning?
+            if (_isBurning)
+            {
+                // Set color to Orange
+                _redOverlay.Fill = Brushes.Orange;
+
+                // Run the Blink Timer
+                _burnBlinkTimer += deltaTime;
+
+                if (_burnBlinkTimer >= BURN_BLINK_SPEED)
                 {
-                    img.Source = frames[index];
+                    _burnBlinkTimer = 0; // Reset timer
+
+                    // Toggle Visibility (If Visible -> Hidden, If Hidden -> Visible)
+                    if (_redOverlay.Visibility == Visibility.Visible)
+                        _redOverlay.Visibility = Visibility.Hidden;
+                    else
+                        _redOverlay.Visibility = Visibility.Visible;
                 }
+            }
+            else
+            {
+                // 3. Not Burning and Not Taking Damage? Ensure overlay is off.
+                _redOverlay.Visibility = Visibility.Hidden;
             }
         }
     }
