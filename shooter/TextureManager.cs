@@ -18,13 +18,20 @@ namespace shooter
         public static BitmapImage MeleeTexture;
 
         public static BitmapImage TankTexture;
-        public static BitmapImage RangedTexture;
+
+
+
+        public static BitmapImage[] RangedUpFrames;
+        public static BitmapImage[] RangedDownFrames;
+        public static BitmapImage[] RangedSideFrames;
 
         // PLAYER TEXTURES
         public static BitmapImage[] UpFrames;
         public static BitmapImage[] DownFrames;
         public static BitmapImage[] LeftFrames;
         public static BitmapImage[] RightFrames;
+
+
 
         public static void LoadTextures()
         {
@@ -36,7 +43,11 @@ namespace shooter
 
                 // 
                 TankTexture = LoadBitmap("pack://application:,,,/enemySpritesheet/enemyDown.png");
-                RangedTexture = LoadBitmap("pack://application:,,,/enemySpritesheet/enemyDown.png");
+
+                RangedUpFrames = LoadPlayerDirection("pack://application:,,,/playerIdleSpritesheet/backwardsIdle1.png", "pack://application:,,,/playerUpSpritesheet/walkingUp");
+                RangedDownFrames = LoadPlayerDirection("pack://application:,,,/playerIdleSpritesheet/fowardIdle1.png", "pack://application:,,,/playerDownSpritesheet/walkingDown");
+                RangedSideFrames = LoadPlayerDirection("pack://application:,,,/playerIdleSpritesheet/leftIdle1.png", "pack://application:,,,/playerLeftSpritesheet/walkingLeft");
+
 
                 // Load Player Animations
                 UpFrames = LoadPlayerDirection("pack://application:,,,/playerIdleSpritesheet/backwardsIdle1.png", "pack://application:,,,/playerUpSpritesheet/walkingUp");

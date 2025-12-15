@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.Metrics;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -46,9 +47,14 @@ namespace shooter
         private bool _isBurning = false;
         private double _burnDurationTimer = 0;
         private double _burnTickTimer = 0;
-        private const double BURN_TICK_RATE = 0.5; 
+        private const double BURN_TICK_RATE = 0.5;
         private const int BURN_DAMAGE = 10;
 
+
+        // Animation State
+        private int _currentFrame = 0;
+        private double _animTimer = 0;
+        private const double FRAME_DURATION = 0.05;
         private ScaleTransform _flipTransform;
 
         public double X
@@ -189,10 +195,10 @@ namespace shooter
                     Distance = 300; // Stops 300px away to shoot
                     _fireTimerEnemy = 1.5;
                     break;
-            }     
+            }
 
         }
-        
+
 
         private void InitializeVisuals()
         {
@@ -206,8 +212,7 @@ namespace shooter
                 case EnemyType.MeleeTank:
                     targetTexture = TextureManager.TankTexture;
                     break;
-                case EnemyType.Ranged:
-                    targetTexture = TextureManager.RangedTexture;
+
                     break;
                 case EnemyType.MeleeBasic:
                 default:
@@ -224,7 +229,7 @@ namespace shooter
                     Width = this.Width,
                     Height = this.Height,
                     Stretch = Stretch.Uniform,
-                    Source = targetTexture, // <--- THIS WAS MISSING IN YOUR CODE
+                    Source = targetTexture, 
                     RenderTransformOrigin = new Point(0.5, 0.5),
                     RenderTransform = _flipTransform
                 };
@@ -275,7 +280,7 @@ namespace shooter
             Pv -= qte;
             if (Pv <= 0)
             {
-            
+
             }
         }
         public void ApplyBurn(double duration)
@@ -287,19 +292,18 @@ namespace shooter
             Sprite.Opacity = 0.5;
         }
 
-       
 
 
-        public void UpdateEnemy(double deltaTime, Player player, List<EnemyProjectile> globalBulletList, Canvas canvas, List<Obstacles> obstacles, List<Enemy>Enemies)
+
+        public void UpdateEnemy(double deltaTime, Player player, List<EnemyProjectile> globalBulletList, Canvas canvas, List<Obstacles> obstacles, List<Enemy> Enemies)
         {
             double margin = 5;
 
-           
             double diffX = player.X - this.X;
             double diffY = player.Y - this.Y;
             double distanceToPlayer = Math.Sqrt(diffX * diffX + diffY * diffY);
 
-            
+
             double dirX = 0;
             double dirY = 0;
 
@@ -320,11 +324,11 @@ namespace shooter
                     _flipTransform.ScaleX = 1;  // Face Right
                 }
                 //enemies repulsion
-                double radius = 50; 
+                double radius = 50;
 
                 for (int i = 0; i < Enemies.Count; i++)
                 {
-                    
+
                     if (Enemies[i] == this)
                         continue;
 
@@ -332,12 +336,12 @@ namespace shooter
                     double distY = this.Y - Enemies[i].Y;
                     double distsq = (distX * distX) + (distY * distY);
 
-                    
+
                     if (distsq < radius * radius && distsq > 0)
                     {
                         double dist = Math.Sqrt(distsq);
 
-                        
+
                         double repX = distX / dist;
                         double repY = distY / dist;
 
@@ -347,24 +351,24 @@ namespace shooter
                 }
 
                 //obstacle collisions detection
-                Rect futureX = new Rect(X + (dirX * pixelDist), Y + margin,80 ,100 - (margin * 2));
+                Rect futureX = new Rect(X + (dirX * pixelDist), Y + margin, 80, 100 - (margin * 2));
 
                 for (int i = 0; i < obstacles.Count; i++)
                 {
                     if (obstacles[i].ObstacleCollision(futureX))
                     {
-                        dirX = 0; 
-                        break;    
+                        dirX = 0;
+                        break;
                     }
                 }
-                
+
                 Rect futureY = new Rect(X + margin, Y + (dirY * pixelDist), 80 - (margin * 2), 100);
 
                 for (int i = 0; i < obstacles.Count; i++)
                 {
                     if (obstacles[i].ObstacleCollision(futureY))
                     {
-                        dirY = 0; 
+                        dirY = 0;
                         break;
                     }
                 }
@@ -381,17 +385,61 @@ namespace shooter
 
             // --- 3. CLAMP TO SCREEN (Keep inside play area) ---
             double spriteWidth = ((FrameworkElement)Sprite).Width;
-            double spriteHeight = ((FrameworkElement)Sprite).Height; 
+            double spriteHeight = ((FrameworkElement)Sprite).Height;
 
             if (newX < GameEngine.PlayableArea.Left)
                 newX = GameEngine.PlayableArea.Left;
-            if (newX > GameEngine.PlayableArea.Right - spriteWidth) 
+            if (newX > GameEngine.PlayableArea.Right - spriteWidth)
                 newX = GameEngine.PlayableArea.Right - spriteWidth;
 
-            if (newY < GameEngine.PlayableArea.Top) 
+            if (newY < GameEngine.PlayableArea.Top)
                 newY = GameEngine.PlayableArea.Top;
-            if (newY > GameEngine.PlayableArea.Bottom - spriteHeight) 
+            if (newY > GameEngine.PlayableArea.Bottom - spriteHeight)
                 newY = GameEngine.PlayableArea.Bottom - spriteHeight;
+
+
+            BitmapImage[] currentAnimSet = TextureManager.DownFrames;
+
+            if (Math.Abs(dirX) > Math.Abs(dirY))
+            {
+                // Moving Horizontally (Left or Right)
+                // Use LeftFrames for both, but flip the sprite for Right
+                currentAnimSet = TextureManager.LeftFrames;
+
+                if (dirX > 0)
+                {
+                    _flipTransform.ScaleX = -1; // Face Right (Flip Left image)
+                }
+                else
+                {
+                    _flipTransform.ScaleX = 1;  // Face Left (Normal)
+                }
+            }
+            else
+            {
+                // Moving Vertically (Up or Down)
+                _flipTransform.ScaleX = 1; // Reset flip
+
+                if (dirY > 0)
+                {
+                    currentAnimSet = TextureManager.DownFrames;
+                }
+                else
+                {
+                    currentAnimSet = TextureManager.UpFrames;
+                }
+            }
+
+            // 2. Only Animate if actually moving
+            if (Math.Abs(dirX) > 0.01 || Math.Abs(dirY) > 0.01)
+            {
+                Animate(currentAnimSet, deltaTime);
+            }
+            else
+            {
+                // Optional: If standing still, show Frame 0 (Idle)
+                SetSprite(currentAnimSet, 0);
+            }
 
             // --- 4. UPDATE POSITION ---
             X = newX;
@@ -414,7 +462,7 @@ namespace shooter
                 }
             }
 
-            if(_isBurning)
+            if (_isBurning)
             {
                 _burnDurationTimer -= deltaTime;
                 _burnTickTimer -= deltaTime;
@@ -454,6 +502,37 @@ namespace shooter
             EnemyProjectile newEnemyBullet = new EnemyProjectile(enemy_startX - 5, enemy_startY - 5, dirX, dirY);
             globalBulletList.Add(newEnemyBullet);
             canvas.Children.Add(newEnemyBullet.Sprite);
+        }
+
+        private void Animate(BitmapImage[] frames, double deltaTime)
+        {
+            if (frames == null || frames.Length == 0) return;
+
+            _animTimer += deltaTime;
+
+            if (_animTimer > FRAME_DURATION)
+            {
+                _animTimer = 0;
+                _currentFrame++;
+
+                // Loop: Reset to 1 (skipping 0 if 0 is the "Idle" static pose)
+                // If you want to use the first frame too, change 1 to 0
+                if (_currentFrame >= frames.Length)
+                    _currentFrame = 1;
+
+                SetSprite(frames, _currentFrame);
+            }
+        }
+        private void SetSprite(BitmapImage[] frames, int index)
+        {
+            if (Sprite is Image img)
+            {
+                // Safety check to prevent crashing if index is out of bounds
+                if (index >= 0 && index < frames.Length)
+                {
+                    img.Source = frames[index];
+                }
+            }
         }
     }
 }
