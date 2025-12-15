@@ -6,57 +6,91 @@
              xmlns:local="clr-namespace:shooter"
              mc:Ignorable="d" 
              d:DesignHeight="400" d:DesignWidth="600">
+
+    <UserControl.Resources>
+        <Style x:Key="KeyIconStyle" TargetType="Image">
+            <Setter Property="Width" Value="50"/>
+            <Setter Property="Height" Value="50"/>
+            <Setter Property="Stretch" Value="Uniform"/>
+            <Setter Property="Margin" Value="2"/>
+        </Style>
+
+        <Style x:Key="HeaderLabelStyle" TargetType="Label">
+            <Setter Property="Height" Value="50"/>
+            <Setter Property="Width" Value="200"/>
+            <Setter Property="Background" Value="#FF50841D"/>
+            <Setter Property="Foreground" Value="#FFB6DFA9"/>
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+    </UserControl.Resources>
+
     <Viewbox Stretch="Uniform">
         <Grid Height="420" Width="700">
-            <Label Content="Deplacement" HorizontalAlignment="Left" Height="50" Margin="100,17,0,0" VerticalAlignment="Top" Width="200" Background="#FF50841D" FontSize="24" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="#FFB6DFA9"/>
-            <Label Content="Tirer" HorizontalAlignment="Right" Height="50" Margin="0,17,100,0" VerticalAlignment="Top" Width="200" Background="#FF50841D" FontSize="24" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="#FFB6DFA9"/>
-            <Canvas x:Name="D" HorizontalAlignment="Left" Height="50" Margin="220,131,0,0" VerticalAlignment="Top" Width="50">
-                <Canvas.Background>
-                    <ImageBrush ImageSource="/UIAssets/D.png"/>
-                </Canvas.Background>
-            </Canvas>
-            <Canvas x:Name="Z" HorizontalAlignment="Left" Height="50" Margin="175,91,0,0" VerticalAlignment="Top" Width="50">
-                <Canvas.Background>
-                    <ImageBrush ImageSource="/UIAssets/Z.png"/>
-                </Canvas.Background>
-            </Canvas>
-            <Canvas x:Name="S" HorizontalAlignment="Left" Height="50" Margin="175,131,0,0" VerticalAlignment="Top" Width="50">
-                <Canvas.Background>
-                    <ImageBrush ImageSource="/UIAssets/S.png"/>
-                </Canvas.Background>
-            </Canvas>
-            <Canvas x:Name="Q" HorizontalAlignment="Left" Height="50" Margin="129,131,0,0" VerticalAlignment="Top" Width="50">
-                <Canvas.Background>
-                    <ImageBrush ImageSource="/UIAssets/Q.png"/>
-                </Canvas.Background>
-            </Canvas>
-            <Canvas x:Name="up" HorizontalAlignment="Left" Height="50" Margin="175,193,0,0" VerticalAlignment="Top" Width="50">
-                <Canvas.Background>
-                    <ImageBrush ImageSource="/UIAssets/ARROWUP.png"/>
-                </Canvas.Background>
-            </Canvas>
-            <Canvas x:Name="down" HorizontalAlignment="Left" Height="50" Margin="175,233,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.603,0.244">
-                <Canvas.Background>
-                    <ImageBrush ImageSource="/UIAssets/ARROWDOWN.png"/>
-                </Canvas.Background>
-            </Canvas>
-            <Canvas x:Name="right" HorizontalAlignment="Left" Height="50" Margin="220,233,0,0" VerticalAlignment="Top" Width="50">
-                <Canvas.Background>
-                    <ImageBrush ImageSource="UIAssets/ARROWRIGHT.png"/>
-                </Canvas.Background>
-            </Canvas>
-            <Canvas x:Name="left" HorizontalAlignment="Left" Height="50" Margin="129,233,0,0" VerticalAlignment="Top" Width="50">
-                <Canvas.Background>
-                    <ImageBrush ImageSource="UIAssets/ARROWLEFT.png"/>
-                </Canvas.Background>
-            </Canvas>
-            <Label HorizontalAlignment="Left" Height="44" Margin="400,134,0,0" VerticalAlignment="Top" Width="200
-                   " HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" FontSize="24" Foreground="{x:Null}">
-                <Label.Background>
-                    <ImageBrush ImageSource="UIAssets/SPACEALTERNATIVE.png" Stretch="Uniform"/>
-                </Label.Background>
-            </Label>
-            <Button x:Name="validate" Content="Compris" HorizontalAlignment="Center" Margin="0,320,0,0" VerticalAlignment="Top" Height="50" Width="250" FontSize="36" FontWeight="Bold" Background="#FF50841D" Foreground="#FFBAE0A9" BorderBrush="#FF20481C" Click="validate_Click"/>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Label Grid.Row="0" Grid.Column="0" Content="Deplacement" Style="{StaticResource HeaderLabelStyle}" Margin="0,20,0,0"/>
+
+            <StackPanel Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center">
+
+                <Grid HorizontalAlignment="Center" Margin="0,0,0,20">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Image Grid.Row="0" Grid.Column="1" Source="/UIAssets/Z.png" Style="{StaticResource KeyIconStyle}"/>
+                    <Image Grid.Row="1" Grid.Column="0" Source="/UIAssets/Q.png" Style="{StaticResource KeyIconStyle}"/>
+                    <Image Grid.Row="1" Grid.Column="1" Source="/UIAssets/S.png" Style="{StaticResource KeyIconStyle}"/>
+                    <Image Grid.Row="1" Grid.Column="2" Source="/UIAssets/D.png" Style="{StaticResource KeyIconStyle}"/>
+                </Grid>
+
+                <Grid HorizontalAlignment="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Image Grid.Row="0" Grid.Column="1" Source="/UIAssets/ARROWUP.png" Style="{StaticResource KeyIconStyle}"/>
+                    <Image Grid.Row="1" Grid.Column="0" Source="/UIAssets/ARROWLEFT.png" Style="{StaticResource KeyIconStyle}"/>
+                    <Image Grid.Row="1" Grid.Column="1" Source="/UIAssets/ARROWDOWN.png" Style="{StaticResource KeyIconStyle}"/>
+                    <Image Grid.Row="1" Grid.Column="2" Source="/UIAssets/ARROWRIGHT.png" Style="{StaticResource KeyIconStyle}"/>
+                </Grid>
+            </StackPanel>
+
+            <Label Grid.Row="0" Grid.Column="1" Content="Tirer" Style="{StaticResource HeaderLabelStyle}" Margin="0,20,0,0"/>
+
+            <StackPanel Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Image Source="/UIAssets/SPACEALTERNATIVE.png" Height="44" Width="200" Stretch="Uniform"/>
+            </StackPanel>
+
+            <Button x:Name="validate" Click="validate_Click"
+                    Grid.Row="2" Grid.ColumnSpan="2"
+                    Content="Compris" 
+                    HorizontalAlignment="Center" Margin="0,0,0,30" 
+                    Height="50" Width="250" 
+                    FontSize="36" FontWeight="Bold" 
+                    Background="#FF50841D" Foreground="#FFBAE0A9" BorderBrush="#FF20481C"/>
         </Grid>
     </Viewbox>
 </UserControl>
