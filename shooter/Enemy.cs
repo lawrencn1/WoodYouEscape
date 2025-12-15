@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Media.TextFormatting;
 using System.Windows.Shapes;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace shooter
 {
@@ -36,7 +40,7 @@ namespace shooter
 
         public Player player;
 
-        private UIElement sprite;
+        public FrameworkElement Sprite;
 
         //Burn Status
         private bool _isBurning = false;
@@ -45,6 +49,7 @@ namespace shooter
         private const double BURN_TICK_RATE = 0.5; 
         private const int BURN_DAMAGE = 10;
 
+        private ScaleTransform _flipTransform;
 
         public double X
         {
@@ -131,19 +136,6 @@ namespace shooter
         }
 
 
-        public UIElement Sprite
-        {
-            get
-            {
-                return this.sprite;
-            }
-
-            set
-            {
-                this.sprite = value;
-            }
-        }
-
 
         public double Distance
         {
@@ -171,7 +163,7 @@ namespace shooter
             InitializeStats();
 
             // 3. Initialize Visuals (Sprite + Hitbox)
-            InitializeVisuals(height, width);
+            InitializeVisuals();
         }
         private void InitializeStats()
         {
@@ -187,6 +179,8 @@ namespace shooter
                     Vitesse = 100; // Slower
                     Pv = 80;       // Harder to kill
                     Distance = 40;
+                    Width *= 1.5;
+                    Height *= 1.5;
                     break;
 
                 case EnemyType.Ranged:
@@ -198,22 +192,71 @@ namespace shooter
             }     
 
         }
-        private void InitializeVisuals(double height, double width)
+        
+
+        private void InitializeVisuals()
         {
-            height = (Type == EnemyType.MeleeTank) ? height*1.2 : height; // Tanks are bigger
-            width = (Type == EnemyType.MeleeTank) ? width * 1.2 : width;
-            Brush color = Brushes.Red;
+            _flipTransform = new ScaleTransform();
 
-            if (Type == EnemyType.MeleeTank) color = Brushes.DarkRed;
-            if (Type == EnemyType.Ranged) color = Brushes.Orange;
+            // 1. Determine which texture to use based on Enemy Type
+            ImageSource targetTexture = null;
 
-            // Create Sprite
-            Sprite = new Ellipse
+            switch (Type)
             {
-                Width = width,
-                Height = height,
-                Fill = color
-            };
+                case EnemyType.MeleeTank:
+                    targetTexture = TextureManager.TankTexture;
+                    break;
+                case EnemyType.Ranged:
+                    targetTexture = TextureManager.RangedTexture;
+                    break;
+                case EnemyType.MeleeBasic:
+                default:
+                    targetTexture = TextureManager.MeleeTexture;
+                    break;
+            }
+
+            // 2. Create the Visual (Image or Fallback Rectangle)
+            if (targetTexture != null)
+            {
+                // TEXTURE FOUND: Create an Image
+                var img = new Image
+                {
+                    Width = this.Width,
+                    Height = this.Height,
+                    Stretch = Stretch.Uniform,
+                    Source = targetTexture, // <--- THIS WAS MISSING IN YOUR CODE
+                    RenderTransformOrigin = new Point(0.5, 0.5),
+                    RenderTransform = _flipTransform
+                };
+                Sprite = img;
+            }
+            else
+            {
+                // TEXTURE MISSING: Create a Colored Rectangle (Fallback)
+                // This ensures you see the enemy even if the file path is wrong
+                var fallbackRect = new Rectangle
+                {
+                    Width = this.Width,
+                    Height = this.Height,
+                    Stroke = Brushes.Black,
+                    StrokeThickness = 2,
+                    RenderTransformOrigin = new Point(0.5, 0.5),
+                    RenderTransform = _flipTransform
+                };
+
+                // Color coding
+                switch (Type)
+                {
+                    case EnemyType.MeleeTank: fallbackRect.Fill = Brushes.DarkRed; break;
+                    case EnemyType.Ranged: fallbackRect.Fill = Brushes.Orange; break;
+                    default: fallbackRect.Fill = Brushes.Red; break;
+                }
+
+                Sprite = fallbackRect;
+            }
+
+            // 3. Set Initial Position
+            UpdatePosition();
         }
 
         public void Deplacement(double dx, double dy, double deltaTime)
@@ -239,14 +282,14 @@ namespace shooter
         {
             _isBurning = true;
             _burnDurationTimer = duration;
-            _burnTickTimer = 0; 
+            _burnTickTimer = 0;
 
-            // Visual feedback (Optional: Turn enemy Red)
-            if (Sprite is Shape shape) shape.Fill = Brushes.OrangeRed;
+            Sprite.Opacity = 0.5;
         }
-        
-        
-        
+
+       
+
+
         public void UpdateEnemy(double deltaTime, Player player, List<EnemyProjectile> globalBulletList, Canvas canvas, List<Obstacles> obstacles, List<Enemy>Enemies)
         {
             double margin = 5;
@@ -260,7 +303,7 @@ namespace shooter
             double dirX = 0;
             double dirY = 0;
 
-           
+
             if (distanceToPlayer > Distance)
             {
                 dirX = diffX / distanceToPlayer;
@@ -268,6 +311,14 @@ namespace shooter
 
                 double pixelDist = Vitesse * deltaTime;
 
+                if (dirX < 0)
+                {
+                    _flipTransform.ScaleX = -1; // Face Left
+                }
+                else
+                {
+                    _flipTransform.ScaleX = 1;  // Face Right
+                }
                 //enemies repulsion
                 double radius = 50; 
 
@@ -319,9 +370,11 @@ namespace shooter
                 }
             }
 
+
             // --- 2. APPLY MOVEMENT (ONCE ONLY) ---
             double moveX = dirX * Vitesse * deltaTime;
             double moveY = dirY * Vitesse * deltaTime;
+
 
             double newX = X + moveX;
             double newY = Y + moveY;
@@ -368,14 +421,14 @@ namespace shooter
 
                 if (_burnTickTimer <= 0)
                 {
-                    Damage(BURN_DAMAGE); // Take DoT damage
-                    _burnTickTimer = BURN_TICK_RATE; // Reset tick timer
+                    Damage(BURN_DAMAGE);
+                    _burnTickTimer = BURN_TICK_RATE;
                 }
 
                 if (_burnDurationTimer <= 0)
                 {
                     _isBurning = false;
-                    // Optional: Revert color here if you implemented the red tint
+                    Sprite.Opacity = 1.0; // Reset Opacity to normal
                 }
             }
         }

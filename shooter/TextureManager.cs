@@ -15,9 +15,10 @@ namespace shooter
         public static BitmapImage AxeTexture;
 
         //ENEMY TEXTURES
-        public static ImageBrush MeleeTexture;
-        public static ImageBrush TankTexture;
-        public static ImageBrush RangedTexture;
+        public static BitmapImage MeleeTexture;
+
+        public static BitmapImage TankTexture;
+        public static BitmapImage RangedTexture;
 
         // PLAYER TEXTURES
         public static BitmapImage[] UpFrames;
@@ -30,16 +31,19 @@ namespace shooter
             try
             {
                 // Load Enemy Textures (WILL UPDATE TO ANIMS)
-                MeleeTexture = LoadBrush("pack://application:,,,/shooter;component/UIAssets/melee.png");
-                TankTexture = LoadBrush("pack://application:,,,/shooter;component/UIAssets/tank.png");
-                RangedTexture = LoadBrush("pack://application:,,,/shooter;component/UIAssets/ranged.png");
+                // Bushbush
+                MeleeTexture = LoadBitmap("pack://application:,,,/enemySpritesheet/enemyDown.png");                
+
+                // 
+                TankTexture = LoadBitmap("pack://application:,,,/enemySpritesheet/enemyDown.png");
+                RangedTexture = LoadBitmap("pack://application:,,,/enemySpritesheet/enemyDown.png");
 
                 // Load Player Animations
                 UpFrames = LoadPlayerDirection("pack://application:,,,/playerIdleSpritesheet/backwardsIdle1.png", "pack://application:,,,/playerUpSpritesheet/walkingUp");
                 DownFrames = LoadPlayerDirection("pack://application:,,,/playerIdleSpritesheet/fowardIdle1.png", "pack://application:,,,/playerDownSpritesheet/walkingDown");
                 LeftFrames = LoadPlayerDirection("pack://application:,,,/playerIdleSpritesheet/leftIdle1.png", "pack://application:,,,/playerLeftSpritesheet/walkingLeft");
                 //RightFrames = LoadPlayerDirection("pack://application:,,,/playerIdleSpritesheet/rightIdle1.png", "pack://application:,,,/playerRightSpritesheet/walkingRight");
-            
+
                 // Load Projectile Textures
                 AxeTexture = LoadBitmap("pack://application:,,,/axes/normalAxe.png");
 
@@ -82,7 +86,7 @@ namespace shooter
                 img.UriSource = new Uri(path);
                 img.CacheOption = BitmapCacheOption.OnLoad; // Load immediately
                 img.EndInit();
-                img.Freeze(); 
+                img.Freeze();
                 return img;
             }
             catch

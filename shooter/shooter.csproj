@@ -18,6 +18,9 @@
     <None Remove="background2.png" />
     <None Remove="background3.png" />
     <None Remove="D.png" />
+    <None Remove="enemySpritesheet\enemyDown.png" />
+    <None Remove="enemySpritesheet\enemySide.png" />
+    <None Remove="enemySpritesheet\enemyUp.png" />
     <None Remove="playerDownSpritesheet\walkingDown0.png" />
     <None Remove="playerDownSpritesheet\walkingDown1.png" />
     <None Remove="playerDownSpritesheet\walkingDown2.png" />
@@ -163,6 +166,9 @@
     <Resource Include="background2.png" />
     <Resource Include="background3.png" />
     <Resource Include="D.png" />
+    <Resource Include="enemySpritesheet\enemyDown.png" />
+    <Resource Include="enemySpritesheet\enemySide.png" />
+    <Resource Include="enemySpritesheet\enemyUp.png" />
     <Resource Include="playerDownSpritesheet\walkingDown0.png" />
     <Resource Include="playerDownSpritesheet\walkingDown1.png" />
     <Resource Include="playerDownSpritesheet\walkingDown2.png" />

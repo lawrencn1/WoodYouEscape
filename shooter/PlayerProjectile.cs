@@ -31,6 +31,8 @@ namespace shooter
         
         private RotateTransform _rotationTransform;
         private double _rotationSpeed;
+
+        private ScaleTransform _scaleTransform;
         public bool CausesBurn { get; set; } = false; 
 
 
@@ -44,12 +46,18 @@ namespace shooter
 
             // 1. Initialize Transform & Image container
             _rotationTransform = new RotateTransform();
+            _scaleTransform = new ScaleTransform();
             
+            var transformGroup = new TransformGroup();
+            transformGroup.Children.Add(_scaleTransform);     
+            transformGroup.Children.Add(_rotationTransform);
+
+
             Sprite = new Image
             {
                 Stretch = Stretch.Uniform,
                 RenderTransformOrigin = new Point(0.5, 0.5),
-                RenderTransform = _rotationTransform
+                RenderTransform = transformGroup
             };
 
             // 2. Configure Stats & Textures based on Type
@@ -65,8 +73,17 @@ namespace shooter
                     // Ensure you have a FireAxe texture, or fallback to Axe
                     Sprite.Source = TextureManager.AxeTexture;
 
-                    // Fast Spin
-                    _rotationSpeed = (DirX < 0) ? -540 : 540;
+                    if (DirX < 0)
+                    {
+                        _scaleTransform.ScaleX = -1; // Flip Horizontally
+                        _rotationSpeed = -540;       // Spin Counter-Clockwise
+                    }
+                    else
+                    {
+                        _scaleTransform.ScaleX = -1;  // Normal
+                        _rotationSpeed = 540;        // Spin Clockwise
+                    }
+
                     break;
 
                 case ProjectileTypePlayer.MachineGun:
@@ -104,7 +121,16 @@ namespace shooter
                     Sprite.Source = TextureManager.AxeTexture;
 
                     // Standard Spin
-                    _rotationSpeed = (DirX < 0) ? -540 : 540;
+                    if(DirX < 0)
+                    {
+                        _scaleTransform.ScaleX = -1; // Flip Horizontally
+                        _rotationSpeed = -540;       // Spin Counter-Clockwise
+                    }
+                    else
+                    {
+                        _scaleTransform.ScaleX = 1;  // Normal
+                        _rotationSpeed = 540;        // Spin Clockwise
+                    }
                     break;
             }
 
