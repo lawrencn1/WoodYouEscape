@@ -244,10 +244,11 @@ namespace shooter
             // Visual feedback (Optional: Turn enemy Red)
             if (Sprite is Shape shape) shape.Fill = Brushes.OrangeRed;
         }
-        public void UpdateEnemy(double deltaTime, Player player, List<EnemyProjectile> globalBulletList, Canvas canvas, List<Obstacles> obstacles)
+        
+        
+        
+        public void UpdateEnemy(double deltaTime, Player player, List<EnemyProjectile> globalBulletList, Canvas canvas, List<Obstacles> obstacles, List<Enemy>Enemies)
         {
-            
-
             double margin = 5;
 
            
