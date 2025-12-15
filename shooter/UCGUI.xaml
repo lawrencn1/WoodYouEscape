@@ -1,0 +1,17 @@
+﻿<UserControl x:Class="shooter.UCDUI"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:shooter"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Viewbox Stretch="Uniform">
+        <Grid>
+            <Image  Margin="-542,-6,1949,1332" Source="/playerIdleSpritesheet/fowardIdle1.png" Grid.RowSpan="2" />
+            <Rectangle  x:Name="Red" Stroke="#FFFF0606" Margin="-347,46,1405,1444" Fill="#FFFF0101" Width="500"/>
+            <Rectangle x:Name="Green"  HorizontalAlignment="Left"  Stroke="#FF4FFF01" Margin="-347,46,0,1444" Fill="#FF4FFF01" Width="500"/>
+            <Label x:Name="Life"  Content="" HorizontalAlignment="Left" Height="31" Margin="-114,41,0,0" VerticalAlignment="Top" Width="86" Foreground="White" FontSize="18"/>
+        </Grid>
+    </Viewbox>
+</UserControl>

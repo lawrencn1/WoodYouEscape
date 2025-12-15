@@ -44,6 +44,7 @@ namespace shooter
         private Random _random = new Random();
         private int _mapnum = 0;
         private int _mapmax;
+        private UCDUI UCGUI = new UCDUI();
 
         public GameEngine(Canvas canvas)
         {
@@ -175,7 +176,7 @@ namespace shooter
                 _mapmax = 4;
             }
 
-
+           
         }
 
         private void GameLoop(object sender, EventArgs e)
@@ -201,8 +202,8 @@ namespace shooter
             }
 
             CheckCollisions();
-            
 
+            Life(_gameCanvas, joueur);
         }
 
         private void UpdatePlayerBullets(double deltaTime, Canvas canvas)
@@ -582,6 +583,7 @@ namespace shooter
             {
                 canva.Children.Remove(uc);
                 BeginGameplay();
+                GUI(canva, UCGUI);
             };
         }
 
@@ -605,10 +607,33 @@ namespace shooter
             canva.Children.Add(uc);
         }
 
+        private void GUI(Canvas canva, UCDUI uc)
+        {
+            
+
+            uc.Width = canva.Width;   // 1920
+            uc.Height = canva.Height; // 1080
+
+            canva.Children.Add(uc);
+        }
+
         private void mapChange(Canvas canva)
         {
             _map = _random.Next(1, 4);
             _mapLayout = new MapLayout(_map, _gameCanvas);
+        }
+
+        public void Life(Canvas canvas, Player player)
+        {
+            int playerMaxLife = 100;
+            int life = player.Hp;
+            double lenght = 1000;
+
+            double coef = ((100 * life) / playerMaxLife) * 0.1;
+
+            UCGUI.Green.Width = (lenght * coef) / 20;
+            Console.WriteLine(UCGUI.Green.Width);
+            UCGUI.Life.Content = $"{life}/{playerMaxLife}";
         }
     }
 }
