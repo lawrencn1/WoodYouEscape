@@ -121,10 +121,6 @@ namespace shooter
                 if (_mapLayout.obstacles[i].Type == ObstacleType.Start)
                 {
                     joueur = new Player(_mapLayout.obstacles[i].X + _mapLayout.obstacles[i].X * 0.20, _mapLayout.obstacles[i].Y , 200);
-                    Console.WriteLine(_mapLayout.obstacles[i].X);
-                    Console.WriteLine(_mapLayout.obstacles[i].Y);
-                    Console.WriteLine(joueur.X);
-                    Console.WriteLine(joueur.Y);
                 }
             }
             if (!_gameCanvas.Children.Contains(joueur.Sprite))
@@ -168,7 +164,7 @@ namespace shooter
                 EnemiesRandomizer(_gameCanvas, 2, EnemyType.MeleeBasic);
                 EnemiesRandomizer(_gameCanvas, 2, EnemyType.Ranged);
                 EnemiesRandomizer(_gameCanvas, 1, EnemyType.MeleeTank);
-                _mapmax = 2;
+                _mapmax = 3;
             }
 
             else
@@ -176,7 +172,7 @@ namespace shooter
                 EnemiesRandomizer(_gameCanvas, 3, EnemyType.MeleeBasic);
                 EnemiesRandomizer(_gameCanvas, 3, EnemyType.Ranged);
                 EnemiesRandomizer(_gameCanvas, 1, EnemyType.MeleeTank);
-                _mapmax = 3;
+                _mapmax = 4;
             }
 
 
@@ -184,6 +180,12 @@ namespace shooter
 
         private void GameLoop(object sender, EventArgs e)
         {
+            Console.WriteLine(joueur.Hp);
+            if (joueur.Hp < 0)
+            {
+                Stop();
+                Lose(_gameCanvas);
+            }
 
             long currentTick = _stopwatch.ElapsedTicks;
             double deltaTime = (double)(currentTick - _lastTick) / Stopwatch.Frequency;
@@ -583,6 +585,16 @@ namespace shooter
         private void Win(Canvas canva)
         {
             UCWin uc = new UCWin();
+
+            uc.Width = canva.Width;   // 1920
+            uc.Height = canva.Height; // 1080
+
+            canva.Children.Add(uc);
+        }
+
+        private void Lose(Canvas canva)
+        {
+            UCLose uc = new UCLose();
 
             uc.Width = canva.Width;   // 1920
             uc.Height = canva.Height; // 1080
