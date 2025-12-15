@@ -14,7 +14,7 @@ namespace shooter
     public enum ProjectileTypePlayer
     {
         Standard,
-        Sniper,
+        FireAxe,
         MachineGun,
         Rocket
     }
@@ -31,6 +31,7 @@ namespace shooter
         
         private RotateTransform _rotationTransform;
         private double _rotationSpeed;
+        public bool CausesBurn { get; set; } = false; 
 
 
 
@@ -41,84 +42,78 @@ namespace shooter
             DirX = dirX;
             DirY = dirY;
 
+            // 1. Initialize Transform & Image container
+            _rotationTransform = new RotateTransform();
+            
+            Sprite = new Image
+            {
+                Stretch = Stretch.Uniform,
+                RenderTransformOrigin = new Point(0.5, 0.5),
+                RenderTransform = _rotationTransform
+            };
+
+            // 2. Configure Stats & Textures based on Type
             switch (type)
             {
-                case ProjectileTypePlayer.Sniper:
-                    Speed = 60; // Very fast
-                    //Sprite = new Rectangle
-                    //{
-                    //    Width = 6,
-                    //    Height = 20,
-                    //    Fill = Brushes.Yellow,
-                    //    RenderTransform = new RotateTransform(0) // Logic for rotation could be added later
-                    //};
+                case ProjectileTypePlayer.FireAxe:
+                    Speed = 500;
+
+                    CausesBurn = true; // TRIGGERS THE BURN
+
+                    Sprite.Width = 120;
+                    Sprite.Height = 120;
+                    // Ensure you have a FireAxe texture, or fallback to Axe
+                    Sprite.Source = TextureManager.AxeTexture;
+
+                    // Fast Spin
+                    _rotationSpeed = (DirX < 0) ? -540 : 540;
                     break;
 
                 case ProjectileTypePlayer.MachineGun:
-                    Speed = 25; // Fast
-                    //Sprite = new Ellipse // Round bullets
-                    //{
-                    //    Width = 8,
-                    //    Height = 8,
-                    //    Fill = Brushes.Orange
-                    //};
+                    Speed = 900; // Very fast
+                    
+
+                    Sprite.Width = 20;
+                    Sprite.Height = 20;
+                    // Placeholder if you don't have a bullet texture yet
+                    Sprite.Source = TextureManager.AxeTexture;
+
+                    // No spin, or align to direction
+                    double angleBullet = Math.Atan2(DirY, DirX) * (180 / Math.PI);
+                    _rotationTransform.Angle = angleBullet;
                     break;
 
                 case ProjectileTypePlayer.Rocket:
-                    Speed = 7; // Slow
-                    //Sprite = new Rectangle
-                    //{
-                    //    Width = 20,
-                    //    Height = 20,
-                    //    Fill = Brushes.DarkRed,
-                    //    Stroke = Brushes.Black,
-                    //    StrokeThickness = 2
-                    //};
+                    Speed = 350; // Slow
+                    
+                    Sprite.Width = 50;
+                    Sprite.Height = 20;
+                    Sprite.Source = TextureManager.AxeTexture;
+
+                    // Rotate to face direction of travel
+                    double angleRocket = Math.Atan2(DirY, DirX) * (180 / Math.PI);
+                    _rotationTransform.Angle = angleRocket;
                     break;
 
                 case ProjectileTypePlayer.Standard:
                 default:
-                    Speed = 300;
-                    var flipTransform = new ScaleTransform();
+                    Speed = 450;
 
-                    if (DirX < 0)
-                    {
-                        flipTransform.ScaleX = -1;
-                        _rotationSpeed = -540;
-                    }
-                    else
-                    {
-                        flipTransform.ScaleX = 1;
-                        _rotationSpeed = 540;
-                    }
-                    _rotationTransform = new RotateTransform(0);
+                    Sprite.Width = 120;
+                    Sprite.Height = 120;
+                    Sprite.Source = TextureManager.AxeTexture;
 
-
-                    var transformGroup = new TransformGroup();
-                    transformGroup.Children.Add(flipTransform);
-                    transformGroup.Children.Add(_rotationTransform);
-
-
-                    // Create the image sprite
-                    var axeImage = new Image
-                    {
-                        Width = 120, // Adjust size as needed
-                        Height = 120,
-                        Source = TextureManager.AxeTexture,
-                        Stretch = Stretch.Uniform,
-                        RenderTransformOrigin = new Point(0.5, 0.5), // Center point for spinning
-                        RenderTransform = transformGroup
-                    };
-                    Sprite = axeImage;
+                    // Standard Spin
+                    _rotationSpeed = (DirX < 0) ? -540 : 540;
                     break;
             }
 
+            // 3. Set Initial Position
             if (Sprite != null)
             {
                 Canvas.SetLeft(Sprite, X);
                 Canvas.SetTop(Sprite, Y);
             }
-
         }
 
 

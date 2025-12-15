@@ -38,6 +38,14 @@ namespace shooter
 
         private UIElement sprite;
 
+        //Burn Status
+        private bool _isBurning = false;
+        private double _burnDurationTimer = 0;
+        private double _burnTickTimer = 0;
+        private const double BURN_TICK_RATE = 0.5; 
+        private const int BURN_DAMAGE = 10;
+
+
         public double X
         {
             get
@@ -227,7 +235,15 @@ namespace shooter
             
             }
         }
+        public void ApplyBurn(double duration)
+        {
+            _isBurning = true;
+            _burnDurationTimer = duration;
+            _burnTickTimer = 0; 
 
+            // Visual feedback (Optional: Turn enemy Red)
+            if (Sprite is Shape shape) shape.Fill = Brushes.OrangeRed;
+        }
         public void UpdateEnemy(double deltaTime, Player player, List<EnemyProjectile> globalBulletList, Canvas canvas, List<Obstacles> obstacles)
         {
             
@@ -245,14 +261,11 @@ namespace shooter
            
             if (distanceToPlayer > Distance)
             {
-                
                 dirX = diffX / distanceToPlayer;
                 dirY = diffY / distanceToPlayer;
 
-                
                 double pixelDist = Vitesse * deltaTime;
 
-                
                 Rect futureX = new Rect(X + (dirX * pixelDist), Y + margin,80 ,100 - (margin * 2));
 
                 for (int i = 0; i < obstacles.Count; i++)
@@ -263,7 +276,6 @@ namespace shooter
                         break;    
                     }
                 }
-
                 
                 Rect futureY = new Rect(X + margin, Y + (dirY * pixelDist), 80 - (margin * 2), 100);
 
@@ -316,6 +328,24 @@ namespace shooter
                         SpawnBullet(canvas, player, globalBulletList);
                         _fireTimerEnemy = ENEMY_COOLDOWN_DURATION;
                     }
+                }
+            }
+
+            if(_isBurning)
+            {
+                _burnDurationTimer -= deltaTime;
+                _burnTickTimer -= deltaTime;
+
+                if (_burnTickTimer <= 0)
+                {
+                    Damage(BURN_DAMAGE); // Take DoT damage
+                    _burnTickTimer = BURN_TICK_RATE; // Reset tick timer
+                }
+
+                if (_burnDurationTimer <= 0)
+                {
+                    _isBurning = false;
+                    // Optional: Revert color here if you implemented the red tint
                 }
             }
         }

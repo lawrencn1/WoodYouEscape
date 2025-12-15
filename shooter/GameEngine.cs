@@ -84,7 +84,7 @@ namespace shooter
 
             
 
-            _mapLayout = new MapLayout(4, _gameCanvas);
+            _mapLayout = new MapLayout(2, _gameCanvas);
 
             
 
@@ -203,7 +203,12 @@ namespace shooter
                     if (bulletRect.IntersectsWith(enemyRect))
                     {
 
-                        enemy.Damage(25); 
+                        enemy.Damage(25);
+                        
+                        if (bullet.CausesBurn)
+                        {
+                            enemy.ApplyBurn(3.0); // Burn for 3 seconds
+                        }
 
                         _gameCanvas.Children.Remove(bullet.Sprite);
                         playerProjectiles.RemoveAt(i);
@@ -217,8 +222,6 @@ namespace shooter
                     }
                 }
             }
-
-            
 
             // 2. Enemy Bullets vs Player
 
@@ -342,7 +345,7 @@ namespace shooter
             // Weapon switching 
             if (inputMng.IsKey1Pressed) SetWeapon(ProjectileTypePlayer.Standard);
             //if (inputMng.IsKey2Pressed) SetWeapon(ProjectileTypePlayer.MachineGun);
-            //if (inputMng.IsKey3Pressed) SetWeapon(ProjectileTypePlayer.Sniper);
+            if (inputMng.IsKey3Pressed) SetWeapon(ProjectileTypePlayer.FireAxe);
             //if (inputMng.IsKey4Pressed) SetWeapon(ProjectileTypePlayer.Rocket);
 
             if (_fireTimerPlayer > 0) _fireTimerPlayer -= deltaTime;
@@ -363,7 +366,7 @@ namespace shooter
                 case ProjectileTypePlayer.MachineGun:
                     _currentCooldownDuration = 0.15; // Fast 
                     break;
-                case ProjectileTypePlayer.Sniper:
+                case ProjectileTypePlayer.FireAxe:
                     _currentCooldownDuration = 1.2; // Slow 
                     break;
                 case ProjectileTypePlayer.Rocket:
