@@ -275,6 +275,109 @@ namespace shooter
             }
         }
 
+        public void UpdatePlayer(double deltaTime)
+        {
+            double dx = 0;
+            double dy = 0;
+            double speed = 350;
+            double pixeldist = speed * deltaTime;
+            double margin = 5;
+
+            bool restartGame = false;
+            bool stopGame = false;
+
+            if (inputMng.IsLeftPressed) dx -= 1;
+            if (inputMng.IsRightPressed) dx += 1;
+            if (inputMng.IsUpPressed) dy -= 1;
+            if (inputMng.IsDownPressed) dy += 1;
+
+            double length = Math.Sqrt(dx * dx + dy * dy);
+            if (length > 0)
+            {
+                dx /= length;
+                dy /= length;
+            }
+
+            //CollisionCheck
+
+            Rect futureX = new Rect(joueur.X + (dx * pixeldist), joueur.Y, 80, 100 - (margin * 2));
+            Rect futureY = new Rect(joueur.X, joueur.Y + (dy * pixeldist), 80 - (margin * 2), 100);
+
+            for (int i = 0; i < _mapLayout.obstacles.Count; i++)
+            {
+                if (_mapLayout.obstacles[i].ObstacleCollision(futureX) && _mapLayout.obstacles[i].Type != ObstacleType.Start && _mapLayout.obstacles[i].Type != ObstacleType.End)
+                {
+                    dx = 0;
+                }
+
+                else if (_mapLayout.obstacles[i].ObstacleCollision(futureX) && _mapLayout.obstacles[i].Type == ObstacleType.End && Enemies.Count == 0)
+                {
+                    for (int j = 0; j < _mapLayout.obstacles.Count; j++)
+                    {
+                        if (_mapLayout.obstacles[j].Type == ObstacleType.Start)
+                        {
+                            restartGame = true;
+                        }
+                        Console.WriteLine(dx);
+                    }
+                }
+            }
+
+            for (int i = 0; i < _mapLayout.obstacles.Count; i++)
+            {
+                if (_mapLayout.obstacles[i].ObstacleCollision(futureY) && _mapLayout.obstacles[i].Type != ObstacleType.Start && _mapLayout.obstacles[i].Type != ObstacleType.End)
+                {
+                    dy = 0;
+                }
+
+                else if (_mapLayout.obstacles[i].ObstacleCollision(futureY) && _mapLayout.obstacles[i].Type == ObstacleType.End && Enemies.Count == 0)
+                {
+                    for (int j = 0; j < _mapLayout.obstacles.Count; j++)
+                    {
+                        if (_mapLayout.obstacles[j].Type == ObstacleType.Start)
+                        {
+                            restartGame = true;
+                        }
+                        Console.WriteLine(dy);
+                    }
+                }
+            }
+
+            joueur.Deplacement(dx, dy, deltaTime);
+
+            // Weapon switching 
+            if (inputMng.IsKey1Pressed) SetWeapon(ProjectileTypePlayer.Standard);
+            //if (inputMng.IsKey2Pressed) SetWeapon(ProjectileTypePlayer.MachineGun);
+            if (inputMng.IsKey3Pressed) SetWeapon(ProjectileTypePlayer.FireAxe);
+            //if (inputMng.IsKey4Pressed) SetWeapon(ProjectileTypePlayer.Rocket);
+
+            if (_fireTimerPlayer > 0) _fireTimerPlayer -= deltaTime;
+
+            if (inputMng.IsShootPressed && _fireTimerPlayer <= 0)
+            {
+                SpawnBullet(mainWindow.canvas, "Player");
+                _fireTimerPlayer = _currentCooldownDuration;
+            }
+
+
+            if (restartGame)
+            {
+                if (_mapNumber == _mapMax - 1)
+                {
+                    Stop();
+                    Win(_gameCanvas);
+                }
+
+                else
+                {
+                    Stop();
+                    BeginGameplay();
+                    _mapNumber++;
+                }
+            }
+
+        }
+
         private void CheckCollisions()
         {
             // 1. Player Projectiles vs Enemies
@@ -343,8 +446,8 @@ namespace shooter
         public void EnemiesRandomizer(Canvas canvas, int Enemiesnumber, EnemyType type)
         {
             Random random = new Random();
-            double height = 40;
-            double width = 40;
+            double height = 60;
+            double width = 60;
 
             for (int x = 0; x < Enemiesnumber; x++)
             {
@@ -361,7 +464,7 @@ namespace shooter
                     for (int i = 0; i < _mapLayout.obstacles.Count; i++)
                     {
                         
-                        if (_mapLayout.obstacles[i].EnemyInObstacle(randX, randY, height, width))
+                        if (_mapLayout.obstacles[i].EnemyInObstacle(randX, randY, height * 5, width * 5))
                         {
                             collision = true; 
                             break; 
@@ -380,108 +483,7 @@ namespace shooter
             }
 
         }
-        public void UpdatePlayer(double deltaTime)
-        {
-            double dx = 0;
-            double dy = 0;
-            double speed = 350;
-            double pixeldist = speed * deltaTime;
-            double margin = 5;
-
-            bool restartGame = false;
-            bool stopGame = false;
-
-            if (inputMng.IsLeftPressed) dx -= 1;
-            if (inputMng.IsRightPressed) dx += 1;
-            if (inputMng.IsUpPressed) dy -= 1;
-            if (inputMng.IsDownPressed) dy += 1;
-
-            double length = Math.Sqrt(dx * dx + dy * dy);
-            if (length > 0)
-            {
-                dx /= length;
-                dy /= length;
-            }
-
-            //CollisionCheck
-            
-            Rect futureX = new Rect(joueur.X + (dx * pixeldist), joueur.Y, 80, 100 - (margin * 2));
-            Rect futureY = new Rect(joueur.X, joueur.Y + (dy * pixeldist), 80 - (margin * 2), 100);
-
-            for (int i = 0; i < _mapLayout.obstacles.Count; i++)
-            {
-                if (_mapLayout.obstacles[i].ObstacleCollision(futureX) && _mapLayout.obstacles[i].Type != ObstacleType.Start && _mapLayout.obstacles[i].Type != ObstacleType.End)
-                {
-                        dx = 0;
-                }
-
-                else if (_mapLayout.obstacles[i].ObstacleCollision(futureX) && _mapLayout.obstacles[i].Type == ObstacleType.End && Enemies.Count == 0)
-                {
-                    for (int j = 0; j < _mapLayout.obstacles.Count; j++)
-                    {
-                        if (_mapLayout.obstacles[j].Type == ObstacleType.Start)
-                        {
-                            restartGame = true;
-                        }
-                        Console.WriteLine(dx);
-                    }
-                }
-            }
-
-            for (int i = 0; i < _mapLayout.obstacles.Count; i++)
-            {
-                if (_mapLayout.obstacles[i].ObstacleCollision(futureY) && _mapLayout.obstacles[i].Type != ObstacleType.Start && _mapLayout.obstacles[i].Type != ObstacleType.End)
-                {
-                    dy = 0;
-                }
-
-                else if (_mapLayout.obstacles[i].ObstacleCollision(futureY) && _mapLayout.obstacles[i].Type == ObstacleType.End && Enemies.Count == 0)
-                {
-                    for (int j = 0; j < _mapLayout.obstacles.Count; j++)
-                    {
-                        if (_mapLayout.obstacles[j].Type == ObstacleType.Start)
-                        {
-                            restartGame = true;
-                        }
-                        Console.WriteLine(dy);
-                    }
-                }
-            }
-
-            joueur.Deplacement(dx, dy, deltaTime);
-
-            // Weapon switching 
-            if (inputMng.IsKey1Pressed) SetWeapon(ProjectileTypePlayer.Standard);
-            //if (inputMng.IsKey2Pressed) SetWeapon(ProjectileTypePlayer.MachineGun);
-            if (inputMng.IsKey3Pressed) SetWeapon(ProjectileTypePlayer.FireAxe);
-            //if (inputMng.IsKey4Pressed) SetWeapon(ProjectileTypePlayer.Rocket);
-
-            if (_fireTimerPlayer > 0) _fireTimerPlayer -= deltaTime;
-
-            if (inputMng.IsShootPressed && _fireTimerPlayer <= 0)
-            {
-                SpawnBullet(mainWindow.canvas, "Player");
-                _fireTimerPlayer = _currentCooldownDuration;
-            }
-
-            
-            if (restartGame)
-            {
-                if (_mapNumber == _mapMax - 1)
-                {
-                    Stop();
-                    Win(_gameCanvas);
-                }
-                    
-                else
-                {
-                    Stop();
-                    BeginGameplay();
-                    _mapNumber++;
-                }
-            }
-            
-        }
+        
 
         private void SetWeapon(ProjectileTypePlayer type)
         {

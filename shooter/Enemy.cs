@@ -343,7 +343,6 @@ namespace shooter
 
         public void UpdateEnemy(double deltaTime, Player player, List<EnemyProjectile> globalBulletList, Canvas canvas, List<Obstacles> obstacles, List<Enemy> Enemies)
         {
-            double margin = 5;
 
             double diffX = player.X - this.X;
             double diffY = player.Y - this.Y;
@@ -397,22 +396,22 @@ namespace shooter
                 }
 
                 //obstacle collisions detection
-                Rect futureX = new Rect(X + (dirX * pixelDist), Y + margin, 80, 100 - (margin * 2));
+                Rect futureX = new Rect(X + (dirX * pixelDist), Y , 80, 100);
 
                 for (int i = 0; i < obstacles.Count; i++)
                 {
-                    if (obstacles[i].ObstacleCollision(futureX))
+                    if (obstacles[i].ObstacleCollision(futureX) && (obstacles[i].Type == ObstacleType.Wall || obstacles[i].Type == ObstacleType.Puddle))
                     {
                         dirX = 0;
                         break;
                     }
                 }
 
-                Rect futureY = new Rect(X + margin, Y + (dirY * pixelDist), 80 - (margin * 2), 100);
+                Rect futureY = new Rect(X, Y + (dirY * pixelDist), 80, 100);
 
                 for (int i = 0; i < obstacles.Count; i++)
                 {
-                    if (obstacles[i].ObstacleCollision(futureY))
+                    if (obstacles[i].ObstacleCollision(futureY) && (obstacles[i].Type == ObstacleType.Wall || obstacles[i].Type == ObstacleType.Puddle))
                     {
                         dirY = 0;
                         break;
