@@ -52,9 +52,9 @@ namespace shooter
                 MeleeUpFrames = SliceSpriteSheet(bushSheetPath, 8, 3, 2, 8);
 
                 // 
-                TankUpFrames = SliceSpriteSheet(treeSheetPath, 8, 3, 0, 8);
-                TankDownFrames = SliceSpriteSheet(treeSheetPath, 8, 3, 1, 8);
-                TankSideFrames = SliceSpriteSheet(treeSheetPath, 8, 3, 2, 8);
+                TankUpFrames = SliceSpriteSheet(treeSheetPath, 8, 3, 2, 8);
+                TankSideFrames = SliceSpriteSheet(treeSheetPath, 8, 3, 1, 8);
+                TankDownFrames = SliceSpriteSheet(treeSheetPath, 8, 3, 0, 8);
 
                 RangedUpFrames = LoadPlayerDirection("pack://application:,,,/playerIdleSpritesheet/backwardsIdle1.png", "pack://application:,,,/playerUpSpritesheet/walkingUp");
                 RangedDownFrames = LoadPlayerDirection("pack://application:,,,/playerIdleSpritesheet/fowardIdle1.png", "pack://application:,,,/playerDownSpritesheet/walkingDown");

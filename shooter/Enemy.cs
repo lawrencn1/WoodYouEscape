@@ -49,7 +49,7 @@ namespace shooter
         private double _burnDurationTimer = 0;
         private double _burnTickTimer = 0;
         private const double BURN_TICK_RATE = 0.5;
-        private const int BURN_DAMAGE = 8;
+        private const int BURN_DAMAGE = 5;
         private double _burnBlinkTimer = 0;
         private const double BURN_BLINK_SPEED = 0.1; 
 
@@ -57,7 +57,7 @@ namespace shooter
         // Animation State
         private int _currentFrame = 0;
         private double _animTimer = 0;
-        private const double FRAME_DURATION = 0.05;
+        private const double FRAME_DURATION = 0.1;
         private ScaleTransform _flipTransform;
         private Image _bodyImage;      // The actual sprite we animate
         private System.Windows.Shapes.Rectangle _redOverlay; // The red filter
@@ -178,13 +178,13 @@ namespace shooter
             {
                 case EnemyType.MeleeBasic:
                     Vitesse = 200;
-                    Pv = 30;
+                    Pv = 60;
                     Distance = 30; // Chases until collision
                     break;
 
                 case EnemyType.MeleeTank:
                     Vitesse = 100; // Slower
-                    Pv = 80;       // Harder to kill
+                    Pv = 150;       // Harder to kill
                     Distance = 40;
                     Width *= 1.5;
                     Height *= 1.5;
@@ -192,7 +192,7 @@ namespace shooter
 
                 case EnemyType.Ranged:
                     Vitesse = 180;
-                    Pv = 15;       // Weak
+                    Pv = 35;       // Weak
                     Distance = 300; // Stops 300px away to shoot
                     _fireTimerEnemy = 1.5;
                     break;

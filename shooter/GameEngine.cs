@@ -31,9 +31,7 @@ namespace shooter
         public UCSettings UCsettings = new UCSettings();
         //Private
         private double _fireTimerPlayer = 0;
-        private double _fireTimerEnemy = 0;
         private double _currentCooldownDuration = 1;
-        private const double ENEMY_COOLDOWN_DURATION = 1.0;
         private Canvas _gameCanvas;
         private Stopwatch _stopwatch;
         private long _lastTick;
@@ -44,7 +42,6 @@ namespace shooter
         private Random _random = new Random();
         private int _mapNumber = 0;
         private int _mapMax;
-        private static MediaPlayer _music;
         private int _score = 0;
 
 
@@ -239,11 +236,10 @@ namespace shooter
                     switch (Enemies[i].Type)
                     {
                         case EnemyType.MeleeBasic:
-
                             _score += 15;
                             break;
                         case EnemyType.MeleeTank:
-                            _score += 15;
+                            _score += 20;
                             break;
                         case EnemyType.Ranged:
                             _score += 5;
@@ -379,9 +375,9 @@ namespace shooter
 
             // Weapon switching 
             if (inputMng.IsKey1Pressed) SetWeapon(ProjectileTypePlayer.Standard);
-            //if (inputMng.IsKey2Pressed) SetWeapon(ProjectileTypePlayer.MachineGun);
+            if (inputMng.IsKey2Pressed) SetWeapon(ProjectileTypePlayer.LightAxe);
             if (inputMng.IsKey3Pressed) SetWeapon(ProjectileTypePlayer.FireAxe);
-            //if (inputMng.IsKey4Pressed) SetWeapon(ProjectileTypePlayer.Rocket);
+            if (inputMng.IsKey4Pressed) SetWeapon(ProjectileTypePlayer.HeavyAxe);
 
             if (_fireTimerPlayer > 0) _fireTimerPlayer -= deltaTime;
 
@@ -390,7 +386,6 @@ namespace shooter
                 SpawnBullet(mainWindow.canvas, "Player");
                 _fireTimerPlayer = _currentCooldownDuration;
             }
-
 
             if (restartGame)
             {
@@ -427,11 +422,29 @@ namespace shooter
 
                     if (bulletRect.IntersectsWith(enemyRect))
                     {
-                        
-                        enemy.Damage(25);
 
-                        
-                        if (bullet.CausesBurn)
+                        switch(bullet.Type)
+                        {
+                        case ProjectileTypePlayer.LightAxe:
+                                enemy.Damage(5); // Low damage, but you throw them fast
+                                break;
+
+                            case ProjectileTypePlayer.HeavyAxe:
+                                enemy.Damage(75); // Massive damage
+                                break;
+
+                            case ProjectileTypePlayer.FireAxe:
+                                enemy.Damage(20); // Medium damage + Burn effect
+                                break;
+
+                            case ProjectileTypePlayer.Standard:
+                            default:
+                                enemy.Damage(25);
+                                break;
+                            }
+
+
+                            if (bullet.CausesBurn)
                         {
                             enemy.ApplyBurn(3.0); // Burn for 3 seconds
                             
@@ -523,22 +536,22 @@ namespace shooter
 
             switch (type)
             {
-                case ProjectileTypePlayer.MachineGun:
-                    _currentCooldownDuration = 0.15; // Fast 
-                    UCGUI.Weapon.Content = "MachineGun";
+                case ProjectileTypePlayer.LightAxe:
+                    _currentCooldownDuration = 0.42; // Fast 
+                    UCGUI.Weapon.Content = "Hachette";
                     break;
                 case ProjectileTypePlayer.FireAxe:
-                    _currentCooldownDuration = 1.5; // Slow 
-                    UCGUI.Weapon.Content = "FireAxe";
+                    _currentCooldownDuration = 1.2; // Slow 
+                    UCGUI.Weapon.Content = "Hache Enflammée";
                     break;
-                case ProjectileTypePlayer.Rocket:
-                    _currentCooldownDuration = 1.5;
-                    UCGUI.Weapon.Content = "Rocket";
+                case ProjectileTypePlayer.HeavyAxe:
+                    _currentCooldownDuration = 2.2;
+                    UCGUI.Weapon.Content = "Hache Lourde";
                     break;
                 case ProjectileTypePlayer.Standard:
                 default:
                     _currentCooldownDuration = 0.8;
-                    UCGUI.Weapon.Content = "Standard";
+                    UCGUI.Weapon.Content = "Hache de bûcheron";
                     break;
             }
         }
