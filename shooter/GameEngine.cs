@@ -59,9 +59,6 @@ namespace shooter
 
             PlayableArea = new Rect(100, 150, nativeWidth - 150 , nativeHeight - 260);
 
-            
-            
-
             _stopwatch = new Stopwatch();
 
         }

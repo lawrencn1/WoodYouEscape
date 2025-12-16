@@ -9,15 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="ARROWDOWN.png" />
-    <None Remove="ARROWLEFT.png" />
-    <None Remove="ARROWRIGHT.png" />
-    <None Remove="ARROWUP.png" />
     <None Remove="axes\normalAxe.png" />
     <None Remove="background.png" />
     <None Remove="background2.png" />
     <None Remove="background3.png" />
-    <None Remove="D.png" />
     <None Remove="enemySpritesheet\enemyDown.png" />
     <None Remove="enemySpritesheet\enemySide.png" />
     <None Remove="enemySpritesheet\enemyUp.png" />
@@ -71,9 +66,6 @@
     <None Remove="playerUpSpritesheet\walkingUp8 %282%29.png" />
     <None Remove="playerUpSpritesheet\walkingUp8.png" />
     <None Remove="playerUpSpritesheet\walkingUp9.png" />
-    <None Remove="Q.png" />
-    <None Remove="S.png" />
-    <None Remove="SPACEALTERNATIVE.png" />
     <None Remove="UIAssets\ARROWDOWN.png" />
     <None Remove="UIAssets\ARROWLEFT.png" />
     <None Remove="UIAssets\ARROWRIGHT.png" />
@@ -153,19 +145,13 @@
     <None Remove="UIAssets\SimpleKeys\Jumbo\Dark\Single PNGs\Z.png" />
     <None Remove="UIAssets\SPACEALTERNATIVE.png" />
     <None Remove="UIAssets\Z.png" />
-    <None Remove="Z.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="ARROWDOWN.png" />
-    <Resource Include="ARROWLEFT.png" />
-    <Resource Include="ARROWRIGHT.png" />
-    <Resource Include="ARROWUP.png" />
     <Resource Include="axes\normalAxe.png" />
     <Resource Include="background.png" />
     <Resource Include="background2.png" />
     <Resource Include="background3.png" />
-    <Resource Include="D.png" />
     <Resource Include="enemySpritesheet\enemyDown.png" />
     <Resource Include="enemySpritesheet\enemySide.png" />
     <Resource Include="enemySpritesheet\enemyUp.png" />
@@ -219,9 +205,6 @@
     <Resource Include="playerUpSpritesheet\walkingUp8 (2).png" />
     <Resource Include="playerUpSpritesheet\walkingUp8.png" />
     <Resource Include="playerUpSpritesheet\walkingUp9.png" />
-    <Resource Include="Q.png" />
-    <Resource Include="S.png" />
-    <Resource Include="SPACEALTERNATIVE.png" />
     <Resource Include="UIAssets\ARROWDOWN.png" />
     <Resource Include="UIAssets\ARROWLEFT.png" />
     <Resource Include="UIAssets\ARROWRIGHT.png" />
@@ -299,9 +282,12 @@
     <Resource Include="UIAssets\SimpleKeys\Jumbo\Dark\Single PNGs\X.png" />
     <Resource Include="UIAssets\SimpleKeys\Jumbo\Dark\Single PNGs\Y.png" />
     <Resource Include="UIAssets\SimpleKeys\Jumbo\Dark\Single PNGs\Z.png" />
-    <Resource Include="UIAssets\SPACEALTERNATIVE.png" />
-    <Resource Include="UIAssets\Z.png" />
-    <Resource Include="Z.png" />
+    <Resource Include="UIAssets\SPACEALTERNATIVE.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UIAssets\Z.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>
