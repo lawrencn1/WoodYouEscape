@@ -28,9 +28,7 @@ namespace shooter
         public static Rect PlayableArea = new Rect(100,295,1080,1080);
         public EnemiesGenerator enemiesGenerator;
         public UCDUI UCGUI = new UCDUI();
-        public UCSettings UCSettings = new UCSettings();
-
-
+        public UCSettings UCsettings = new UCSettings();
         //Private
         private double _fireTimerPlayer = 0;
         private double _fireTimerEnemy = 0;
@@ -46,6 +44,7 @@ namespace shooter
         private Random _random = new Random();
         private int _mapNumber = 0;
         private int _mapMax;
+        private static MediaPlayer _music;
 
 
         public GameEngine(Canvas canvas)
@@ -63,6 +62,8 @@ namespace shooter
 
             _stopwatch = new Stopwatch();
 
+            InitMusique();
+            Volume(_music);
         }
 
         public void Start()
@@ -73,15 +74,13 @@ namespace shooter
         public void Pause()
         {
             CompositionTarget.Rendering -= GameLoop;
-            _stopwatch.Stop(); // Stops the deltaTime calculation.
+            _stopwatch.Stop(); 
         }
 
         public void Resume()
         {
-            // 2. RE-CONNECT the loop (This was missing!)
             CompositionTarget.Rendering += GameLoop;
 
-            // 3. Reset the timer
             _stopwatch.Restart();
             _lastTick = 0;
         }
@@ -89,7 +88,7 @@ namespace shooter
         {
             
             CompositionTarget.Rendering -= GameLoop;
-            _stopwatch.Stop(); // Stops the deltaTime calculation.
+            _stopwatch.Stop(); 
 
             //Clears projectiles
             for (int i = 0; i < playerProjectiles.Count; i++)
@@ -145,11 +144,8 @@ namespace shooter
                 _gameCanvas.Children.Add(joueur.Sprite);
             }
             joueur.UpdatePosition();           
-            
-
 
             // 3. Start Game Loop
-
             var border = new Rectangle
             {
                 Width = PlayableArea.Width,
@@ -167,7 +163,6 @@ namespace shooter
             CompositionTarget.Rendering += GameLoop;
 
             //SPAWN
-
             if (MainWindow.Difficulty == "easy")
             {
                 EnemiesRandomizer(_gameCanvas, 1, EnemyType.MeleeBasic);
@@ -191,13 +186,12 @@ namespace shooter
                 EnemiesRandomizer(_gameCanvas, 1, EnemyType.MeleeTank);
                 _mapMax = 4;
             }
-
-           
+ 
         }
 
         private void GameLoop(object sender, EventArgs e)
         {
-          
+      
             if (joueur.Hp < 0)
             {
                 Stop();
@@ -218,16 +212,13 @@ namespace shooter
 
                 if (Enemies[i].Pv <= 0)
                 {
-                    // Remove visual sprite
                     _gameCanvas.Children.Remove(Enemies[i].Sprite);
-                    // Remove logic object
                     Enemies.RemoveAt(i);
                 }
             }
-
             CheckCollisions();
-
             Life(_gameCanvas, joueur);
+            
         }
 
         private void UpdatePlayerBullets(double deltaTime, Canvas canvas)
@@ -236,7 +227,6 @@ namespace shooter
             {
                 var bullet = playerProjectiles[i];
                 playerProjectiles[i].Update(deltaTime);
-
                 var sprite = bullet.Sprite as FrameworkElement;
 
                 double centerX = bullet.X + (sprite.Width / 2);
@@ -653,6 +643,7 @@ namespace shooter
 
             settings.Close.Click += (sender, e) =>
             {
+                Volume(_music);
                 Resume();
                 canva.Children.Remove(settings);
                 
@@ -671,7 +662,7 @@ namespace shooter
             uc.Settings.Click += (sender, e) =>
             {
                 Pause();
-                Settings(canva, UCSettings);
+                Settings(canva, UCsettings);
             };
         }
 
@@ -697,5 +688,27 @@ namespace shooter
             UCGUI.Lvl.Content = $"Lvl : {_mapNumber + 1} / {_mapMax}";
         }
 
+        private void InitMusique()
+        {
+            if (_music != null) 
+                return;
+
+            _music = new MediaPlayer();
+            _music.Open(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Music/sample-15s.mp3"));
+            _music.MediaEnded += RelanceMusique;
+            _music.Volume = 0.5;
+            _music.Play();
+        }
+
+        private void RelanceMusique(object? sender, EventArgs e)
+        {
+            _music.Position = TimeSpan.Zero;
+            _music.Play();
+        }
+
+        public void Volume(MediaPlayer sound)
+        {
+            sound.Volume = UCsettings.volume.Value;
+        }
     }
 }

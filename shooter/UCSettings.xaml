@@ -8,9 +8,11 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Viewbox Stretch="Uniform">
         <Grid Height="450" Width="800" >
-            <Canvas HorizontalAlignment="Center" Height="371" Margin="0,50,0,0" VerticalAlignment="Top" Width="720" Background="Black" Opacity="0.8"/>
+            <Canvas HorizontalAlignment="Center" Height="371" Margin="0,50,0,0" VerticalAlignment="Top" Width="720" Background="Black" Opacity="0.8">
+                <Slider x:Name="volume" Canvas.Left="119" Canvas.Top="169" Width="527" Height="50" HorizontalAlignment="Left" VerticalAlignment="Top" Minimum="0" Maximum="1" Value="0.5" TickPlacement="BottomRight" TickFrequency="0.1" IsSnapToTickEnabled="True" />
+            </Canvas>
             <Button x:Name="Close" Content="Close" HorizontalAlignment="Left" Height="26" Margin="611,61,0,0" VerticalAlignment="Top" Width="137"/>
-            
+
         </Grid>
     </Viewbox>
 </UserControl>
