@@ -338,4 +338,10 @@
     </Resource>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Music\sample-15s.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

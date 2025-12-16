@@ -8,6 +8,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Viewbox Stretch="Uniform">
         <Grid>
+            <Button x:Name="Restart" Content="Rejouer" HorizontalAlignment="Left" Height="76" Margin="92,304,0,0" VerticalAlignment="Top" Width="362" Background="#FF8EB11B" BorderBrush="#FF359613" Foreground="#FFD9EFCA" FontSize="48" FontWeight="Bold"/>
             <Label Content="T'A GAGNE" Background="#FF237320" Margin="12,85,10,228" Foreground="#FFAFFBA8" FontSize="100" FontWeight="Bold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
         </Grid>
     </Viewbox>
