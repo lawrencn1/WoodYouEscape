@@ -10,6 +10,7 @@
         <Viewbox Stretch="Uniform">
             <Grid>
                 <Label Content="T'A PERDU" Background="#FF237320" Margin="12,85,10,228" Foreground="#FFAFFBA8" FontSize="100" FontWeight="Bold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                <Button x:Name="Restart" Content="Rejouer" HorizontalAlignment="Left" Height="76" Margin="92,304,0,0" VerticalAlignment="Top" Width="362" Background="#FF8EB11B" BorderBrush="#FF359613" Foreground="#FFD9EFCA" FontSize="48" FontWeight="Bold"/>
             </Grid>
         </Viewbox>
     </Grid>

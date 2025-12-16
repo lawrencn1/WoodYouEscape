@@ -613,6 +613,15 @@ namespace shooter
             uc.Height = canva.Height; // 1080
 
             canva.Children.Add(uc);
+
+            uc.Restart.Click += (sender, e) =>
+            {
+                Resume();
+                canva.Children.Remove(uc);
+                _mapNumber = 0;
+                BeginGameplay();
+
+            };
         }
 
         private void Lose(Canvas canva)
@@ -623,6 +632,15 @@ namespace shooter
             uc.Height = canva.Height; // 1080
 
             canva.Children.Add(uc);
+
+            uc.Restart.Click += (sender, e) =>
+            {
+                Resume();
+                canva.Children.Remove(uc);
+                _mapNumber = 0;
+                BeginGameplay();
+
+            };
         }
 
         private void Settings(Canvas canva, UCSettings settings)
