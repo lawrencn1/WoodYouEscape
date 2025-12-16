@@ -9,11 +9,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="axes\fireAxe.png" />
+    <None Remove="axes\heavyAxe.png" />
+    <None Remove="axes\lightAxe.png" />
     <None Remove="axes\normalAxe.png" />
-    <None Remove="background.png" />
     <None Remove="background2.png" />
-    <None Remove="background3.png" />
     <None Remove="bush1.png" />
+    <None Remove="bush2.png" />
+    <None Remove="bush3.png" />
     <None Remove="enemySpritesheet\enemyDown.png" />
     <None Remove="enemySpritesheet\enemySide.png" />
     <None Remove="enemySpritesheet\enemyUp.png" />
@@ -23,7 +26,9 @@
     <None Remove="horizontalBush1.png" />
     <None Remove="horizontalBush2.png" />
     <None Remove="horizontalHole1.png" />
+    <None Remove="Icon.png" />
     <None Remove="mapAssets\background.png" />
+    <None Remove="mapAssets\background2.png" />
     <None Remove="mapAssets\bush1.png" />
     <None Remove="mapAssets\bush2.png" />
     <None Remove="mapAssets\bush3.png" />
@@ -99,6 +104,7 @@
     <None Remove="smallHorizontalTrunck1.png" />
     <None Remove="smallHorizontalTrunck2.png" />
     <None Remove="stump1.png" />
+    <None Remove="stump2.png" />
     <None Remove="stump3.png" />
     <None Remove="UIAssets\ARROWDOWN.png" />
     <None Remove="UIAssets\ARROWLEFT.png" />
@@ -190,84 +196,107 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="axes\fireAxe.png" />
+    <Resource Include="axes\heavyAxe.png" />
+    <Resource Include="axes\lightAxe.png" />
     <Resource Include="axes\normalAxe.png" />
-    <Resource Include="background.png" />
     <Resource Include="background2.png" />
-    <Resource Include="background3.png" />
-    <Resource Include="bush1.png" />
+    <Resource Include="bush1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="bush2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="bush3.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="enemySpritesheet\enemyDown.png" />
     <Resource Include="enemySpritesheet\enemySide.png" />
     <Resource Include="enemySpritesheet\enemyUp.png" />
     <Resource Include="enemySpritesheet\MeleeSpriteSheet.png" />
     <Resource Include="enemySpritesheet\TankSpriteSheet.png" />
-    <Resource Include="hole1.png" />
-    <Resource Include="horizontalBush1.png" />
-    <Resource Include="horizontalBush2.png" />
-    <Resource Include="horizontalHole1.png" />
+    <Resource Include="hole1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="horizontalBush1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="horizontalBush2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="horizontalHole1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Icon.png" />
     <Resource Include="mapAssets\background.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="mapAssets\background2.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
     </Resource>
     <Resource Include="mapAssets\bush1.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToOutputDirectory></CopyToOutputDirectory>
     </Resource>
     <Resource Include="mapAssets\bush2.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToOutputDirectory></CopyToOutputDirectory>
     </Resource>
     <Resource Include="mapAssets\bush3.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToOutputDirectory></CopyToOutputDirectory>
     </Resource>
     <Resource Include="mapAssets\hole1.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToOutputDirectory></CopyToOutputDirectory>
     </Resource>
     <Resource Include="mapAssets\horizontalBush1.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToOutputDirectory></CopyToOutputDirectory>
     </Resource>
     <Resource Include="mapAssets\horizontalBush2.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToOutputDirectory></CopyToOutputDirectory>
     </Resource>
     <Resource Include="mapAssets\horizontalHole1.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToOutputDirectory></CopyToOutputDirectory>
     </Resource>
     <Resource Include="mapAssets\mushromm1.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToOutputDirectory></CopyToOutputDirectory>
     </Resource>
     <Resource Include="mapAssets\obstacles.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToOutputDirectory></CopyToOutputDirectory>
     </Resource>
     <Resource Include="mapAssets\obstaclesBG.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToOutputDirectory></CopyToOutputDirectory>
     </Resource>
     <Resource Include="mapAssets\smallHorizontalMushrooms1.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToOutputDirectory></CopyToOutputDirectory>
     </Resource>
     <Resource Include="mapAssets\smallHorizontalTrunck1.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToOutputDirectory></CopyToOutputDirectory>
     </Resource>
     <Resource Include="mapAssets\smallHorizontalTrunck2.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToOutputDirectory></CopyToOutputDirectory>
     </Resource>
     <Resource Include="mapAssets\stump1.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToOutputDirectory></CopyToOutputDirectory>
     </Resource>
     <Resource Include="mapAssets\stump2.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToOutputDirectory></CopyToOutputDirectory>
     </Resource>
     <Resource Include="mapAssets\stump3.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToOutputDirectory></CopyToOutputDirectory>
     </Resource>
     <Resource Include="mapAssets\verticalBush1.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToOutputDirectory></CopyToOutputDirectory>
     </Resource>
     <Resource Include="mapAssets\verticalBush2.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToOutputDirectory></CopyToOutputDirectory>
     </Resource>
     <Resource Include="mapAssets\verticalHole.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToOutputDirectory></CopyToOutputDirectory>
     </Resource>
     <Resource Include="mapAssets\veticalTrunck.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToOutputDirectory></CopyToOutputDirectory>
     </Resource>
-    <Resource Include="mushromm1.png" />
+    <Resource Include="mushromm1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="playerDownSpritesheet\walkingDown0.png" />
     <Resource Include="playerDownSpritesheet\walkingDown1.png" />
     <Resource Include="playerDownSpritesheet\walkingDown2.png" />
@@ -318,11 +347,24 @@
     <Resource Include="playerUpSpritesheet\walkingUp8 (2).png" />
     <Resource Include="playerUpSpritesheet\walkingUp8.png" />
     <Resource Include="playerUpSpritesheet\walkingUp9.png" />
-    <Resource Include="smallHorizontalMushrooms1.png" />
-    <Resource Include="smallHorizontalTrunck1.png" />
-    <Resource Include="smallHorizontalTrunck2.png" />
-    <Resource Include="stump1.png" />
-    <Resource Include="stump3.png" />
+    <Resource Include="smallHorizontalMushrooms1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="smallHorizontalTrunck1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="smallHorizontalTrunck2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="stump1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="stump2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="stump3.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="UIAssets\ARROWDOWN.png" />
     <Resource Include="UIAssets\ARROWLEFT.png" />
     <Resource Include="UIAssets\ARROWRIGHT.png" />
@@ -410,10 +452,18 @@
     <Resource Include="UIAssets\Z.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="verticalBush1.png" />
-    <Resource Include="verticalBush2.png" />
-    <Resource Include="verticalHole.png" />
-    <Resource Include="veticalTrunck.png" />
+    <Resource Include="verticalBush1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="verticalBush2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="verticalHole.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="veticalTrunck.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>

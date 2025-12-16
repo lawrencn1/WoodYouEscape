@@ -27,7 +27,7 @@ namespace shooter
         public List<Enemy> Enemies = new List<Enemy>();
         public static Rect PlayableArea = new Rect(100,295,1080,1080);
         public EnemiesGenerator enemiesGenerator;
-        public UCDUI UCGUI = new UCDUI();
+        public UCGUI UCGUI = new UCGUI();
         public UCSettings UCsettings = new UCSettings();
         //Private
         private double _fireTimerPlayer = 0;
@@ -138,7 +138,7 @@ namespace shooter
                 _gameCanvas.Children.Remove(joueur.Sprite);
             }
 
-            UCGUI = new UCDUI();
+            UCGUI = new UCGUI();
             UCsettings = new UCSettings();
 
             
@@ -147,7 +147,7 @@ namespace shooter
         {
             GUI(_gameCanvas, UCGUI);
 
-            UCGUI.Weapon.Content = "Standard";
+            UCGUI.Weapon.Content = "Hache de bûcheron";
 
             SFXManager.PlayMusic();
 
@@ -706,7 +706,7 @@ namespace shooter
                 
             };
         }
-        private void GUI(Canvas canva, UCDUI uc)
+        private void GUI(Canvas canva, UCGUI uc)
         {
             
 

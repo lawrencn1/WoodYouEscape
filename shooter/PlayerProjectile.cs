@@ -77,7 +77,7 @@ namespace shooter
                     Sprite.Width = 120;
                     Sprite.Height = 120;
                     // Ensure you have a FireAxe texture, or fallback to Axe
-                    Sprite.Source = TextureManager.AxeTexture;
+                    Sprite.Source = TextureManager.FireAxeTexture;
                     Sprite.OpacityMask = Brushes.Red;
 
                     if (DirX < 0)
@@ -99,7 +99,7 @@ namespace shooter
                     Speed = 690; // Very fast
                     Sprite.Width = 90;
                     Sprite.Height = 90;
-                    Sprite.Source = TextureManager.AxeTexture;
+                    Sprite.Source = TextureManager.LightAxeTexture;
 
                     // No spin, or align to direction
                     if (DirX < 0)
@@ -121,7 +121,7 @@ namespace shooter
 
                     Sprite.Width = 130;
                     Sprite.Height = 130;
-                    Sprite.Source = TextureManager.AxeTexture;
+                    Sprite.Source = TextureManager.HeavyAxeTexture;
 
                     // Rotate to face direction of travel
                     if (DirX < 0)

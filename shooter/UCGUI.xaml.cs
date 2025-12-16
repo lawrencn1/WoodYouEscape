@@ -18,9 +18,9 @@ namespace shooter
     /// <summary>
     /// Logique d'interaction pour UCDUI.xaml
     /// </summary>
-    public partial class UCDUI : UserControl
+    public partial class UCGUI : UserControl
     {
-        public UCDUI()
+        public UCGUI()
         {
             InitializeComponent();
         }

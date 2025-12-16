@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:shooter"
         mc:Ignorable="d"
-        Title="MainWindow" Height="720" Width="1280"
+        Title="Wood You Escape" Height="720" Width="1280"
         KeyDown="Window_KeyDown"
-        KeyUp="Window_KeyUp" WindowStartupLocation="CenterScreen" WindowState="Maximized" Foreground="{x:Null}" SizeToContent="WidthAndHeight">
+        KeyUp="Window_KeyUp" WindowStartupLocation="CenterScreen" WindowState="Maximized" Foreground="{x:Null}" SizeToContent="WidthAndHeight" Icon="/Icon.png">
     <Viewbox Stretch="Uniform">
         <Canvas x:Name="canvas" 
                 Width="1920" 

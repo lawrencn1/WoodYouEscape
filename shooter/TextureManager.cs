@@ -13,6 +13,9 @@ namespace shooter
     {
         //PROJECTILE TEXTURES
         public static BitmapImage AxeTexture;
+        public static BitmapImage FireAxeTexture;
+        public static BitmapImage LightAxeTexture;
+        public static BitmapImage HeavyAxeTexture;
 
         //ENEMY TEXTURES
         public static BitmapSource[] MeleeUpFrames;
@@ -69,6 +72,9 @@ namespace shooter
 
                 // Load Projectile Textures
                 AxeTexture = LoadBitmap("pack://application:,,,/axes/normalAxe.png");
+                FireAxeTexture = LoadBitmap("pack://application:,,,/axes/fireAxe.png");
+                LightAxeTexture = LoadBitmap("pack://application:,,,/axes/lightAxe.png");
+                HeavyAxeTexture = LoadBitmap("pack://application:,,,/axes/heavyAxe.png");
 
             }
             catch (Exception ex)

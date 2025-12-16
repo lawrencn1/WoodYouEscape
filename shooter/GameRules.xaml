@@ -9,7 +9,12 @@
     <Viewbox Stretch="Uniform">
         <Grid Height="311" Width="448">
             <Button x:Name="validate" Content="Compris"  Margin="63,235,63,0" VerticalAlignment="Top" Height="52" Width="322" FontSize="36" FontWeight="Bold" Background="#FF50841D" Foreground="#FFBAE0A9" BorderBrush="#FF20481C" Click="validate_Click"/>
-            <Canvas HorizontalAlignment="Center" Height="186" Margin="0,10,0,0" VerticalAlignment="Top" Width="428" Background="#FF45A54E"/>
+            <TextBlock x:Name="txtBlocRules" Margin="45,10,45,118" Background="Green" TextWrapping="Wrap" TextAlignment="Center" FontSize="14" Foreground="White" >
+                RÈGLES DU JEU <LineBreak/><LineBreak/>
+                1. S'ÉCHAPPER : Trouvez le chemin à travers la forêt pour atteindre la sortie de la zone. <LineBreak/><LineBreak/>
+                2. SURVIVRE : Éliminez les monstres et esquivez leurs tirs.<LineBreak/><LineBreak/>
+                3. MAÎTRISER SON ARME : Débloquez des nouveau types de hache pour adapter votre stratégie au combat.
+            </TextBlock>
         </Grid>
     </Viewbox>
 
