@@ -63,7 +63,7 @@ namespace shooter
             _stopwatch = new Stopwatch();
 
             InitMusique();
-            Volume(_music);
+            
         }
 
         public void Start()
