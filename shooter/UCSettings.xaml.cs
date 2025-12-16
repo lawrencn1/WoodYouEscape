@@ -23,11 +23,17 @@ namespace shooter
         public UCSettings()
         {
             InitializeComponent();
+            volume.Value = SFXManager.MasterVolume;
         }
 
         private void Close_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+        private void volume_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            // Update the Audio Manager immediately when slider moves
+            SFXManager.SetVolume(volume.Value);
         }
     }
 }

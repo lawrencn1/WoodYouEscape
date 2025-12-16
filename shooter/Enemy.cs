@@ -444,21 +444,21 @@ namespace shooter
                 newY = GameEngine.PlayableArea.Bottom - spriteHeight;
 
 
-            BitmapImage[] currentAnimSet = TextureManager.DownFrames;
+            BitmapSource[] currentAnimSet = TextureManager.DownFrames;
 
             if (Math.Abs(dirX) > Math.Abs(dirY))
             {
                 // Moving Horizontally (Left or Right)
                 // Use LeftFrames for both, but flip the sprite for Right
-                currentAnimSet = TextureManager.LeftFrames;
+                currentAnimSet = TextureManager.MeleeSideFrames;
 
                 if (dirX > 0)
                 {
-                    _flipTransform.ScaleX = -1; // Face Right (Flip Left image)
+                    _flipTransform.ScaleX = 1; // Face Right (Flip Left image)
                 }
                 else
                 {
-                    _flipTransform.ScaleX = 1;  // Face Left (Normal)
+                    _flipTransform.ScaleX = -1;  // Face Left (Normal)
                 }
             }
             else
@@ -468,11 +468,11 @@ namespace shooter
 
                 if (dirY > 0)
                 {
-                    currentAnimSet = TextureManager.DownFrames;
+                    currentAnimSet = TextureManager.MeleeDownFrames;
                 }
                 else
                 {
-                    currentAnimSet = TextureManager.UpFrames;
+                    currentAnimSet = TextureManager.MeleeUpFrames;
                 }
             }
 
@@ -550,7 +550,7 @@ namespace shooter
             canvas.Children.Add(newEnemyBullet.Sprite);
         }
 
-        private void Animate(BitmapImage[] frames, double deltaTime)
+        private void Animate(BitmapSource[] frames, double deltaTime)
         {
             if (frames == null || frames.Length == 0) return;
 

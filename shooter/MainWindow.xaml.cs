@@ -30,6 +30,7 @@ namespace shooter
             engine.Start();
             MouseMove += Window_MouseMove;
             Loaded += (s, e) => canvas.Focus();
+            SFXManager.LoadMusic("gameMusic.mp3");
 
             
         }

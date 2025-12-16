@@ -15,9 +15,9 @@ namespace shooter
         public static BitmapImage AxeTexture;
 
         //ENEMY TEXTURES
-        public static BitmapImage[] MeleeUpFrames;
-        public static BitmapImage[] MeleeDownFrames;
-        public static BitmapImage[] MeleeSideFrames;
+        public static BitmapSource[] MeleeUpFrames;
+        public static BitmapSource[] MeleeDownFrames;
+        public static BitmapSource[] MeleeSideFrames;
 
         public static BitmapImage[] TankUpFrames;
         public static BitmapImage[] TankDownFrames;
@@ -41,9 +41,14 @@ namespace shooter
             {
                 // Load Enemy Animations
                 // Bushbush
-                MeleeUpFrames = LoadPlayerDirection("pack://application:,,,/enemySpritesheet/enemyDown.png", "pack://application:,,,/playerUpSpritesheet/walkingUp");
-                MeleeDownFrames = LoadPlayerDirection("pack://application:,,,/enemySpritesheet/enemyUp.png", "pack://application:,,,/playerDownSpritesheet/walkingDown");
-                MeleeSideFrames = LoadPlayerDirection("pack://application:,,,/enemySpritesheet/enemySide.png", "pack://application:,,,/playerLeftSpritesheet/walkingLeft");
+                string bushSheetPath = "pack://application:,,,/enemySpritesheet/MeleeSpriteSheet.png";
+
+                // Row 0 is Down (Front)
+                MeleeDownFrames = SliceSpriteSheet(bushSheetPath, 8, 3, 0, 8);
+                // Row 1 is Side
+                MeleeSideFrames = SliceSpriteSheet(bushSheetPath, 8, 3, 1, 8);
+                // Row 2 - If this is your "Up" animation (or Attack), use index 2
+                MeleeUpFrames = SliceSpriteSheet(bushSheetPath, 8, 3, 2, 8);
 
                 // 
                 TankUpFrames = LoadPlayerDirection("pack://application:,,,/playerIdleSpritesheet/backwardsIdle1.png", "pack://application:,,,/playerUpSpritesheet/walkingUp");
@@ -69,14 +74,6 @@ namespace shooter
             {
                 MessageBox.Show("Error loading textures: " + ex.Message);
             }
-        }
-
-        private static ImageBrush LoadBrush(string path)
-        {
-            var brush = new ImageBrush();
-            brush.ImageSource = LoadBitmap(path);
-            if (brush.CanFreeze) brush.Freeze();
-            return brush;
         }
 
         private static BitmapImage[] LoadPlayerDirection(string idlePath, string walkPrefix)
@@ -110,6 +107,39 @@ namespace shooter
             {
                 return null;
             }
+        }
+
+        private static BitmapSource[] SliceSpriteSheet(string path, int totalColumns, int totalRows, int targetRow, int framesToTake)
+        {
+            // 1. Load the full Master Sheet
+            BitmapImage fullSheet = LoadBitmap(path);
+
+            if (fullSheet == null) return new BitmapSource[0];
+
+            // 2. Calculate the size of one single frame
+            int frameWidth = fullSheet.PixelWidth / totalColumns;
+            int frameHeight = fullSheet.PixelHeight / totalRows;
+
+            BitmapSource[] frames = new BitmapSource[framesToTake];
+
+            // 3. Loop through columns and cut the frames
+            for (int i = 0; i < framesToTake; i++)
+            {
+                // Calculate X and Y coordinates for the cut
+                int x = i * frameWidth;
+                int y = targetRow * frameHeight; // Jump down to the specific row
+
+                // Create the crop
+                // Int32Rect defines the rectangle (X, Y, Width, Height)
+                var crop = new CroppedBitmap(fullSheet, new Int32Rect(x, y, frameWidth, frameHeight));
+
+                // Freeze it for performance
+                crop.Freeze();
+
+                frames[i] = crop;
+            }
+
+            return frames;
         }
     }
 }

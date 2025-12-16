@@ -61,9 +61,7 @@ namespace shooter
             PlayableArea = new Rect(100, 150, nativeWidth - 150 , nativeHeight - 260);
 
             _stopwatch = new Stopwatch();
-
-            InitMusique();
-            
+ 
         }
 
         public void Start()
@@ -135,6 +133,8 @@ namespace shooter
         private void BeginGameplay()
         {
             UCGUI.Weapon.Content = "Standard";
+
+            SFXManager.PlayMusic();
 
             mapChange(_gameCanvas);
 
@@ -343,8 +343,8 @@ namespace shooter
         public void EnemiesRandomizer(Canvas canvas, int Enemiesnumber, EnemyType type)
         {
             Random random = new Random();
-            double height = 40;
-            double width = 40;
+            double height = 80;
+            double width = 80;
 
             for (int x = 0; x < Enemiesnumber; x++)
             {
@@ -647,9 +647,11 @@ namespace shooter
             settings.Width = canva.Width;   // 1920
             settings.Height = canva.Height; // 1080
 
+            settings.volume.Value = SFXManager.MasterVolume;
+
             settings.Close.Click += (sender, e) =>
             {
-                Volume(_music);
+                SFXManager.SetVolume(settings.volume.Value);
                 Resume();
                 canva.Children.Remove(settings);
                 
@@ -692,29 +694,6 @@ namespace shooter
 
             UCGUI.Life.Content = $"{life}/{playerMaxLife}";
             UCGUI.Lvl.Content = $"Lvl : {_mapNumber + 1} / {_mapMax}";
-        }
-
-        private void InitMusique()
-        {
-            if (_music != null) 
-                return;
-
-            _music = new MediaPlayer();
-            _music.Open(new Uri(AppDomain.CurrentDomain.BaseDirectory + "Music/sample-15s.mp3"));
-            _music.MediaEnded += RelanceMusique;
-            _music.Volume = 0.5;
-            _music.Play();
-        }
-
-        private void RelanceMusique(object? sender, EventArgs e)
-        {
-            _music.Position = TimeSpan.Zero;
-            _music.Play();
-        }
-
-        public void Volume(MediaPlayer sound)
-        {
-            sound.Volume = UCsettings.volume.Value;
         }
     }
 }

@@ -8,15 +8,51 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Viewbox Stretch="Uniform">
         <Grid Height="450" Width="800" x:Name="grid">
-            <Rectangle x:Name="a1" HorizontalAlignment="Left" Height="40" Stroke="#FFFFD8D8" VerticalAlignment="Top" Width="100" Fill="#FFFFD8D8" Margin="56,176,0,0" RenderTransformOrigin="0.612,0.516"/>
-            <Rectangle x:Name="a2" HorizontalAlignment="Left" Height="20" Margin="56,80,0,0" Stroke="#FFFFD8D8" VerticalAlignment="Top" Width="100" Fill="#FFFFD8D8" RenderTransformOrigin="-0.393,1.309"/>
-            <Rectangle x:Name="a3" HorizontalAlignment="Left" Height="24" Margin="349,192,0,0" Stroke="#FFFFD8D8" VerticalAlignment="Top" Width="82" Fill="#FFFFD8D8" RenderTransformOrigin="0.04,-0.016"/>
-            <Rectangle x:Name="a4" HorizontalAlignment="Left" Height="30" Margin="339,60,0,0" Stroke="#FFFFD8D8" VerticalAlignment="Top" Width="102" Fill="#FFFFD8D8" RenderTransformOrigin="0.427,0.988"/>
-            <Rectangle x:Name="a5" HorizontalAlignment="Left" Height="185" Margin="531,0,0,0" Stroke="#FFFFD8D8" VerticalAlignment="Top" Width="25" Fill="#FFFFD8D8"/>
-            <Rectangle x:Name="a6" HorizontalAlignment="Left" Height="20" Margin="321,305,0,0" Stroke="#FFFFD8D8" VerticalAlignment="Top" Width="142" Fill="#FFFFD8D8"/>
-            <Rectangle x:Name="a7" HorizontalAlignment="Left" Height="172" Margin="221,153,0,0" Stroke="#FFFFD8D8" VerticalAlignment="Top" Width="29" Fill="#FFFFD8D8"/>
-            <Rectangle x:Name="a8" HorizontalAlignment="Left" Height="128" Margin="234,40,0,0" Stroke="#FFFFD8D8" VerticalAlignment="Top" Width="27" Fill="#FFFFD8D8"/>
-            <Rectangle x:Name="a9" HorizontalAlignment="Left" Height="93" Margin="544,174,0,0" Stroke="#FFFFD8D8" VerticalAlignment="Top" Width="23" Fill="#FFFFD8D8"/>
+            <Rectangle x:Name="a1" HorizontalAlignment="Left" Height="49" VerticalAlignment="Top" Width="100" Margin="38,176,0,0" RenderTransformOrigin="0.612,0.516">
+                <Rectangle.Fill>
+                    <ImageBrush ImageSource="/smallHorizontalTrunck1.png"/>
+                </Rectangle.Fill>
+            </Rectangle>
+            <Rectangle x:Name="a2" HorizontalAlignment="Left" Height="53" Margin="88,75,0,0" VerticalAlignment="Top" Width="94" RenderTransformOrigin="-0.393,1.309">
+                <Rectangle.Fill>
+                    <ImageBrush ImageSource="/horizontalBush1.png"/>
+                </Rectangle.Fill>
+            </Rectangle>
+            <Rectangle x:Name="a3" HorizontalAlignment="Left" Height="70" Margin="349,176,0,0" VerticalAlignment="Top" Width="70" RenderTransformOrigin="0.04,-0.016">
+                <Rectangle.Fill>
+                    <ImageBrush ImageSource="/mushromm1.png"/>
+                </Rectangle.Fill>
+            </Rectangle>
+            <Rectangle x:Name="a4" HorizontalAlignment="Left" Height="42" Margin="384,75,0,0" VerticalAlignment="Top" Width="79" RenderTransformOrigin="0.427,0.988">
+                <Rectangle.Fill>
+                    <ImageBrush ImageSource="/smallHorizontalTrunck2.png"/>
+                </Rectangle.Fill>
+            </Rectangle>
+            <Rectangle x:Name="a5" HorizontalAlignment="Left" Height="185" Margin="531,10,0,0" VerticalAlignment="Top" Width="49">
+                <Rectangle.Fill>
+                    <ImageBrush ImageSource="/veticalTrunck.png"/>
+                </Rectangle.Fill>
+            </Rectangle>
+            <Rectangle x:Name="a6" HorizontalAlignment="Left" Height="54" Margin="321,285,0,0" VerticalAlignment="Top" Width="142">
+                <Rectangle.Fill>
+                    <ImageBrush ImageSource="/horizontalHole1.png"/>
+                </Rectangle.Fill>
+            </Rectangle>
+            <Rectangle x:Name="a7" HorizontalAlignment="Left" Height="157" Margin="221,168,0,0" VerticalAlignment="Top" Width="70">
+                <Rectangle.Fill>
+                    <ImageBrush ImageSource="/verticalHole.png"/>
+                </Rectangle.Fill>
+            </Rectangle>
+            <Rectangle x:Name="a8" HorizontalAlignment="Left" Height="71" Margin="221,92,0,0" VerticalAlignment="Top" Width="70">
+                <Rectangle.Fill>
+                    <ImageBrush ImageSource="/stump1.png"/>
+                </Rectangle.Fill>
+            </Rectangle>
+            <Rectangle x:Name="a9" HorizontalAlignment="Left" Height="74" Margin="521,195,0,0" VerticalAlignment="Top" Width="69">
+                <Rectangle.Fill>
+                    <ImageBrush ImageSource="/hole1.png"/>
+                </Rectangle.Fill>
+            </Rectangle>
             <Rectangle x:Name="a10" Tag="Start" HorizontalAlignment="Left" Height="40" Stroke="#FFFFD8D8" VerticalAlignment="Top" Width="100" Fill="White" Margin="56,285,0,0" RenderTransformOrigin="0.337,0.236" />
             <Rectangle x:Name="a11" Tag="End" HorizontalAlignment="Left" Height="40" Stroke="#FFFFD8D8" VerticalAlignment="Top" Width="100" Fill="White" Margin="633,40,0,0" />
         </Grid>
