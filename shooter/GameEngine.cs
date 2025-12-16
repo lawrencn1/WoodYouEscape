@@ -27,7 +27,9 @@ namespace shooter
         public List<Enemy> Enemies = new List<Enemy>();
         public static Rect PlayableArea = new Rect(100,295,1080,1080);
         public EnemiesGenerator enemiesGenerator;
-        
+        public UCDUI UCGUI = new UCDUI();
+        public UCSettings UCSettings = new UCSettings();
+
 
         //Private
         private double _fireTimerPlayer = 0;
@@ -44,7 +46,7 @@ namespace shooter
         private Random _random = new Random();
         private int _mapNumber = 0;
         private int _mapMax;
-        private UCDUI UCGUI = new UCDUI();
+
 
         public GameEngine(Canvas canvas)
         {
@@ -66,6 +68,22 @@ namespace shooter
         public void Start()
         {
             GameRule(_gameCanvas);  
+        }
+
+        public void Pause()
+        {
+            CompositionTarget.Rendering -= GameLoop;
+            _stopwatch.Stop(); // Stops the deltaTime calculation.
+        }
+
+        public void Resume()
+        {
+            // 2. RE-CONNECT the loop (This was missing!)
+            CompositionTarget.Rendering += GameLoop;
+
+            // 3. Reset the timer
+            _stopwatch.Restart();
+            _lastTick = 0;
         }
         public void Stop()
         {
@@ -607,6 +625,21 @@ namespace shooter
             canva.Children.Add(uc);
         }
 
+        private void Settings(Canvas canva, UCSettings settings)
+        {
+            canva.Children.Add(settings);
+            Panel.SetZIndex(settings, 98);
+
+            settings.Width = canva.Width;   // 1920
+            settings.Height = canva.Height; // 1080
+
+            settings.Close.Click += (sender, e) =>
+            {
+                Resume();
+                canva.Children.Remove(settings);
+                
+            };
+        }
         private void GUI(Canvas canva, UCDUI uc)
         {
             
@@ -616,7 +649,12 @@ namespace shooter
 
             canva.Children.Add(uc);
 
-            Panel.SetZIndex(uc, 99);
+            Panel.SetZIndex(uc, 98);
+            uc.Settings.Click += (sender, e) =>
+            {
+                Pause();
+                Settings(canva, UCSettings);
+            };
         }
 
         private void mapChange(Canvas canva)
