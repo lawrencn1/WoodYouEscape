@@ -45,6 +45,7 @@ namespace shooter
         private int _mapNumber = 0;
         private int _mapMax;
         private static MediaPlayer _music;
+        private int _score = 0;
 
 
         public GameEngine(Canvas canvas)
@@ -88,7 +89,19 @@ namespace shooter
         {
             
             CompositionTarget.Rendering -= GameLoop;
-            _stopwatch.Stop(); 
+            _stopwatch.Stop();
+
+            //Remove UC
+            if (_gameCanvas.Children.Contains(UCGUI))
+            {
+                _gameCanvas.Children.Remove(UCGUI);
+            }
+
+            // 2. Remove Settings if they are open
+            if (_gameCanvas.Children.Contains(UCsettings))
+            {
+                _gameCanvas.Children.Remove(UCsettings);
+            }
 
             //Clears projectiles
             for (int i = 0; i < playerProjectiles.Count; i++)
@@ -130,11 +143,17 @@ namespace shooter
                 _gameCanvas.Children.Remove(joueur.Sprite);
             }
 
+            UCGUI = new UCDUI();
+            UCsettings = new UCSettings();
+
             
         }
         private void BeginGameplay()
         {
+            GUI(_gameCanvas, UCGUI);
+
             UCGUI.Weapon.Content = "Standard";
+            
 
             mapChange(_gameCanvas);
 
@@ -169,7 +188,7 @@ namespace shooter
             CompositionTarget.Rendering += GameLoop;
 
             //SPAWN
-            if (MainWindow.Difficulty == "easy")
+            if (MainWindow.DIFFICULTY == "easy")
             {
                 EnemiesRandomizer(_gameCanvas, 1, EnemyType.MeleeBasic);
                 EnemiesRandomizer(_gameCanvas, 1, EnemyType.Ranged);
@@ -177,7 +196,7 @@ namespace shooter
                 _mapMax = 2;
             }
 
-            else if (MainWindow.Difficulty == "normal")
+            else if (MainWindow.DIFFICULTY == "normal")
             {
                 EnemiesRandomizer(_gameCanvas, 2, EnemyType.MeleeBasic);
                 EnemiesRandomizer(_gameCanvas, 2, EnemyType.Ranged);
@@ -218,8 +237,22 @@ namespace shooter
 
                 if (Enemies[i].Pv <= 0)
                 {
+                    switch (Enemies[i].Type)
+                    {
+                        case EnemyType.MeleeBasic:
+
+                            _score += 15;
+                            break;
+                        case EnemyType.MeleeTank:
+                            _score += 15;
+                            break;
+                        case EnemyType.Ranged:
+                            _score += 5;
+                            break;
+                    }
+
                     _gameCanvas.Children.Remove(Enemies[i].Sprite);
-                    Enemies.RemoveAt(i);
+                    Enemies.RemoveAt(i);   
                 }
             }
             CheckCollisions();
@@ -362,7 +395,7 @@ namespace shooter
 
             if (restartGame)
             {
-                if (_mapNumber == _mapMax - 1)
+                if (_mapNumber == _mapMax - 1 && MainWindow.GAMEMODE != "Infinite")
                 {
                     Stop();
                     Win(_gameCanvas);
@@ -599,7 +632,7 @@ namespace shooter
             {
                 canva.Children.Remove(uc);
                 BeginGameplay();
-                GUI(canva, UCGUI);
+                
             };
         }
 
@@ -611,13 +644,14 @@ namespace shooter
             uc.Height = canva.Height; // 1080
 
             canva.Children.Add(uc);
+            uc.Score.Content = $"Score : {_score}";
 
             uc.Restart.Click += (sender, e) =>
             {
-                Resume();
                 canva.Children.Remove(uc);
                 _mapNumber = 0;
-                BeginGameplay();
+                _score = 0;
+                GameMode(canva);
 
             };
         }
@@ -630,13 +664,14 @@ namespace shooter
             uc.Height = canva.Height; // 1080
 
             canva.Children.Add(uc);
+            uc.Score.Content = $"Score : {_score}";
 
             uc.Restart.Click += (sender, e) =>
             {
-                Resume();
                 canva.Children.Remove(uc);
                 _mapNumber = 0;
-                BeginGameplay();
+                _score = 0;
+                GameMode(canva);
 
             };
         }
@@ -693,7 +728,17 @@ namespace shooter
                 UCGUI.Green.Width = put;
 
             UCGUI.Life.Content = $"{life}/{playerMaxLife}";
-            UCGUI.Lvl.Content = $"Lvl : {_mapNumber + 1} / {_mapMax}";
+            if (MainWindow.GAMEMODE == "Infinite")
+            {
+                UCGUI.Lvl.Content = $"Lvl : {_mapNumber + 1}";
+            }
+            else
+            {
+                UCGUI.Lvl.Content = $"Lvl : {_mapNumber + 1} / {_mapMax}";
+            }
+
+            UCGUI.Score.Content = $"Score : {_score}";
+            
         }
 
         private void InitMusique()

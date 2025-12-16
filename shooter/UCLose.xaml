@@ -20,7 +20,7 @@
                         </TransformGroup>
                     </Image.RenderTransform>
                 </Image>
-                <Image Height="199" Canvas.Left="188" Source="/UIAssets/Crack2.png" Stretch="Fill" Canvas.Top="249" Width="214" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                <Image Height="330" Canvas.Left="72" Source="/UIAssets/Crack2.png" Stretch="Fill" Canvas.Top="249" Width="330" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                 <Image Height="312" Canvas.Left="561" Source="/UIAssets/Crack2.png" Stretch="Fill" Canvas.Top="-185" Width="337" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                 <Image Height="327" Canvas.Left="640" Source="/UIAssets/Crack2.png" Stretch="Fill" Canvas.Top="248" Width="345" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5">
                     <Image.RenderTransform>
@@ -60,7 +60,7 @@
                 </Button.Background>
             </Button>
 
-
+            <Label x:Name="Score"  Content="SCORE : " HorizontalAlignment="Left" Height="108" Margin="206,214,0,0" VerticalAlignment="Top" Width="584" Foreground="#FFA3E6A7" FontSize="72" HorizontalContentAlignment="Left" FontWeight="Bold"/>
         </Grid>
     </Viewbox>
 </UserControl>

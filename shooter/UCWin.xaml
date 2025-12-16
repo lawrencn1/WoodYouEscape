@@ -24,13 +24,14 @@
 
             </Label>
             <Image Canvas.Left="596" Source="/UIAssets/BigStar.png" Stretch="Fill" Margin="10,0,652,304"/>
-            <Image Canvas.Left="596" Source="/UIAssets/BigStar.png" Stretch="Fill" Margin="152,191,518,130" RenderTransformOrigin="0.425,0.419"/>
+            <Image Canvas.Left="596" Source="/UIAssets/BigStar.png" Stretch="Fill" Margin="98,214,572,108" RenderTransformOrigin="0.425,0.419"/>
             <Image Canvas.Left="596" Source="/UIAssets/BigStar.png" Stretch="Fill" Margin="693,130,-19,198"/>
-            <Image Height="47" Canvas.Left="464" Source="/UIAssets/LilStar.png" Stretch="Fill" Canvas.Top="190" Width="50" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="255,191,0,0"/>
+            <Image Height="47" Canvas.Left="464" Source="/UIAssets/LilStar.png" Stretch="Fill" Canvas.Top="190" Width="50" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="248,185,0,0"/>
             <Image Height="46" Canvas.Left="464" Source="/UIAssets/LilStar.png" Stretch="Fill" Canvas.Top="190" Width="50" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="678,50,0,0"/>
-            <Image Height="47" Canvas.Left="464" Source="/UIAssets/LilStar.png" Stretch="Fill" Canvas.Top="190" Width="50" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="595,273,0,0" RenderTransformOrigin="2.04,1.106"/>
+            <Image Height="47" Canvas.Left="464" Source="/UIAssets/LilStar.png" Stretch="Fill" Canvas.Top="190" Width="50" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="626,305,0,0" RenderTransformOrigin="2.04,1.106"/>
             <Image Height="47" Canvas.Left="464" Source="/UIAssets/LilStar.png" Stretch="Fill" Canvas.Top="190" Width="50" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="192,0,0,0"/>
             <Image Height="47" Canvas.Left="464" Source="/UIAssets/LilStar.png" Stretch="Fill" Canvas.Top="190" Width="50" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,232,0,0" RenderTransformOrigin="0,1.096"/>
+            <Label x:Name="Score"  Content="SCORE : " HorizontalAlignment="Left" Height="108" Margin="206,214,0,0" VerticalAlignment="Top" Width="594" Foreground="#FFA3E6A7" FontSize="72" HorizontalContentAlignment="Left" FontWeight="Bold"/>
         </Grid>
     </Viewbox>
 
