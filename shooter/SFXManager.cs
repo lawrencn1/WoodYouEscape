@@ -10,7 +10,21 @@ namespace shooter
     public static class SFXManager
     {
         private static MediaPlayer _musicPlayer = new MediaPlayer();
+
+        private static List<MediaPlayer> _sfxPool;
+        private static int _sfxPoolIndex = 0;
+        private static int _poolSize = 10;
         public static double MasterVolume { get; private set; } = 1.0;
+
+        static SFXManager()
+        {
+            _sfxPool = new List<MediaPlayer>();
+
+            for (int i = 0; i < _poolSize; i++)
+            {
+                _sfxPool.Add(new MediaPlayer());
+            }
+        }
 
         public static void LoadMusic(string fileName)
         {
@@ -49,11 +63,14 @@ namespace shooter
         // SFX method (Creates a new player for every sound so they can overlap)
         public static void PlaySound(string fileName)
         {
-            string path = AppDomain.CurrentDomain.BaseDirectory + "Sounds/" + fileName;
+            string path = AppDomain.CurrentDomain.BaseDirectory + "Music/" + fileName;
 
-            MediaPlayer sfxPlayer = new MediaPlayer();
+            MediaPlayer sfxPlayer = _sfxPool[_sfxPoolIndex];
+            _sfxPoolIndex++;
+            if (_sfxPoolIndex >= _poolSize) 
+                _sfxPoolIndex = 0;
             sfxPlayer.Open(new Uri(path));
-            sfxPlayer.Volume = 1.0;
+            sfxPlayer.Volume = 1.5;
             sfxPlayer.Play();
         }
     }

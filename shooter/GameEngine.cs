@@ -224,6 +224,7 @@ namespace shooter
             _lastTick = currentTick;
 
             UpdatePlayer(deltaTime);
+            joueur.UpdateInvincibility(deltaTime);
             UpdatePlayerBullets(deltaTime, _gameCanvas);
             UpdateEnemyBullets(deltaTime, _gameCanvas);
 
@@ -383,6 +384,7 @@ namespace shooter
 
             if (inputMng.IsShootPressed && _fireTimerPlayer <= 0)
             {
+                SFXManager.PlaySound("axeSpinning.wav");
                 SpawnBullet(mainWindow.canvas, "Player");
                 _fireTimerPlayer = _currentCooldownDuration;
             }
@@ -407,84 +409,113 @@ namespace shooter
 
         private void CheckCollisions()
         {
-            // 1. Player Projectiles vs Enemies
+
+            // PLAYER BULLETS VS ENEMIES
             for (int i = playerProjectiles.Count - 1; i >= 0; i--)
             {
                 var bullet = playerProjectiles[i];
-                // Bullet hitbox
-                Rect bulletRect = new Rect(bullet.X, bullet.Y, 60, 60);
+
+
+                double bWidth = (bullet.Sprite != null) ? bullet.Sprite.Width : 60;
+                double bHeight = (bullet.Sprite != null) ? bullet.Sprite.Height : 60;
+                Rect bulletRect = new Rect(bullet.X, bullet.Y, bWidth, bHeight);
 
                 for (int j = Enemies.Count - 1; j >= 0; j--)
                 {
                     var enemy = Enemies[j];
-                    // Enemy hitbox 
-                    Rect enemyRect = new Rect(enemy.X, enemy.Y, 40, 40);
+                    Rect enemyRect = new Rect(enemy.X, enemy.Y, enemy.Width, enemy.Height);
 
                     if (bulletRect.IntersectsWith(enemyRect))
                     {
-
-                        switch(bullet.Type)
+                        
+                        switch (bullet.Type)
                         {
-                        case ProjectileTypePlayer.LightAxe:
-                                enemy.Damage(5); // Low damage, but you throw them fast
+                            case ProjectileTypePlayer.LightAxe:
+                                enemy.Damage(5); 
                                 break;
-
                             case ProjectileTypePlayer.HeavyAxe:
-                                enemy.Damage(75); // Massive damage
+                                enemy.Damage(75); 
                                 break;
-
                             case ProjectileTypePlayer.FireAxe:
-                                enemy.Damage(20); // Medium damage + Burn effect
+                                enemy.Damage(20); 
                                 break;
-
                             case ProjectileTypePlayer.Standard:
                             default:
                                 enemy.Damage(25);
                                 break;
-                            }
-
-
-                            if (bullet.CausesBurn)
-                        {
-                            enemy.ApplyBurn(3.0); // Burn for 3 seconds
-                            
                         }
 
-                        _gameCanvas.Children.Remove(bullet.Sprite);
+                        if (bullet.CausesBurn)
+                        {
+                            enemy.ApplyBurn(3.0);
+                        }
+
+                        // Cleanup
+                        if (bullet.Sprite != null)
+                        {
+                            _gameCanvas.Children.Remove(bullet.Sprite);
+                        }
                         playerProjectiles.RemoveAt(i);
 
-                        break; // Bullet hit something, stop checking other enemies for this specific bullet
+                        break; // Stop checking enemies for this bullet
                     }
                 }
             }
 
-            // 2. Enemy Bullets vs Player
 
-            // Player hitbox 
+            // ENEMY BULLETS VS PLAYER
+
             Rect playerRect = new Rect(joueur.X, joueur.Y, 80, 100);
+
+            for (int k = globalEnemyProjectiles.Count - 1; k >= 0; k--)
+            {
+                var enemyBullet = globalEnemyProjectiles[k];
+
+                // Use sprite size or default 10x10
+                Rect eBulletRect = new Rect(enemyBullet.X, enemyBullet.Y, 10, 10);
+
+                if (eBulletRect.IntersectsWith(playerRect))
+                {
+                    joueur.Damage(15);
+
+                    if (enemyBullet.Sprite != null)
+                    {
+                        _gameCanvas.Children.Remove(enemyBullet.Sprite);
+                    }
+                    globalEnemyProjectiles.RemoveAt(k);
+
+                    if (joueur.Hp <= 0)
+                    {
+                        Stop();
+                        Lose(_gameCanvas);
+                    }
+                }
+            }
+
+            // MELEE COLLISION (Enemy Body vs Player Body)
 
             foreach (var enemy in Enemies)
             {
-                for (int k = globalEnemyProjectiles.Count - 1; k >= 0; k--)
-                {
-                    var enemyBullet = globalEnemyProjectiles[k];
+                Rect enemyBodyRect = new Rect(enemy.X, enemy.Y, enemy.Width, enemy.Height);
 
-                    //Enemy bullet hitbox
-                    Rect eBulletRect = new Rect(enemyBullet.X, enemyBullet.Y, 10, 10);
-                    
-                    if (eBulletRect.IntersectsWith(playerRect))
+                if (playerRect.IntersectsWith(enemyBodyRect))
+                {
+                    int contactDamage = 0;
+                    switch (enemy.Type)
                     {
-                        joueur.Damage(10);
-                        _gameCanvas.Children.Remove(enemyBullet.Sprite);
-                        globalEnemyProjectiles.RemoveAt(k);
-                        
-                        if (joueur.Hp <= 0)
-                        {
-                            // Game Over
-                        }
+                        case EnemyType.MeleeTank: contactDamage = 25; break;
+                        case EnemyType.MeleeBasic: contactDamage = 10; break;
+                        case EnemyType.Ranged: contactDamage = 5; break;
+                    }
+
+                    joueur.Damage(contactDamage);
+
+                    if (joueur.Hp <= 0)
+                    {
+                        Stop();
+                        Lose(_gameCanvas);
                     }
                 }
-                
             }
         }
 

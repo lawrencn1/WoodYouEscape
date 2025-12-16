@@ -20,6 +20,10 @@ namespace shooter
 
         private Image sprite;
 
+        private double _invincibilityTimer = 0;
+        private const double INVINCIBILITY_DURATION = 1.0; // 1 second of safety after hit
+        public bool IsInvincible { get; private set; } = false;
+
         private ScaleTransform _flipTransform;
 
         private BitmapImage[] _animUpFrames;
@@ -255,12 +259,31 @@ namespace shooter
             Canvas.SetLeft(Sprite, X);
             Canvas.SetTop(Sprite, Y);
         }
-        public void Damage(int quantity)
+
+        public void Damage(int amount)
         {
-            Hp -= quantity;
-            if (Hp <= 0)
+            if (IsInvincible) return;
+
+            // 2. Apply Damage
+            this.Hp -= amount;
+
+            IsInvincible = true;
+            _invincibilityTimer = INVINCIBILITY_DURATION;
+
+            if (Sprite != null) Sprite.Opacity = 0.5;
+        }
+        public void UpdateInvincibility(double deltaTime)
+        {
+            if (IsInvincible)
             {
+                _invincibilityTimer -= deltaTime;
+                if (_invincibilityTimer <= 0)
+                {
+                    IsInvincible = false;
+                    if (Sprite != null) Sprite.Opacity = 1.0; 
+                }
             }
         }
     }
 }
+

@@ -50,6 +50,7 @@
     <None Remove="mapAssets\verticalHole.png" />
     <None Remove="mapAssets\veticalTrunck.png" />
     <None Remove="mushromm1.png" />
+    <None Remove="Music\axeSpinning.wav" />
     <None Remove="playerDownSpritesheet\walkingDown0.png" />
     <None Remove="playerDownSpritesheet\walkingDown1.png" />
     <None Remove="playerDownSpritesheet\walkingDown2.png" />
@@ -193,6 +194,12 @@
     <None Remove="verticalBush2.png" />
     <None Remove="verticalHole.png" />
     <None Remove="veticalTrunck.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Music\axeSpinning.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>

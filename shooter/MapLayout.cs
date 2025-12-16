@@ -85,7 +85,7 @@ namespace shooter
                         double X = control.Margin.Left * coef2;
                         double Y = control.Margin.Top * coef;
                         if ((String)control.Tag == "Start")
-                            AddObstacle(canva, X + playableX, Y + playableY, height, width, ObstacleType.Start);
+                            AddObstacle(canva, X + playableX , Y + playableY, height, width, ObstacleType.Start);
                         else if ((String)control.Tag == "End")
                             AddObstacle(canva, X + playableX, Y + playableY, height, width, ObstacleType.End);
                         else

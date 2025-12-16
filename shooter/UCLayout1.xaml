@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:shooter"
              mc:Ignorable="d" 
              d:DesignHeight="720" d:DesignWidth="1280">
-    <Viewbox Stretch="Uniform">
+    <Viewbox Stretch="Fill">
         <Grid Height="460" Width="800" x:Name="grid">
             <Rectangle x:Name="a1" HorizontalAlignment="Left" Height="70" VerticalAlignment="Top" Width="70" RenderTransformOrigin="0.612,0.516" Margin="161,170,0,0">
                 <Rectangle.Fill>

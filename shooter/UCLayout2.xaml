@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:shooter"
              mc:Ignorable="d" 
              d:DesignHeight="720" d:DesignWidth="1280">
-    <Viewbox Stretch="Uniform">
+    <Viewbox Stretch="Fill">
         <!--ELEMENTS MARGINS NEED TO BE BETWEEN 10-628 (LEFT) & 8-292 (TOP)-->
         <Grid Height="460" Width="800" x:Name="grid">
             <Rectangle x:Name="a1" HorizontalAlignment="Left" Height="54" VerticalAlignment="Top" Width="100" Margin="56,176,0,0" RenderTransformOrigin="0.612,0.516">
