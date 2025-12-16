@@ -443,13 +443,40 @@ namespace shooter
                 newY = GameEngine.PlayableArea.Bottom - spriteHeight;
 
 
-            BitmapSource[] currentAnimSet = TextureManager.DownFrames;
+            BitmapSource[] useSideFrames;
+            BitmapSource[] useUpFrames;
+            BitmapSource[] useDownFrames;
+
+            switch (Type)
+            {
+                case EnemyType.MeleeTank:
+                    useSideFrames = TextureManager.TankSideFrames;
+                    useUpFrames = TextureManager.TankUpFrames;
+                    useDownFrames = TextureManager.TankDownFrames;
+                    break;
+
+                case EnemyType.Ranged:
+                    useSideFrames = TextureManager.RangedSideFrames;
+                    useUpFrames = TextureManager.RangedUpFrames;
+                    useDownFrames = TextureManager.RangedDownFrames;
+                    break;
+
+                case EnemyType.MeleeBasic:
+                default:
+                    // Default to the standard Melee bush textures
+                    useSideFrames = TextureManager.MeleeSideFrames;
+                    useUpFrames = TextureManager.MeleeUpFrames;
+                    useDownFrames = TextureManager.MeleeDownFrames;
+                    break;
+            }
+
+            BitmapSource[] currentAnimSet = useDownFrames;
 
             if (Math.Abs(dirX) > Math.Abs(dirY))
             {
                 // Moving Horizontally (Left or Right)
                 // Use LeftFrames for both, but flip the sprite for Right
-                currentAnimSet = TextureManager.MeleeSideFrames;
+                currentAnimSet = useSideFrames;
 
                 if (dirX > 0)
                 {
@@ -467,11 +494,11 @@ namespace shooter
 
                 if (dirY > 0)
                 {
-                    currentAnimSet = TextureManager.MeleeDownFrames;
+                    currentAnimSet = useDownFrames;
                 }
                 else
                 {
-                    currentAnimSet = TextureManager.MeleeUpFrames;
+                    currentAnimSet = useUpFrames;
                 }
             }
 

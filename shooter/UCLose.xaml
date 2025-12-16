@@ -43,7 +43,7 @@
                     </Image.RenderTransform>
                 </Image>
             </Canvas>
-            <Label Content="T'A PERDU" Margin="-72,0,-52,221" Foreground="#FFAFFBA8" FontSize="100" FontWeight="Bold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" BorderBrush="#FF1B1717">
+            <Label Content="GAME OVER" Margin="-72,0,-52,221" Foreground="#FFAFFBA8" FontSize="100" FontWeight="Bold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" BorderBrush="#FF1B1717">
                 <Label.Background>
                     <RadialGradientBrush>
                         <GradientStop Color="Black" Offset="0.237"/>

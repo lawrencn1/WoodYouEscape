@@ -19,9 +19,9 @@ namespace shooter
         public static BitmapSource[] MeleeDownFrames;
         public static BitmapSource[] MeleeSideFrames;
 
-        public static BitmapImage[] TankUpFrames;
-        public static BitmapImage[] TankDownFrames;
-        public static BitmapImage[] TankSideFrames;
+        public static BitmapSource[] TankUpFrames;
+        public static BitmapSource[] TankDownFrames;
+        public static BitmapSource[] TankSideFrames;
 
         public static BitmapImage[] RangedUpFrames;
         public static BitmapImage[] RangedDownFrames;
@@ -42,18 +42,19 @@ namespace shooter
                 // Load Enemy Animations
                 // Bushbush
                 string bushSheetPath = "pack://application:,,,/enemySpritesheet/MeleeSpriteSheet.png";
+                string treeSheetPath = "pack://application:,,,/enemySpritesheet/TankSpriteSheet.png";
 
                 // Row 0 is Down (Front)
                 MeleeDownFrames = SliceSpriteSheet(bushSheetPath, 8, 3, 0, 8);
                 // Row 1 is Side
                 MeleeSideFrames = SliceSpriteSheet(bushSheetPath, 8, 3, 1, 8);
-                // Row 2 - If this is your "Up" animation (or Attack), use index 2
+                // Row 2 is Up (Back)
                 MeleeUpFrames = SliceSpriteSheet(bushSheetPath, 8, 3, 2, 8);
 
                 // 
-                TankUpFrames = LoadPlayerDirection("pack://application:,,,/playerIdleSpritesheet/backwardsIdle1.png", "pack://application:,,,/playerUpSpritesheet/walkingUp");
-                TankDownFrames = LoadPlayerDirection("pack://application:,,,/playerIdleSpritesheet/fowardIdle1.png", "pack://application:,,,/playerDownSpritesheet/walkingDown");
-                TankSideFrames = LoadPlayerDirection("pack://application:,,,/playerIdleSpritesheet/leftIdle1.png", "pack://application:,,,/playerLeftSpritesheet/walkingLeft");
+                TankUpFrames = SliceSpriteSheet(treeSheetPath, 8, 3, 0, 8);
+                TankDownFrames = SliceSpriteSheet(treeSheetPath, 8, 3, 1, 8);
+                TankSideFrames = SliceSpriteSheet(treeSheetPath, 8, 3, 2, 8);
 
                 RangedUpFrames = LoadPlayerDirection("pack://application:,,,/playerIdleSpritesheet/backwardsIdle1.png", "pack://application:,,,/playerUpSpritesheet/walkingUp");
                 RangedDownFrames = LoadPlayerDirection("pack://application:,,,/playerIdleSpritesheet/fowardIdle1.png", "pack://application:,,,/playerDownSpritesheet/walkingDown");
