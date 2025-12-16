@@ -39,7 +39,7 @@ namespace shooter
         {
             try
             {
-                // Load Enemy Textures (WILL UPDATE TO ANIMS)
+                // Load Enemy Animations
                 // Bushbush
                 MeleeUpFrames = LoadPlayerDirection("pack://application:,,,/enemySpritesheet/enemyDown.png", "pack://application:,,,/playerUpSpritesheet/walkingUp");
                 MeleeDownFrames = LoadPlayerDirection("pack://application:,,,/enemySpritesheet/enemyUp.png", "pack://application:,,,/playerDownSpritesheet/walkingDown");
