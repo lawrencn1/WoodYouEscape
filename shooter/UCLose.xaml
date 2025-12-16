@@ -6,12 +6,61 @@
              xmlns:local="clr-namespace:shooter"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <Viewbox Stretch="Uniform">
-            <Grid>
-                <Label Content="T'A PERDU" Background="#FF237320" Margin="12,85,10,228" Foreground="#FFAFFBA8" FontSize="100" FontWeight="Bold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-                <Button x:Name="Restart" Content="Rejouer" HorizontalAlignment="Left" Height="76" Margin="92,304,0,0" VerticalAlignment="Top" Width="362" Background="#FF8EB11B" BorderBrush="#FF359613" Foreground="#FFD9EFCA" FontSize="48" FontWeight="Bold"/>
-            </Grid>
-        </Viewbox>
-    </Grid>
+    <Viewbox Stretch="Uniform">
+        <Grid Height="450" Width="800">
+            <Canvas HorizontalAlignment="Center" Height="458" VerticalAlignment="Center" Width="944" OpacityMask="Black" Background="#FFF10A0A" Opacity="0.5">
+                <Image Height="143" Canvas.Left="710" Source="/UIAssets/Crack.png" Stretch="Fill" Canvas.Top="105" Width="151" Margin="-39,0,0,0"/>
+                <Image Height="143" Canvas.Left="156" Source="/UIAssets/Crack.png" Stretch="Fill" Canvas.Top="50" Width="151" RenderTransformOrigin="0.5,0.5">
+                    <Image.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="-244.62"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Image.RenderTransform>
+                </Image>
+                <Image Height="199" Canvas.Left="188" Source="/UIAssets/Crack2.png" Stretch="Fill" Canvas.Top="249" Width="214" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                <Image Height="312" Canvas.Left="561" Source="/UIAssets/Crack2.png" Stretch="Fill" Canvas.Top="-185" Width="337" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                <Image Height="327" Canvas.Left="640" Source="/UIAssets/Crack2.png" Stretch="Fill" Canvas.Top="248" Width="345" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5">
+                    <Image.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="50.243"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Image.RenderTransform>
+                </Image>
+                <Image Height="309" Canvas.Left="-147" Source="/UIAssets/Crack2.png" Stretch="Fill" Canvas.Top="5" Width="356" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5">
+                    <Image.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="12.561"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Image.RenderTransform>
+                </Image>
+            </Canvas>
+            <Label Content="T'A PERDU" Margin="-72,0,-52,221" Foreground="#FFAFFBA8" FontSize="100" FontWeight="Bold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" BorderBrush="#FF1B1717">
+                <Label.Background>
+                    <RadialGradientBrush>
+                        <GradientStop Color="Black" Offset="0.237"/>
+                        <GradientStop Color="#001A1A1A" Offset="1"/>
+                    </RadialGradientBrush>
+                </Label.Background>
+            </Label>
+            <Button x:Name="Restart" Content="Rejouer ?" HorizontalAlignment="Left" Height="76" Margin="209,310,0,0" VerticalAlignment="Top" Width="362" BorderBrush="#FF359613" Foreground="#FFD9EFCA" FontSize="48" FontWeight="Bold">
+                <Button.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FF9A0202"/>
+                        <GradientStop Color="#FF50B32D" Offset="1"/>
+                    </LinearGradientBrush>
+                </Button.Background>
+            </Button>
+
+
+        </Grid>
+    </Viewbox>
 </UserControl>
