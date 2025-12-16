@@ -8,10 +8,26 @@
              d:DesignHeight="720" d:DesignWidth="1280">
     <Viewbox Stretch="Uniform">
         <Grid Height="460" Width="800" x:Name="grid" Margin="100,150,150,260">
-            <Rectangle x:Name="a1" HorizontalAlignment="Left" Height="40" Stroke="#FFFFD8D8" VerticalAlignment="Top" Width="97" Fill="#FFFFD8D8" RenderTransformOrigin="0.612,0.516" Margin="115,140,0,0"/>
-            <Rectangle x:Name="a2" HorizontalAlignment="Left" Height="40" Margin="306,60,0,0" Stroke="#FFFFD8D8" VerticalAlignment="Top" Width="98" Fill="#FFFFD8D8"/>
-            <Rectangle x:Name="a3" HorizontalAlignment="Left" Height="40" Margin="512,140,0,0" Stroke="#FFFFD8D8" VerticalAlignment="Top" Width="98" Fill="#FFFFD8D8" RenderTransformOrigin="0.04,-0.016"/>
-            <Rectangle x:Name="a4" HorizontalAlignment="Left" Height="40" Margin="306,237,0,0" Stroke="#FFFFD8D8" VerticalAlignment="Top" Width="98" Fill="#FFFFD8D8"/>
+            <Rectangle x:Name="a1" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.612,0.516" Margin="161,170,0,0">
+                <Rectangle.Fill>
+                    <ImageBrush ImageSource="/mushromm1.png"/>
+                </Rectangle.Fill>
+            </Rectangle>
+            <Rectangle x:Name="a2" HorizontalAlignment="Left" Height="70" Margin="320,69,0,0" VerticalAlignment="Top" Width="70">
+                <Rectangle.Fill>
+                    <ImageBrush ImageSource="/stump1.png"/>
+                </Rectangle.Fill>
+            </Rectangle>
+            <Rectangle x:Name="a3" HorizontalAlignment="Left" Height="60" Margin="505,165,0,0" VerticalAlignment="Top" Width="60" RenderTransformOrigin="0.04,-0.016">
+                <Rectangle.Fill>
+                    <ImageBrush ImageSource="/bush1.png"/>
+                </Rectangle.Fill>
+            </Rectangle>
+            <Rectangle x:Name="a4" HorizontalAlignment="Left" Height="65" Margin="322,247,0,0" VerticalAlignment="Top" Width="65" RenderTransformOrigin="0.523,0.383">
+                <Rectangle.Fill>
+                    <ImageBrush ImageSource="/stump3.png"/>
+                </Rectangle.Fill>
+            </Rectangle>
             <!--MAX TOP LEFT (left margin 10, top margin 8)-->
             <Rectangle x:Name="a5" Tag="Start" HorizontalAlignment="Left" Height="40" Stroke="#FFFFD8D8" VerticalAlignment="Top" Width="100" Fill="White" Margin="10,8,0,0" />
             <!-- MAX BOTTOM RIGHT (left margin 628, top margin 292)-->

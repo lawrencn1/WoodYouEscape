@@ -13,9 +13,21 @@
     <None Remove="background.png" />
     <None Remove="background2.png" />
     <None Remove="background3.png" />
+    <None Remove="bush1.png" />
     <None Remove="enemySpritesheet\enemyDown.png" />
     <None Remove="enemySpritesheet\enemySide.png" />
     <None Remove="enemySpritesheet\enemyUp.png" />
+    <None Remove="mapAssets\bush1.png" />
+    <None Remove="mapAssets\bush2.png" />
+    <None Remove="mapAssets\bush3.png" />
+    <None Remove="mapAssets\hole1.png" />
+    <None Remove="mapAssets\mushromm1.png" />
+    <None Remove="mapAssets\obstacles.png" />
+    <None Remove="mapAssets\obstaclesBG.png" />
+    <None Remove="mapAssets\stump1.png" />
+    <None Remove="mapAssets\stump2.png" />
+    <None Remove="mapAssets\stump3.png" />
+    <None Remove="mushromm1.png" />
     <None Remove="playerDownSpritesheet\walkingDown0.png" />
     <None Remove="playerDownSpritesheet\walkingDown1.png" />
     <None Remove="playerDownSpritesheet\walkingDown2.png" />
@@ -66,6 +78,8 @@
     <None Remove="playerUpSpritesheet\walkingUp8 %282%29.png" />
     <None Remove="playerUpSpritesheet\walkingUp8.png" />
     <None Remove="playerUpSpritesheet\walkingUp9.png" />
+    <None Remove="stump1.png" />
+    <None Remove="stump3.png" />
     <None Remove="UIAssets\ARROWDOWN.png" />
     <None Remove="UIAssets\ARROWLEFT.png" />
     <None Remove="UIAssets\ARROWRIGHT.png" />
@@ -152,9 +166,41 @@
     <Resource Include="background.png" />
     <Resource Include="background2.png" />
     <Resource Include="background3.png" />
+    <Resource Include="bush1.png" />
     <Resource Include="enemySpritesheet\enemyDown.png" />
     <Resource Include="enemySpritesheet\enemySide.png" />
     <Resource Include="enemySpritesheet\enemyUp.png" />
+    <Resource Include="mapAssets\bush1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="mapAssets\bush2.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="mapAssets\bush3.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="mapAssets\hole1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="mapAssets\mushromm1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="mapAssets\obstacles.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="mapAssets\obstaclesBG.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="mapAssets\stump1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="mapAssets\stump2.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="mapAssets\stump3.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="mushromm1.png" />
     <Resource Include="playerDownSpritesheet\walkingDown0.png" />
     <Resource Include="playerDownSpritesheet\walkingDown1.png" />
     <Resource Include="playerDownSpritesheet\walkingDown2.png" />
@@ -205,6 +251,8 @@
     <Resource Include="playerUpSpritesheet\walkingUp8 (2).png" />
     <Resource Include="playerUpSpritesheet\walkingUp8.png" />
     <Resource Include="playerUpSpritesheet\walkingUp9.png" />
+    <Resource Include="stump1.png" />
+    <Resource Include="stump3.png" />
     <Resource Include="UIAssets\ARROWDOWN.png" />
     <Resource Include="UIAssets\ARROWLEFT.png" />
     <Resource Include="UIAssets\ARROWRIGHT.png" />
