@@ -17,16 +17,30 @@
     <None Remove="enemySpritesheet\enemyDown.png" />
     <None Remove="enemySpritesheet\enemySide.png" />
     <None Remove="enemySpritesheet\enemyUp.png" />
+    <None Remove="horizontalBush1.png" />
+    <None Remove="horizontalBush2.png" />
+    <None Remove="horizontalHole1.png" />
+    <None Remove="mapAssets\background.png" />
     <None Remove="mapAssets\bush1.png" />
     <None Remove="mapAssets\bush2.png" />
     <None Remove="mapAssets\bush3.png" />
     <None Remove="mapAssets\hole1.png" />
+    <None Remove="mapAssets\horizontalBush1.png" />
+    <None Remove="mapAssets\horizontalBush2.png" />
+    <None Remove="mapAssets\horizontalHole1.png" />
     <None Remove="mapAssets\mushromm1.png" />
     <None Remove="mapAssets\obstacles.png" />
     <None Remove="mapAssets\obstaclesBG.png" />
+    <None Remove="mapAssets\smallHorizontalMushrooms1.png" />
+    <None Remove="mapAssets\smallHorizontalTrunck1.png" />
+    <None Remove="mapAssets\smallHorizontalTrunck2.png" />
     <None Remove="mapAssets\stump1.png" />
     <None Remove="mapAssets\stump2.png" />
     <None Remove="mapAssets\stump3.png" />
+    <None Remove="mapAssets\verticalBush1.png" />
+    <None Remove="mapAssets\verticalBush2.png" />
+    <None Remove="mapAssets\verticalHole.png" />
+    <None Remove="mapAssets\veticalTrunck.png" />
     <None Remove="mushromm1.png" />
     <None Remove="playerDownSpritesheet\walkingDown0.png" />
     <None Remove="playerDownSpritesheet\walkingDown1.png" />
@@ -78,6 +92,8 @@
     <None Remove="playerUpSpritesheet\walkingUp8 %282%29.png" />
     <None Remove="playerUpSpritesheet\walkingUp8.png" />
     <None Remove="playerUpSpritesheet\walkingUp9.png" />
+    <None Remove="smallHorizontalMushrooms1.png" />
+    <None Remove="smallHorizontalTrunck1.png" />
     <None Remove="stump1.png" />
     <None Remove="stump3.png" />
     <None Remove="UIAssets\ARROWDOWN.png" />
@@ -159,6 +175,10 @@
     <None Remove="UIAssets\SimpleKeys\Jumbo\Dark\Single PNGs\Z.png" />
     <None Remove="UIAssets\SPACEALTERNATIVE.png" />
     <None Remove="UIAssets\Z.png" />
+    <None Remove="verticalBush1.png" />
+    <None Remove="verticalBush2.png" />
+    <None Remove="verticalHole.png" />
+    <None Remove="veticalTrunck.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -170,36 +190,52 @@
     <Resource Include="enemySpritesheet\enemyDown.png" />
     <Resource Include="enemySpritesheet\enemySide.png" />
     <Resource Include="enemySpritesheet\enemyUp.png" />
+    <Resource Include="horizontalBush1.png" />
+    <Resource Include="horizontalBush2.png" />
+    <Resource Include="horizontalHole1.png" />
+    <Resource Include="mapAssets\background.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="mapAssets\bush1.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="mapAssets\bush2.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="mapAssets\bush3.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="mapAssets\hole1.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="mapAssets\horizontalBush1.png" />
+    <Resource Include="mapAssets\horizontalBush2.png" />
+    <Resource Include="mapAssets\horizontalHole1.png" />
     <Resource Include="mapAssets\mushromm1.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="mapAssets\obstacles.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="mapAssets\obstaclesBG.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="mapAssets\smallHorizontalMushrooms1.png" />
+    <Resource Include="mapAssets\smallHorizontalTrunck1.png" />
+    <Resource Include="mapAssets\smallHorizontalTrunck2.png" />
     <Resource Include="mapAssets\stump1.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="mapAssets\stump2.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="mapAssets\stump3.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="mapAssets\verticalBush1.png" />
+    <Resource Include="mapAssets\verticalBush2.png" />
+    <Resource Include="mapAssets\verticalHole.png" />
+    <Resource Include="mapAssets\veticalTrunck.png" />
     <Resource Include="mushromm1.png" />
     <Resource Include="playerDownSpritesheet\walkingDown0.png" />
     <Resource Include="playerDownSpritesheet\walkingDown1.png" />
@@ -251,6 +287,8 @@
     <Resource Include="playerUpSpritesheet\walkingUp8 (2).png" />
     <Resource Include="playerUpSpritesheet\walkingUp8.png" />
     <Resource Include="playerUpSpritesheet\walkingUp9.png" />
+    <Resource Include="smallHorizontalMushrooms1.png" />
+    <Resource Include="smallHorizontalTrunck1.png" />
     <Resource Include="stump1.png" />
     <Resource Include="stump3.png" />
     <Resource Include="UIAssets\ARROWDOWN.png" />
@@ -336,6 +374,10 @@
     <Resource Include="UIAssets\Z.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="verticalBush1.png" />
+    <Resource Include="verticalBush2.png" />
+    <Resource Include="verticalHole.png" />
+    <Resource Include="veticalTrunck.png" />
   </ItemGroup>
 
   <ItemGroup>

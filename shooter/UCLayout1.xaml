@@ -7,8 +7,8 @@
              mc:Ignorable="d" 
              d:DesignHeight="720" d:DesignWidth="1280">
     <Viewbox Stretch="Uniform">
-        <Grid Height="460" Width="800" x:Name="grid" Margin="100,150,150,260">
-            <Rectangle x:Name="a1" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.612,0.516" Margin="161,170,0,0">
+        <Grid Height="460" Width="800" x:Name="grid">
+            <Rectangle x:Name="a1" HorizontalAlignment="Left" Height="70" VerticalAlignment="Top" Width="70" RenderTransformOrigin="0.612,0.516" Margin="161,170,0,0">
                 <Rectangle.Fill>
                     <ImageBrush ImageSource="/mushromm1.png"/>
                 </Rectangle.Fill>
@@ -18,7 +18,7 @@
                     <ImageBrush ImageSource="/stump1.png"/>
                 </Rectangle.Fill>
             </Rectangle>
-            <Rectangle x:Name="a3" HorizontalAlignment="Left" Height="60" Margin="505,165,0,0" VerticalAlignment="Top" Width="60" RenderTransformOrigin="0.04,-0.016">
+            <Rectangle x:Name="a3" HorizontalAlignment="Left" Height="70" Margin="505,165,0,0" VerticalAlignment="Top" Width="70" RenderTransformOrigin="0.04,-0.016">
                 <Rectangle.Fill>
                     <ImageBrush ImageSource="/bush1.png"/>
                 </Rectangle.Fill>

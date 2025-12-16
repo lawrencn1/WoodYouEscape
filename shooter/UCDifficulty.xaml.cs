@@ -27,7 +27,11 @@ namespace shooter
 
         private void play_Click(object sender, RoutedEventArgs e)
         {
-
+            if (easy.IsChecked == true)
+            {
+                play.IsEnabled = true;
+                MainWindow.Difficulty = "easy";
+            }
         }
 
         private void easy_Click(object sender, RoutedEventArgs e)

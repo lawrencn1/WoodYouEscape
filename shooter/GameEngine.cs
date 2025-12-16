@@ -111,6 +111,12 @@ namespace shooter
             }
             Enemies.Clear();
 
+            // Clears Layout UC
+            if (_mapLayout != null && _mapLayout.layoutVisual != null)
+            {
+                _gameCanvas.Children.Remove(_mapLayout.layoutVisual);
+            }
+
             //clears obstacles
             for (int i = 0; i < _mapLayout.obstacles.Count; i++)
             {

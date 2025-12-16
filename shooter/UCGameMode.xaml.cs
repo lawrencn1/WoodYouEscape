@@ -33,7 +33,10 @@ namespace shooter
 
         private void normal_Checked(object sender, RoutedEventArgs e)
         {
-            validate.IsEnabled = true;
+            if (validate != null)
+            {
+                validate.IsEnabled = true;
+            }
         }
 
         private void infinite_Checked(object sender, RoutedEventArgs e)

@@ -11,13 +11,15 @@ using System.Windows.Media.Animation;
 
 namespace shooter
 {
-    public class MapLayout
+    public class MapLayout 
     {
         public UCLayout1 layout1 = new UCLayout1();
         public UCLayout2 layout2 = new UCLayout2();
         public UCLayout3 layout3 = new UCLayout3();
         private int n;
         public List<Obstacles> obstacles = new List<Obstacles>();
+
+        public UserControl layoutVisual;
         public int N
         {
             get
@@ -45,6 +47,30 @@ namespace shooter
             double coef2 = canva.ActualWidth / layout1.grid.Width;
             double playableX = 100;
             double playableY = 160;
+            FrameworkElement layoutSource = null;
+            
+            switch (n)
+            {
+                case 1:
+                    layoutVisual = layout1;
+                    break;
+                case 2:
+                    layoutVisual = layout2;
+                    break;
+                case 3:
+                    layoutVisual = layout3;
+                    break;
+                case 4:
+                    layoutVisual = layout1; // Placeholder
+                    break;
+                case 5:
+                    layoutVisual = layout1; // Placeholder
+                    break;
+                default:
+                    layoutVisual = layout1;
+                    break;
+            }
+
             switch (n)
             {
                 case 1:
@@ -154,7 +180,24 @@ namespace shooter
 
                     break;
             }
-            
+            if (layoutVisual != null)
+            {
+                // Set the size to match your math coefficients
+                layoutVisual.Width = layout1.grid.Width * coef2;
+                layoutVisual.Height = layout1.grid.Height * coef;
+
+                // Position it exactly where your math starts
+                Canvas.SetLeft(layoutVisual, playableX);
+                Canvas.SetTop(layoutVisual, playableY);
+
+                // Add to Canvas (Background layer)
+                if (!canva.Children.Contains(layoutVisual))
+                {
+                    canva.Children.Add(layoutVisual);
+                    Canvas.SetZIndex(layoutVisual, -1); // Ensure it is behind the player
+                }
+            }
+
         }
 
         public void AddObstacle(Canvas canva, double x, double y, double height, double width, ObstacleType type)
