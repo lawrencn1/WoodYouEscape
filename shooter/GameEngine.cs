@@ -624,8 +624,8 @@ namespace shooter
 
         private void mapChange(Canvas canva)
         {
-            _map = _random.Next(1, 4);
-            _mapLayout = new MapLayout(_map, _gameCanvas);
+            _map = _random.Next(2, 4);
+            _mapLayout = new MapLayout(1, _gameCanvas);
         }
 
         public void Life(Canvas canvas, Player player)
@@ -644,12 +644,5 @@ namespace shooter
             UCGUI.Lvl.Content = $"Lvl : {_mapNumber + 1} / {_mapMax}";
         }
 
-        private void  WeaponGUI(Canvas canvas, ProjectileTypePlayer type)
-        {
-            if (type == ProjectileTypePlayer.Standard)
-            {
-                UCGUI.Weapon.Content = "Standard";
-            }
-        }
     }
 }

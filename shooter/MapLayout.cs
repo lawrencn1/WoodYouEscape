@@ -7,11 +7,14 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 
 namespace shooter
 {
     public class MapLayout
     {
+        public UCLayout1 layout1 = new UCLayout1();
+        public UCLayout2 layout2 = new UCLayout2();
         private int n;
         public List<Obstacles> obstacles = new List<Obstacles>();
         public int N
@@ -36,42 +39,118 @@ namespace shooter
 
         public void Layout(int n, Canvas canva)
         {
-            double h = canva.ActualHeight;
-            double w = canva.ActualWidth;
-            double size1 = 0.2;
-            double size2 = 0.3;
+            int count = 1;
+            double coef = canva.ActualHeight / layout1.grid.Height;
+            double coef2 = canva.ActualWidth / layout1.grid.Width;
+            double playableX = 100;
+            double playableY = 160;
             switch (n)
             {
-                case 1: // 4 Corners (We gonna improve itccuz it's shi)
-                    AddObstacle(canva, 0, 0, h * size1, w * size2, ObstacleType.Wall);
-                    AddObstacle(canva, canva.ActualWidth - w * size2, 0, h * size1, w * size2, ObstacleType.Wall); 
-                    AddObstacle(canva, 0, canva.ActualHeight - h * size1, h * size1, w * size2, ObstacleType.Wall); 
-                    AddObstacle(canva, canva.ActualWidth - w * size1, canva.ActualHeight - h * size1, h * size1, w * size2, ObstacleType.Wall);
-                    AddObstacle(canva, 300, (canva.ActualHeight - (h * size1)) / 2, h * 0.1, w * 0.1, ObstacleType.Start);
-                    AddObstacle(canva, 1600, (canva.ActualHeight - (h * size1)) / 2, h * 0.1, w * 0.1, ObstacleType.End);
+                case 1:
+                    
+                    while (true)
+                    {
+                        var control = (FrameworkElement)layout1.FindName($"a{count}");
+                        if (control == null)
+                            break;
+                        double height = control.Height * coef;
+                        double width = control.Width * coef2;
+                        double X = control.Margin.Left * coef2;
+                        double Y = control.Margin.Top * coef;
+                        if ((String)control.Tag == "Start")
+                            AddObstacle(canva, X + playableX, Y + playableY, height, width, ObstacleType.Start);
+                        else if ((String)control.Tag == "End")
+                            AddObstacle(canva, X + playableX, Y + playableY, height, width, ObstacleType.End);
+                        else
+                            AddObstacle(canva, X + playableX , Y + playableY, height, width, ObstacleType.Wall);
+
+                        count++;
+                    }
+
                     break;
                 case 2: //4 Corners and a centered block (We gonna improve it cuz it's shi)
-                    AddObstacle(canva, 0, 0, h * size1, w * size2, ObstacleType.Wall);
-                    AddObstacle(canva, canva.ActualWidth - w * size2, 0, h * size1, w * size2, ObstacleType.Wall);
-                    AddObstacle(canva, 0, canva.ActualHeight - h * size1, h * size1, w * size2, ObstacleType.Wall);
-                    AddObstacle(canva, canva.ActualWidth - w * size2, canva.ActualHeight - h * size1, h * size1, w * size2, ObstacleType.Wall);
-                    AddObstacle(canva, (canva.ActualWidth - (w * size2)) / 2, (canva.ActualHeight - (h * size1)) / 2, h * size1, w * size2, ObstacleType.Wall);
-                    AddObstacle(canva, 300, (canva.ActualHeight - (h * size1)) / 2, h * 0.1, w * 0.1, ObstacleType.Start);
-                    AddObstacle(canva, 1600, (canva.ActualHeight - (h * size1)) / 2, h * 0.1, w * 0.1, ObstacleType.End);
+
+                    while (true)
+                    {
+                        var control = (FrameworkElement)layout2.FindName($"a{count}");
+                        if (control == null)
+                            break;
+                        double height = control.Height * coef;
+                        double width = control.Width * coef2;
+                        double X = control.Margin.Left * coef2;
+                        double Y = control.Margin.Top * coef;
+                        if ((String)control.Tag == "Start")
+                            AddObstacle(canva, X + playableX, Y + playableY, height, width, ObstacleType.Start);
+                        else if ((String)control.Tag == "End")
+                            AddObstacle(canva, X + playableX, Y + playableY, height, width, ObstacleType.End);
+                        else
+                            AddObstacle(canva, X + playableX, Y + playableY, height, width, ObstacleType.Wall);
+
+                        count++;
+                    }
+
                     break;
                 case 3: //Cross (We gonna improve it cuz it's shi)
-                    //hor
-                    AddObstacle(canva, (w - w * 0.75) / 2, (h - w * 0.1) / 2, w * 0.1, w * 0.75, ObstacleType.Wall);
+                    while (true)
+                    {
+                        var control = (FrameworkElement)layout1.FindName($"a{count}");
+                        if (control == null)
+                            break;
+                        double height = control.Height * coef;
+                        double width = control.Width * coef2;
+                        double X = control.Margin.Left * coef2;
+                        double Y = control.Margin.Top * coef;
+                        if ((String)control.Tag == "Start")
+                            AddObstacle(canva, X + playableX, Y + playableY, height, width, ObstacleType.Start);
+                        else if ((String)control.Tag == "End")
+                            AddObstacle(canva, X + playableX, Y + playableY, height, width, ObstacleType.End);
+                        else
+                            AddObstacle(canva, X + playableX, Y + playableY, height, width, ObstacleType.Wall);
 
-                    AddObstacle(canva, 300, (canva.ActualHeight - (h * size1)) / 2 - 200, h * 0.1, w * 0.1, ObstacleType.Start);
-                    AddObstacle(canva, 1600, (canva.ActualHeight - (h * size1)) / 2 - 200, h * 0.1, w * 0.1, ObstacleType.End);
+                        count++;
+                    }
                     break;
                 case 4: //idk for now
-                    AddObstacle(canva, 300, (canva.ActualHeight - (h * size1)) / 2, h * 0.1, w * 0.1, ObstacleType.Start);
-                    AddObstacle(canva, 1600, (canva.ActualHeight - (h * size1)) / 2, h * 0.1, w * 0.1, ObstacleType.End);
+                    while (true)
+                    {
+                        var control = (FrameworkElement)layout1.FindName($"a{count}");
+                        if (control == null)
+                            break;
+                        double height = control.Height * coef;
+                        double width = control.Width * coef2;
+                        double X = control.Margin.Left * coef2;
+                        double Y = control.Margin.Top * coef;
+                        if ((String)control.Tag == "Start")
+                            AddObstacle(canva, X + playableX, Y + playableY, height, width, ObstacleType.Start);
+                        else if ((String)control.Tag == "End")
+                            AddObstacle(canva, X + playableX, Y + playableY, height, width, ObstacleType.End);
+                        else
+                            AddObstacle(canva, X + playableX, Y + playableY, height, width, ObstacleType.Wall);
+
+                        count++;
+                    }
                     break;
                 case 5: //idk for now
-                    AddObstacle(canva, 0, 0, canva.ActualHeight * 0.3, canva.ActualWidth * 0.4, ObstacleType.Wall);
+
+                    while (true)
+                    {
+                        var control = (FrameworkElement)layout1.FindName($"a{count}");
+                        if (control == null)
+                            break;
+                        double height = control.Height * coef;
+                        double width = control.Width * coef2;
+                        double X = control.Margin.Left * coef2;
+                        double Y = control.Margin.Top * coef;
+                        if ((String)control.Tag == "Start")
+                            AddObstacle(canva, X + playableX, Y + playableY, height, width, ObstacleType.Start);
+                        else if ((String)control.Tag == "End")
+                            AddObstacle(canva, X + playableX, Y + playableY, height, width, ObstacleType.End);
+                        else
+                            AddObstacle(canva, X + playableX, Y + playableY, height, width, ObstacleType.Wall);
+
+                        count++;
+                    }
+
                     break;
             }
             
