@@ -8,12 +8,12 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Viewbox Stretch="Uniform">
         <Grid Height="450" Width="800" x:Name="grid">
-            <Rectangle x:Name="a1" HorizontalAlignment="Left" Height="40" Stroke="#FFFFD8D8" VerticalAlignment="Top" Width="100" Fill="#FFFFD8D8" Margin="52,195,0,0" RenderTransformOrigin="0.612,0.516"/>
-            <Rectangle x:Name="a2" HorizontalAlignment="Left" Height="40" Margin="329,66,0,0" Stroke="#FFFFD8D8" VerticalAlignment="Top" Width="100" Fill="#FFFFD8D8"/>
-            <Rectangle x:Name="a3" HorizontalAlignment="Left" Height="40" Margin="574,195,0,0" Stroke="#FFFFD8D8" VerticalAlignment="Top" Width="100" Fill="#FFFFD8D8" RenderTransformOrigin="0.04,-0.016"/>
-            <Rectangle x:Name="a4" HorizontalAlignment="Left" Height="40" Margin="329,351,0,0" Stroke="#FFFFD8D8" VerticalAlignment="Top" Width="100" Fill="#FFFFD8D8"/>
-            <Rectangle x:Name="a5" Tag="Start" HorizontalAlignment="Left" Height="40" Stroke="#FFFFD8D8" VerticalAlignment="Top" Width="100" Fill="White" Margin="329,195,0,0" />
-            <Rectangle x:Name="a6" Tag="End" HorizontalAlignment="Left" Height="40" Stroke="#FFFFD8D8" VerticalAlignment="Top" Width="100" Fill="White" Margin="624,351,0,0" />
+            <Rectangle x:Name="a1" HorizontalAlignment="Left" Height="40" Stroke="#FFFFD8D8" VerticalAlignment="Top" Width="146" Fill="#FFFFD8D8" Margin="10,185,0,0" RenderTransformOrigin="0.612,0.516"/>
+            <Rectangle x:Name="a2" HorizontalAlignment="Left" Height="40" Margin="250,0,0,0" Stroke="#FFFFD8D8" VerticalAlignment="Top" Width="100" Fill="#FFFFD8D8"/>
+            <Rectangle x:Name="a3" HorizontalAlignment="Left" Height="40" Margin="418,143,0,0" Stroke="#FFFFD8D8" VerticalAlignment="Top" Width="256" Fill="#FFFFD8D8" RenderTransformOrigin="0.04,-0.016"/>
+            <Rectangle x:Name="a4" HorizontalAlignment="Left" Height="232" Margin="323,89,0,0" Stroke="#FFFFD8D8" VerticalAlignment="Top" Width="52" Fill="#FFFFD8D8"/>
+            <Rectangle x:Name="a5" Tag="Start" HorizontalAlignment="Left" Height="40" Stroke="#FFFFD8D8" VerticalAlignment="Top" Width="100" Fill="White" Margin="96,68,0,0" RenderTransformOrigin="0.337,0.236" />
+            <Rectangle x:Name="a6" Tag="End" HorizontalAlignment="Left" Height="40" Stroke="#FFFFD8D8" VerticalAlignment="Top" Width="100" Fill="White" Margin="574,269,0,0" />
         </Grid>
     </Viewbox>
 </UserControl>

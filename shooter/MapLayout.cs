@@ -15,6 +15,7 @@ namespace shooter
     {
         public UCLayout1 layout1 = new UCLayout1();
         public UCLayout2 layout2 = new UCLayout2();
+        public UCLayout3 layout3 = new UCLayout3();
         private int n;
         public List<Obstacles> obstacles = new List<Obstacles>();
         public int N
@@ -93,7 +94,7 @@ namespace shooter
                 case 3: //Cross (We gonna improve it cuz it's shi)
                     while (true)
                     {
-                        var control = (FrameworkElement)layout1.FindName($"a{count}");
+                        var control = (FrameworkElement)layout3.FindName($"a{count}");
                         if (control == null)
                             break;
                         double height = control.Height * coef;
