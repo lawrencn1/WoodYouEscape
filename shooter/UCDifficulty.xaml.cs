@@ -30,26 +30,26 @@ namespace shooter
             if (easy.IsChecked == true)
             {
                 play.IsEnabled = true;
-                MainWindow.Difficulty = "easy";
+                MainWindow.DIFFICULTY = "easy";
             }
         }
 
         private void easy_Click(object sender, RoutedEventArgs e)
         {
             play.IsEnabled = true;
-            MainWindow.Difficulty = "easy";
+            MainWindow.DIFFICULTY = "easy";
         }
 
         private void normal_Click(object sender, RoutedEventArgs e)
         {
             play.IsEnabled = true;
-            MainWindow.Difficulty = "normal";
+            MainWindow.DIFFICULTY = "normal";
         }
 
         private void hard_Checked(object sender, RoutedEventArgs e)
         {
             play.IsEnabled = true;
-            MainWindow.Difficulty = "hard";
+            MainWindow.DIFFICULTY = "hard";
         }
     }
 }

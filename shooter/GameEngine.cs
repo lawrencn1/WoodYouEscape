@@ -45,6 +45,7 @@ namespace shooter
         private int _mapNumber = 0;
         private int _mapMax;
         private static MediaPlayer _music;
+        private int _score = 0;
 
 
         public GameEngine(Canvas canvas)
@@ -86,7 +87,19 @@ namespace shooter
         {
             
             CompositionTarget.Rendering -= GameLoop;
-            _stopwatch.Stop(); 
+            _stopwatch.Stop();
+
+            //Remove UC
+            if (_gameCanvas.Children.Contains(UCGUI))
+            {
+                _gameCanvas.Children.Remove(UCGUI);
+            }
+
+            // 2. Remove Settings if they are open
+            if (_gameCanvas.Children.Contains(UCsettings))
+            {
+                _gameCanvas.Children.Remove(UCsettings);
+            }
 
             //Clears projectiles
             for (int i = 0; i < playerProjectiles.Count; i++)
@@ -128,10 +141,15 @@ namespace shooter
                 _gameCanvas.Children.Remove(joueur.Sprite);
             }
 
+            UCGUI = new UCDUI();
+            UCsettings = new UCSettings();
+
             
         }
         private void BeginGameplay()
         {
+            GUI(_gameCanvas, UCGUI);
+
             UCGUI.Weapon.Content = "Standard";
 
             SFXManager.PlayMusic();
@@ -169,7 +187,7 @@ namespace shooter
             CompositionTarget.Rendering += GameLoop;
 
             //SPAWN
-            if (MainWindow.Difficulty == "easy")
+            if (MainWindow.DIFFICULTY == "easy")
             {
                 EnemiesRandomizer(_gameCanvas, 1, EnemyType.MeleeBasic);
                 EnemiesRandomizer(_gameCanvas, 1, EnemyType.Ranged);
@@ -177,7 +195,7 @@ namespace shooter
                 _mapMax = 2;
             }
 
-            else if (MainWindow.Difficulty == "normal")
+            else if (MainWindow.DIFFICULTY == "normal")
             {
                 EnemiesRandomizer(_gameCanvas, 2, EnemyType.MeleeBasic);
                 EnemiesRandomizer(_gameCanvas, 2, EnemyType.Ranged);
@@ -218,8 +236,22 @@ namespace shooter
 
                 if (Enemies[i].Pv <= 0)
                 {
+                    switch (Enemies[i].Type)
+                    {
+                        case EnemyType.MeleeBasic:
+
+                            _score += 15;
+                            break;
+                        case EnemyType.MeleeTank:
+                            _score += 15;
+                            break;
+                        case EnemyType.Ranged:
+                            _score += 5;
+                            break;
+                    }
+
                     _gameCanvas.Children.Remove(Enemies[i].Sprite);
-                    Enemies.RemoveAt(i);
+                    Enemies.RemoveAt(i);   
                 }
             }
             CheckCollisions();
@@ -273,6 +305,109 @@ namespace shooter
                     globalEnemyProjectiles.RemoveAt(i);
                 }
             }
+        }
+
+        public void UpdatePlayer(double deltaTime)
+        {
+            double dx = 0;
+            double dy = 0;
+            double speed = 350;
+            double pixeldist = speed * deltaTime;
+            double margin = 5;
+
+            bool restartGame = false;
+            bool stopGame = false;
+
+            if (inputMng.IsLeftPressed) dx -= 1;
+            if (inputMng.IsRightPressed) dx += 1;
+            if (inputMng.IsUpPressed) dy -= 1;
+            if (inputMng.IsDownPressed) dy += 1;
+
+            double length = Math.Sqrt(dx * dx + dy * dy);
+            if (length > 0)
+            {
+                dx /= length;
+                dy /= length;
+            }
+
+            //CollisionCheck
+
+            Rect futureX = new Rect(joueur.X + (dx * pixeldist), joueur.Y, 80, 100 - (margin * 2));
+            Rect futureY = new Rect(joueur.X, joueur.Y + (dy * pixeldist), 80 - (margin * 2), 100);
+
+            for (int i = 0; i < _mapLayout.obstacles.Count; i++)
+            {
+                if (_mapLayout.obstacles[i].ObstacleCollision(futureX) && _mapLayout.obstacles[i].Type != ObstacleType.Start && _mapLayout.obstacles[i].Type != ObstacleType.End)
+                {
+                    dx = 0;
+                }
+
+                else if (_mapLayout.obstacles[i].ObstacleCollision(futureX) && _mapLayout.obstacles[i].Type == ObstacleType.End && Enemies.Count == 0)
+                {
+                    for (int j = 0; j < _mapLayout.obstacles.Count; j++)
+                    {
+                        if (_mapLayout.obstacles[j].Type == ObstacleType.Start)
+                        {
+                            restartGame = true;
+                        }
+                        Console.WriteLine(dx);
+                    }
+                }
+            }
+
+            for (int i = 0; i < _mapLayout.obstacles.Count; i++)
+            {
+                if (_mapLayout.obstacles[i].ObstacleCollision(futureY) && _mapLayout.obstacles[i].Type != ObstacleType.Start && _mapLayout.obstacles[i].Type != ObstacleType.End)
+                {
+                    dy = 0;
+                }
+
+                else if (_mapLayout.obstacles[i].ObstacleCollision(futureY) && _mapLayout.obstacles[i].Type == ObstacleType.End && Enemies.Count == 0)
+                {
+                    for (int j = 0; j < _mapLayout.obstacles.Count; j++)
+                    {
+                        if (_mapLayout.obstacles[j].Type == ObstacleType.Start)
+                        {
+                            restartGame = true;
+                        }
+                        Console.WriteLine(dy);
+                    }
+                }
+            }
+
+            joueur.Deplacement(dx, dy, deltaTime);
+
+            // Weapon switching 
+            if (inputMng.IsKey1Pressed) SetWeapon(ProjectileTypePlayer.Standard);
+            //if (inputMng.IsKey2Pressed) SetWeapon(ProjectileTypePlayer.MachineGun);
+            if (inputMng.IsKey3Pressed) SetWeapon(ProjectileTypePlayer.FireAxe);
+            //if (inputMng.IsKey4Pressed) SetWeapon(ProjectileTypePlayer.Rocket);
+
+            if (_fireTimerPlayer > 0) _fireTimerPlayer -= deltaTime;
+
+            if (inputMng.IsShootPressed && _fireTimerPlayer <= 0)
+            {
+                SpawnBullet(mainWindow.canvas, "Player");
+                _fireTimerPlayer = _currentCooldownDuration;
+            }
+
+
+            if (restartGame)
+            {
+                if (_mapNumber == _mapMax - 1 && MainWindow.GAMEMODE != "Infinite")
+                {
+                    Stop();
+                    Win(_gameCanvas);
+                }
+
+                else
+                {
+                    Stop();
+                    BeginGameplay();
+                    _mapNumber++;
+                }
+            }
+
         }
 
         private void CheckCollisions()
@@ -361,7 +496,7 @@ namespace shooter
                     for (int i = 0; i < _mapLayout.obstacles.Count; i++)
                     {
                         
-                        if (_mapLayout.obstacles[i].EnemyInObstacle(randX, randY, height, width))
+                        if (_mapLayout.obstacles[i].EnemyInObstacle(randX, randY, height * 5, width * 5))
                         {
                             collision = true; 
                             break; 
@@ -380,108 +515,7 @@ namespace shooter
             }
 
         }
-        public void UpdatePlayer(double deltaTime)
-        {
-            double dx = 0;
-            double dy = 0;
-            double speed = 350;
-            double pixeldist = speed * deltaTime;
-            double margin = 5;
-
-            bool restartGame = false;
-            bool stopGame = false;
-
-            if (inputMng.IsLeftPressed) dx -= 1;
-            if (inputMng.IsRightPressed) dx += 1;
-            if (inputMng.IsUpPressed) dy -= 1;
-            if (inputMng.IsDownPressed) dy += 1;
-
-            double length = Math.Sqrt(dx * dx + dy * dy);
-            if (length > 0)
-            {
-                dx /= length;
-                dy /= length;
-            }
-
-            //CollisionCheck
-            
-            Rect futureX = new Rect(joueur.X + (dx * pixeldist), joueur.Y, 80, 100 - (margin * 2));
-            Rect futureY = new Rect(joueur.X, joueur.Y + (dy * pixeldist), 80 - (margin * 2), 100);
-
-            for (int i = 0; i < _mapLayout.obstacles.Count; i++)
-            {
-                if (_mapLayout.obstacles[i].ObstacleCollision(futureX) && _mapLayout.obstacles[i].Type != ObstacleType.Start && _mapLayout.obstacles[i].Type != ObstacleType.End)
-                {
-                        dx = 0;
-                }
-
-                else if (_mapLayout.obstacles[i].ObstacleCollision(futureX) && _mapLayout.obstacles[i].Type == ObstacleType.End && Enemies.Count == 0)
-                {
-                    for (int j = 0; j < _mapLayout.obstacles.Count; j++)
-                    {
-                        if (_mapLayout.obstacles[j].Type == ObstacleType.Start)
-                        {
-                            restartGame = true;
-                        }
-                        Console.WriteLine(dx);
-                    }
-                }
-            }
-
-            for (int i = 0; i < _mapLayout.obstacles.Count; i++)
-            {
-                if (_mapLayout.obstacles[i].ObstacleCollision(futureY) && _mapLayout.obstacles[i].Type != ObstacleType.Start && _mapLayout.obstacles[i].Type != ObstacleType.End)
-                {
-                    dy = 0;
-                }
-
-                else if (_mapLayout.obstacles[i].ObstacleCollision(futureY) && _mapLayout.obstacles[i].Type == ObstacleType.End && Enemies.Count == 0)
-                {
-                    for (int j = 0; j < _mapLayout.obstacles.Count; j++)
-                    {
-                        if (_mapLayout.obstacles[j].Type == ObstacleType.Start)
-                        {
-                            restartGame = true;
-                        }
-                        Console.WriteLine(dy);
-                    }
-                }
-            }
-
-            joueur.Deplacement(dx, dy, deltaTime);
-
-            // Weapon switching 
-            if (inputMng.IsKey1Pressed) SetWeapon(ProjectileTypePlayer.Standard);
-            //if (inputMng.IsKey2Pressed) SetWeapon(ProjectileTypePlayer.MachineGun);
-            if (inputMng.IsKey3Pressed) SetWeapon(ProjectileTypePlayer.FireAxe);
-            //if (inputMng.IsKey4Pressed) SetWeapon(ProjectileTypePlayer.Rocket);
-
-            if (_fireTimerPlayer > 0) _fireTimerPlayer -= deltaTime;
-
-            if (inputMng.IsShootPressed && _fireTimerPlayer <= 0)
-            {
-                SpawnBullet(mainWindow.canvas, "Player");
-                _fireTimerPlayer = _currentCooldownDuration;
-            }
-
-            
-            if (restartGame)
-            {
-                if (_mapNumber == _mapMax - 1)
-                {
-                    Stop();
-                    Win(_gameCanvas);
-                }
-                    
-                else
-                {
-                    Stop();
-                    BeginGameplay();
-                    _mapNumber++;
-                }
-            }
-            
-        }
+        
 
         private void SetWeapon(ProjectileTypePlayer type)
         {
@@ -597,7 +631,7 @@ namespace shooter
             {
                 canva.Children.Remove(uc);
                 BeginGameplay();
-                GUI(canva, UCGUI);
+                
             };
         }
 
@@ -609,13 +643,14 @@ namespace shooter
             uc.Height = canva.Height; // 1080
 
             canva.Children.Add(uc);
+            uc.Score.Content = $"Score : {_score}";
 
             uc.Restart.Click += (sender, e) =>
             {
-                Resume();
                 canva.Children.Remove(uc);
                 _mapNumber = 0;
-                BeginGameplay();
+                _score = 0;
+                GameMode(canva);
 
             };
         }
@@ -628,13 +663,14 @@ namespace shooter
             uc.Height = canva.Height; // 1080
 
             canva.Children.Add(uc);
+            uc.Score.Content = $"Score : {_score}";
 
             uc.Restart.Click += (sender, e) =>
             {
-                Resume();
                 canva.Children.Remove(uc);
                 _mapNumber = 0;
-                BeginGameplay();
+                _score = 0;
+                GameMode(canva);
 
             };
         }
@@ -693,7 +729,17 @@ namespace shooter
                 UCGUI.Green.Width = put;
 
             UCGUI.Life.Content = $"{life}/{playerMaxLife}";
-            UCGUI.Lvl.Content = $"Lvl : {_mapNumber + 1} / {_mapMax}";
+            if (MainWindow.GAMEMODE == "Infinite")
+            {
+                UCGUI.Lvl.Content = $"Lvl : {_mapNumber + 1}";
+            }
+            else
+            {
+                UCGUI.Lvl.Content = $"Lvl : {_mapNumber + 1} / {_mapMax}";
+            }
+
+            UCGUI.Score.Content = $"Score : {_score}";
+            
         }
     }
 }

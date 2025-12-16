@@ -104,7 +104,11 @@
     <None Remove="UIAssets\ARROWRIGHT.png" />
     <None Remove="UIAssets\ARROWUP.png" />
     <None Remove="UIAssets\background.png" />
+    <None Remove="UIAssets\BigStar.png" />
+    <None Remove="UIAssets\Crack.png" />
+    <None Remove="UIAssets\Crack2.png" />
     <None Remove="UIAssets\D.png" />
+    <None Remove="UIAssets\LilStar.png" />
     <None Remove="UIAssets\Q.png" />
     <None Remove="UIAssets\S.png" />
     <None Remove="UIAssets\SimpleKeys\Jumbo\Dark\Single PNGs\0.png" />
@@ -322,7 +326,11 @@
     <Resource Include="UIAssets\ARROWRIGHT.png" />
     <Resource Include="UIAssets\ARROWUP.png" />
     <Resource Include="UIAssets\background.png" />
+    <Resource Include="UIAssets\BigStar.png" />
+    <Resource Include="UIAssets\Crack.png" />
+    <Resource Include="UIAssets\Crack2.png" />
     <Resource Include="UIAssets\D.png" />
+    <Resource Include="UIAssets\LilStar.png" />
     <Resource Include="UIAssets\Q.png" />
     <Resource Include="UIAssets\S.png" />
     <Resource Include="UIAssets\SimpleKeys\Jumbo\Dark\Single PNGs\0.png" />

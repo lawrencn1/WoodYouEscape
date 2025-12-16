@@ -36,12 +36,14 @@ namespace shooter
             if (validate != null)
             {
                 validate.IsEnabled = true;
+                MainWindow.GAMEMODE = "Normal";
             }
         }
 
         private void infinite_Checked(object sender, RoutedEventArgs e)
         {
-            validate.IsEnabled = false;
+            validate.IsEnabled = true;
+            MainWindow.GAMEMODE = "Infinite";
         }
     }
 }
