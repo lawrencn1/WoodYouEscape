@@ -190,7 +190,7 @@ namespace shooter
                 EnemiesRandomizer(_gameCanvas, 1, EnemyType.MeleeBasic);
                 EnemiesRandomizer(_gameCanvas, 1, EnemyType.Ranged);
                 EnemiesRandomizer(_gameCanvas, 1, EnemyType.MeleeTank);
-                _mapMax = 2;
+                _mapMax = 3;
             }
 
             else if (MainWindow.DIFFICULTY == "normal")
@@ -198,7 +198,7 @@ namespace shooter
                 EnemiesRandomizer(_gameCanvas, 2, EnemyType.MeleeBasic);
                 EnemiesRandomizer(_gameCanvas, 2, EnemyType.Ranged);
                 EnemiesRandomizer(_gameCanvas, 1, EnemyType.MeleeTank);
-                _mapMax = 3;
+                _mapMax = 5;
             }
 
             else
@@ -206,7 +206,7 @@ namespace shooter
                 EnemiesRandomizer(_gameCanvas, 3, EnemyType.MeleeBasic);
                 EnemiesRandomizer(_gameCanvas, 3, EnemyType.Ranged);
                 EnemiesRandomizer(_gameCanvas, 1, EnemyType.MeleeTank);
-                _mapMax = 4;
+                _mapMax = 7;
             }
  
         }
@@ -400,34 +400,40 @@ namespace shooter
 
             if (restartGame)
             {
-                if(_mapNumber == 0) // Just finished Level 1
-    {
+                // 1. Determine what message to show
+                string unlockMessage = "";
+
+                if (_mapNumber == 0)
+                {
                     SaveData.UnlockWeapon(ProjectileTypePlayer.LightAxe);
-                    // Optional: Play a sound here!
+                    unlockMessage = "Hachette Débloquée (Appuyer sur 2)";
                 }
-                else if (_mapNumber == 1) // Just finished Level 2
+                else if (_mapNumber == 1)
                 {
                     SaveData.UnlockWeapon(ProjectileTypePlayer.FireAxe);
+                    unlockMessage = "Hache Enflamée Débloquée (Appuyer sur 3)";
                 }
-                else if (_mapNumber == 2) // Just finished Level 3
+                else if (_mapNumber == 2)
                 {
                     SaveData.UnlockWeapon(ProjectileTypePlayer.HeavyAxe);
+                    unlockMessage = "Hache Lourde Débloquée (Appuyer sur 4)";
                 }
 
+                // 2. Check if we beat the final level
                 if (_mapNumber == _mapMax - 1 && MainWindow.GAMEMODE != "Infinite")
                 {
                     Stop();
                     Win(_gameCanvas);
                 }
-
                 else
                 {
+                    // 3. STOP THE CURRENT LEVEL
                     Stop();
-                    BeginGameplay();
-                    _mapNumber++;
+
+                    // 4. SHOW THE POP-UP
+                    ShowLevelNotification(_gameCanvas, unlockMessage);
                 }
             }
-
         }
 
         private void CheckCollisions()
@@ -821,6 +827,43 @@ namespace shooter
 
             UCGUI.Score.Content = $"Score : {_score}";
             
+        }
+
+        private void ShowLevelNotification(Canvas canva, string message)
+        {
+            // Create the UserControl
+            UCNotifications popup = new UCNotifications();
+
+            // Set size to cover the whole screen
+            popup.Width = canva.Width;
+            popup.Height = canva.Height;
+
+            // Set the text
+            if (string.IsNullOrEmpty(message))
+            {
+                popup.MessageLabel.Content = "Next Level Ready...";
+            }
+            else
+            {
+                popup.MessageLabel.Content = message;
+            }
+
+            // Add to screen
+            canva.Children.Add(popup);
+            Panel.SetZIndex(popup, 100); // Make sure it's on top
+
+            // --- BUTTON LOGIC ---
+            // When they click Continue, remove the popup and START THE NEXT LEVEL
+            popup.ContinueBtn.Click += (sender, e) =>
+            {
+                canva.Children.Remove(popup);
+
+                // Increment Map
+                _mapNumber++;
+
+                // Start Next Level
+                BeginGameplay();
+            };
         }
     }
 }
