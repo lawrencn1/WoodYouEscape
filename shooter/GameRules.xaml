@@ -8,13 +8,15 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Viewbox Stretch="Uniform">
         <Grid Height="311" Width="448">
-            <Button x:Name="validate" Content="Compris"  Margin="63,235,63,0" VerticalAlignment="Top" Height="52" Width="322" FontSize="36" FontWeight="Bold" Background="#FF50841D" Foreground="#FFBAE0A9" BorderBrush="#FF20481C" Click="validate_Click"/>
-            <TextBlock x:Name="txtBlocRules" Margin="45,66,45,102" Background="Green" TextWrapping="Wrap" TextAlignment="Center" FontSize="14" Foreground="White" >
-                RÈGLES DU JEU <LineBreak/><LineBreak/>
+            
+            <Button x:Name="validate" Content="Compris"  Margin="63,235,63,0" VerticalAlignment="Top" Height="52" Width="322" FontSize="36" FontWeight="Bold" Background="#FF2B573E" Foreground="#FFEBEBEB" BorderBrush="#FF20481C" Click="validate_Click"/>
+            <TextBlock x:Name="txtBlocRules" Margin="45,96,45,97" Background="#FF2B573E" TextWrapping="Wrap" TextAlignment="Center" FontSize="14" Foreground="White" FontWeight="Bold" >
+                RÈGLES DU JEU <LineBreak/>
                 1. Trouvez le chemin à travers la forêt pour atteindre la sortie. <LineBreak/>
                 2. Éliminez les monstres et esquivez leurs tirs.<LineBreak/>
                 3. Débloquez des nouveau types de hache pour adapter votre stratégie au combat.
             </TextBlock>
+            <Image Margin="147,10,147,220" Source="/UIAssets/Title.png" Stretch="Fill"/>
         </Grid>
     </Viewbox>
 

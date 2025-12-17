@@ -136,6 +136,7 @@
     <None Remove="UIAssets\Q.png" />
     <None Remove="UIAssets\S.png" />
     <None Remove="UIAssets\SPACEALTERNATIVE.png" />
+    <None Remove="UIAssets\Title.png" />
     <None Remove="UIAssets\Z.png" />
     <None Remove="verticalBush1.png" />
     <None Remove="verticalBush2.png" />
@@ -335,6 +336,7 @@
     <Resource Include="UIAssets\SPACEALTERNATIVE.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="UIAssets\Title.png" />
     <Resource Include="UIAssets\Z.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
