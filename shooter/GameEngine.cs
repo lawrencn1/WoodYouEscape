@@ -413,7 +413,9 @@ namespace shooter
                         {
                             restartGame = true;
                         }
+#if DEBUG
                         Console.WriteLine(dx);
+#endif
                     }
                 }
             }
@@ -433,7 +435,9 @@ namespace shooter
                         {
                             restartGame = true;
                         }
+#if DEBUG
                         Console.WriteLine(dy);
+#endif
                     }
                 }
             }
