@@ -16,31 +16,32 @@ namespace shooter
         public UCLayout1 layout1 = new UCLayout1();
         public UCLayout2 layout2 = new UCLayout2();
         public UCLayout3 layout3 = new UCLayout3();
-        private int n;
         public List<Obstacles> obstacles = new List<Obstacles>();
 
+        private int _mapNumber;
+
         public UserControl layoutVisual;
-        public int N
+        public int MapNumber
         {
             get
             {
-                return this.n;
+                return this._mapNumber;
             }
 
             set
             {
-                this.n = value;
+                this._mapNumber = value;
             }
         }
 
 
-        public MapLayout(int n, Canvas canva)
+        public MapLayout(int mapNum, Canvas canva)
         {
-            this.N = n;
-            Layout(n, canva);
+            this.MapNumber = mapNum;
+            Layout(mapNum, canva);
         }
 
-        public void Layout(int n, Canvas canva)
+        public void Layout(int mapNum, Canvas canva)
         {
             int count = 1;
             double coef = canva.ActualHeight / layout1.grid.Height;
@@ -49,32 +50,11 @@ namespace shooter
             double playableY = 160;
             FrameworkElement layoutSource = null;
             
-            switch (n)
+            switch (mapNum)
             {
                 case 1:
-                    layoutVisual = layout1;
-                    break;
-                case 2:
-                    layoutVisual = layout2;
-                    break;
-                case 3:
-                    layoutVisual = layout3;
-                    break;
-                case 4:
-                    layoutVisual = layout1; // Placeholder
-                    break;
-                case 5:
-                    layoutVisual = layout1; // Placeholder
-                    break;
                 default:
                     layoutVisual = layout1;
-                    break;
-            }
-
-            switch (n)
-            {
-                case 1:
-                    
                     while (true)
                     {
                         var control = (FrameworkElement)layout1.FindName($"a{count}");
@@ -95,8 +75,8 @@ namespace shooter
                     }
 
                     break;
-                case 2: //4 Corners and a centered block (We gonna improve it cuz it's shi)
-
+                case 2:
+                    layoutVisual = layout2;
                     while (true)
                     {
                         var control = (FrameworkElement)layout2.FindName($"a{count}");
@@ -117,7 +97,8 @@ namespace shooter
                     }
 
                     break;
-                case 3: //Cross (We gonna improve it cuz it's shi)
+                case 3:
+                    layoutVisual = layout3;
                     while (true)
                     {
                         var control = (FrameworkElement)layout3.FindName($"a{count}");
@@ -137,59 +118,17 @@ namespace shooter
                         count++;
                     }
                     break;
-                case 4: //idk for now
-                    while (true)
-                    {
-                        var control = (FrameworkElement)layout1.FindName($"a{count}");
-                        if (control == null)
-                            break;
-                        double height = control.Height * coef;
-                        double width = control.Width * coef2;
-                        double X = control.Margin.Left * coef2;
-                        double Y = control.Margin.Top * coef;
-                        if ((String)control.Tag == "Start")
-                            AddObstacle(canva, X + playableX, Y + playableY, height, width, ObstacleType.Start);
-                        else if ((String)control.Tag == "End")
-                            AddObstacle(canva, X + playableX, Y + playableY, height, width, ObstacleType.End);
-                        else
-                            AddObstacle(canva, X + playableX, Y + playableY, height, width, ObstacleType.Wall);
-
-                        count++;
-                    }
-                    break;
-                case 5: //idk for now
-
-                    while (true)
-                    {
-                        var control = (FrameworkElement)layout1.FindName($"a{count}");
-                        if (control == null)
-                            break;
-                        double height = control.Height * coef;
-                        double width = control.Width * coef2;
-                        double X = control.Margin.Left * coef2;
-                        double Y = control.Margin.Top * coef;
-                        if ((String)control.Tag == "Start")
-                            AddObstacle(canva, X + playableX, Y + playableY, height, width, ObstacleType.Start);
-                        else if ((String)control.Tag == "End")
-                            AddObstacle(canva, X + playableX, Y + playableY, height, width, ObstacleType.End);
-                        else
-                            AddObstacle(canva, X + playableX, Y + playableY, height, width, ObstacleType.Wall);
-
-                        count++;
-                    }
-
-                    break;
             }
             if (layoutVisual != null)
             {
-                // Set the size to match your math coefficients
+                //Set the size to match math coefficients
                 layoutVisual.Width = layout1.grid.Width * coef2;
                 layoutVisual.Height = layout1.grid.Height * coef;
-
-                // Position it exactly where your math starts
+                
+                //Position
                 Canvas.SetLeft(layoutVisual, playableX);
                 Canvas.SetTop(layoutVisual, playableY);
-
+                
                 // Add to Canvas (Background layer)
                 if (!canva.Children.Contains(layoutVisual))
                 {

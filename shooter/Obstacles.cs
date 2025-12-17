@@ -12,32 +12,30 @@ namespace shooter
     public enum ObstacleType
     {
        Wall, 
-       Puddle,
        Start,
        End
     }
 
     public class Obstacles
     {
-        private double x;
-        private double y;
-        private double heigth;
-        private double width;
+        private double _x;
+        private double _y;
+        private double _heigth;
+        private double _width;
+        private UIElement _sprite;
 
         public ObstacleType Type { get; private set; }
-
-        private UIElement sprite;
 
         public double X
         {
             get
             {
-                return this.x;
+                return this._x;
             }
 
             set
             {
-                this.x = value;
+                this._x = value;
             }
         }
 
@@ -45,12 +43,12 @@ namespace shooter
         {
             get
             {
-                return this.y;
+                return this._y;
             }
 
             set
             {
-                this.y = value;
+                this._y = value;
             }
         }
 
@@ -58,12 +56,12 @@ namespace shooter
         {
             get
             {
-                return this.heigth;
+                return this._heigth;
             }
 
             set
             {
-                this.heigth = value;
+                this._heigth = value;
             }
         }
 
@@ -71,12 +69,12 @@ namespace shooter
         {
             get
             {
-                return this.width;
+                return this._width;
             }
 
             set
             {
-                this.width = value;
+                this._width = value;
             }
         }
 
@@ -84,12 +82,12 @@ namespace shooter
         {
             get
             {
-                return this.sprite;
+                return this._sprite;
             }
 
             set
             {
-                this.sprite = value;
+                this._sprite = value;
             }
         }
 
@@ -98,8 +96,8 @@ namespace shooter
         {
             this.X = x;
             this.Y = y;
-            this.heigth = heigth;
-            this.width = width;
+            this._heigth = heigth;
+            this._width = width;
             this.Type = type;
 
             Sprite = new System.Windows.Shapes.Rectangle
@@ -135,7 +133,6 @@ namespace shooter
 
                 Rect obstacleRect = new Rect(X ,Y, Width ,Heigth);
 
-
                 if (spriteRect.IntersectsWith(obstacleRect))
                 {
                     return true;
@@ -153,7 +150,6 @@ namespace shooter
             {
                 return true;
             }
-
             return false;
         }
     }

@@ -23,18 +23,17 @@ namespace shooter
     }
     public class Enemy
     {
-        MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
 
         public List<EnemyProjectile> enemyProjectiles = new List<EnemyProjectile>();
 
-        private double x;
-        private double y;
-        private double vitesse;
-        private int pv;
+        private double _x;
+        private double _y;
+        private double _vitesse;
+        private int _hp;
         private bool _isTakingDamage = false;
-        private double distance;
-        private double height;
-        private double width;
+        private double _distance;
+        private double _height;
+        private double _width;
         public EnemyType Type { get; private set; }
 
         private double _fireTimerEnemy = 0;
@@ -53,24 +52,23 @@ namespace shooter
         private double _burnBlinkTimer = 0;
         private const double BURN_BLINK_SPEED = 0.1; 
 
-
         // Animation State
         private int _currentFrame = 0;
         private double _animTimer = 0;
         private const double FRAME_DURATION = 0.1;
         private ScaleTransform _flipTransform;
-        private Image _bodyImage;      // The actual sprite we animate
-        private System.Windows.Shapes.Rectangle _redOverlay; // The red filter
+        private Image _bodyImage;                            //Sprite Image
+        private System.Windows.Shapes.Rectangle _redOverlay; //Red damage overlay
 
         public double X
         {
             get
             {
-                return this.x;
+                return this._x;
             }
             set
             {
-                this.x = value;
+                this._x = value;
             }
         }
 
@@ -78,12 +76,12 @@ namespace shooter
         {
             get
             {
-                return this.y;
+                return this._y;
             }
 
             set
             {
-                this.y = value;
+                this._y = value;
             }
         }
 
@@ -91,29 +89,29 @@ namespace shooter
         {
             get
             {
-                return this.vitesse;
+                return this._vitesse;
             }
 
             set
             {
-                this.vitesse = value;
+                this._vitesse = value;
             }
         }
 
-        public int Pv
+        public int Hp
         {
             get
             {
-                return this.pv;
+                return this._hp;
             }
 
             set
             {
-                if (pv < 0)
+                if (_hp < 0)
                 {
                     //throw new ArgumentOutOfRangeException("Les PV doivent être positifs");
                 }
-                this.pv = value;
+                this._hp = value;
             }
 
 
@@ -123,12 +121,12 @@ namespace shooter
         {
             get
             {
-                return this.height;
+                return this._height;
             }
 
             set
             {
-                this.height = value;
+                this._height = value;
             }
         }
 
@@ -136,12 +134,12 @@ namespace shooter
         {
             get
             {
-                return this.width;
+                return this._width;
             }
 
             set
             {
-                this.width = value;
+                this._width = value;
             }
         }
 
@@ -149,12 +147,12 @@ namespace shooter
         {
             get
             {
-                return this.distance;
+                return this._distance;
             }
 
             set
             {
-                this.distance = value;
+                this._distance = value;
             }
         }
         public Enemy(double x, double y, EnemyType type, double heigth, double width)
@@ -162,14 +160,14 @@ namespace shooter
             this.X = x;
             this.Y = y;
             this.Type = type;
-            this.Pv = 25;
+            this.Hp = 25;
             this.Height = heigth;
             this.Width = width;
 
-            // 2. Initialize Stats based on Type
+            //Initialize Stats based on EnemyType
             InitializeStats();
 
-            // 3. Initialize Visuals (Sprite + Hitbox)
+            //Initialize Visuals (Sprite + Hitbox)
             InitializeVisuals();
         }
         private void InitializeStats()
@@ -178,13 +176,13 @@ namespace shooter
             {
                 case EnemyType.MeleeBasic:
                     Vitesse = 200;
-                    Pv = 60;
+                    Hp = 60;
                     Distance = 30; // Chases until collision
                     break;
 
                 case EnemyType.MeleeTank:
-                    Vitesse = 100; // Slower
-                    Pv = 150;       // Harder to kill
+                    Vitesse = 100;
+                    Hp = 150;       
                     Distance = 40;
                     Width *= 1.5;
                     Height *= 1.5;
@@ -192,7 +190,7 @@ namespace shooter
 
                 case EnemyType.Ranged:
                     Vitesse = 180;
-                    Pv = 35;       // Weak
+                    Hp = 35;       
                     Distance = 300; // Stops 300px away to shoot
                     _fireTimerEnemy = 1.5;
                     break;
@@ -206,37 +204,29 @@ namespace shooter
             _flipTransform = new ScaleTransform();
             ImageSource targetTexture = null;
 
-            // 1. Determine which texture to use
             switch (Type)
             {
                 case EnemyType.MeleeTank:
                     if (TextureManager.TankDownFrames != null && TextureManager.TankDownFrames.Length > 0)
                         targetTexture = TextureManager.TankDownFrames[0];
-                    else
-                        targetTexture = TextureManager.AxeTexture;
                     break;
                 case EnemyType.Ranged:
-                    // Use the first frame if available, otherwise fallback
+                  
                     if (TextureManager.RangedDownFrames != null && TextureManager.RangedDownFrames.Length > 0)
                         targetTexture = TextureManager.RangedDownFrames[0];
-                    else
-                        targetTexture = TextureManager.AxeTexture;
                     break;
                 case EnemyType.MeleeBasic:
                 default:
                     if (TextureManager.MeleeDownFrames != null && TextureManager.MeleeDownFrames.Length > 0)
                         targetTexture = TextureManager.MeleeDownFrames[0];
-                    else
-                        targetTexture = TextureManager.AxeTexture;
                     break;
             }
 
-            // 2. Build the Visual Structure
+            //Visual Structure
             if (targetTexture != null)
             {
-                // --- TEXTURE FOUND: Create the Flash-ready Grid ---
 
-                // A. Create the Body Image
+                //Create the Sprite Image
                 _bodyImage = new Image
                 {
                     Stretch = Stretch.Uniform,
@@ -245,34 +235,35 @@ namespace shooter
                     RenderTransform = _flipTransform
                 };
 
-                // B. Create the Red Overlay (Hidden by default)
+                //Red Overlay (Hidden by default)
                 _redOverlay = new System.Windows.Shapes.Rectangle
                 {
-                    Fill = Brushes.Red,  // You can also try Brushes.White for a classic arcade flash
-                    Opacity = 0.7,       // 0.7 = Strong Flash, 0.4 = Weak Tint
+                    Fill = Brushes.Red,  
+                    Opacity = 0.7,    
                     Visibility = Visibility.Hidden,
-                    Width = this.Width,  // Ensure sizes match exactly
+                    Width = this.Width, 
                     Height = this.Height
                 };
 
                 var initialMask = new ImageBrush();
                 initialMask.ImageSource = targetTexture;
                 _redOverlay.OpacityMask = initialMask;
-                // C. Combine them in a Grid
+                
+                //Combine Sprite Image & Overlay
                 var container = new Grid
                 {
                     Width = this.Width,
                     Height = this.Height
                 };
 
-                container.Children.Add(_bodyImage);  // Layer 0
-                container.Children.Add(_redOverlay); // Layer 1 (Top)
+                container.Children.Add(_bodyImage);  
+                container.Children.Add(_redOverlay);
 
                 Sprite = container;
             }
             else
             {
-                // --- TEXTURE MISSING: Create Fallback Rectangle ---
+                // In case there are loading problems
                 var fallbackRect = new System.Windows.Shapes.Rectangle
                 {
                     Width = this.Width,
@@ -293,11 +284,11 @@ namespace shooter
                 Sprite = fallbackRect;
             }
 
-            // 3. Set Initial Position
+            //Set Initial Position
             UpdatePosition();
         }
 
-        public void Deplacement(double dx, double dy, double deltaTime)
+        public void Movement(double dx, double dy, double deltaTime)
         {
             X += dx * Vitesse * deltaTime;
             Y += dy * Vitesse * deltaTime;
@@ -310,25 +301,25 @@ namespace shooter
         }
         public async void Damage(int amount)
         {
-            Pv -= amount;
-            if (Pv <= 0) { return; }
+            Hp -= amount;
+            if (Hp <= 0) { return; }
             if (_redOverlay != null)
             {
                 if (_isTakingDamage) return;
 
-                _isTakingDamage = true; // Locks the Burn Visuals out
+                _isTakingDamage = true; //Locks the Burn Visuals out
 
-                // 1. FORCE COLOR BACK TO RED (In case it was Orange)
+                //FORCE COLOR BACK TO RED (In case it was Orange)
                 _redOverlay.Fill = Brushes.Red;
                 _redOverlay.Visibility = Visibility.Visible;
 
-                // 2. Wait
+                //Wait
                 await Task.Delay(100);
 
-                // 3. Hide
+                //Hide
                 _redOverlay.Visibility = Visibility.Hidden;
 
-                _isTakingDamage = false; // Re-enables the Burn Visuals
+                _isTakingDamage = false; //Re-enables the Burn Visuals
             }
         }
         public void ApplyBurn(double duration)
@@ -336,7 +327,6 @@ namespace shooter
             _isBurning = true;
             _burnDurationTimer = duration;
             _burnTickTimer = 0;
-
             Sprite.Opacity = 0.5;
         }
 
@@ -347,11 +337,8 @@ namespace shooter
             double diffX = player.X - this.X;
             double diffY = player.Y - this.Y;
             double distanceToPlayer = Math.Sqrt(diffX * diffX + diffY * diffY);
-
-
             double dirX = 0;
             double dirY = 0;
-
 
             if (distanceToPlayer > Distance)
             {
@@ -368,7 +355,8 @@ namespace shooter
                 {
                     _flipTransform.ScaleX = 1;  // Face Right
                 }
-                //enemies repulsion
+                
+                //Enemy repulsion
                 double radius = 50;
 
                 for (int i = 0; i < Enemies.Count; i++)
@@ -395,12 +383,12 @@ namespace shooter
                     }
                 }
 
-                //obstacle collisions detection
+                //obstacle collision detection
                 Rect futureX = new Rect(X + (dirX * pixelDist), Y , 80, 100);
 
                 for (int i = 0; i < obstacles.Count; i++)
                 {
-                    if (obstacles[i].ObstacleCollision(futureX) && (obstacles[i].Type == ObstacleType.Wall || obstacles[i].Type == ObstacleType.Puddle))
+                    if (obstacles[i].ObstacleCollision(futureX) && (obstacles[i].Type == ObstacleType.Wall))
                     {
                         dirX = 0;
                         break;
@@ -411,7 +399,7 @@ namespace shooter
 
                 for (int i = 0; i < obstacles.Count; i++)
                 {
-                    if (obstacles[i].ObstacleCollision(futureY) && (obstacles[i].Type == ObstacleType.Wall || obstacles[i].Type == ObstacleType.Puddle))
+                    if (obstacles[i].ObstacleCollision(futureY) && (obstacles[i].Type == ObstacleType.Wall))
                     {
                         dirY = 0;
                         break;
@@ -420,7 +408,7 @@ namespace shooter
             }
 
 
-            // --- 2. APPLY MOVEMENT (ONCE ONLY) ---
+            //APPLY MOVEMENT (ONCE ONLY)
             double moveX = dirX * Vitesse * deltaTime;
             double moveY = dirY * Vitesse * deltaTime;
 
@@ -428,7 +416,7 @@ namespace shooter
             double newX = X + moveX;
             double newY = Y + moveY;
 
-            // --- 3. CLAMP TO SCREEN (Keep inside play area) ---
+            //Keep inside play area
             double spriteWidth = ((FrameworkElement)Sprite).Width;
             double spriteHeight = ((FrameworkElement)Sprite).Height;
 
@@ -442,7 +430,7 @@ namespace shooter
             if (newY > GameEngine.PlayableArea.Bottom - spriteHeight)
                 newY = GameEngine.PlayableArea.Bottom - spriteHeight;
 
-
+            //Animations based on EnemyType
             BitmapSource[] useSideFrames;
             BitmapSource[] useUpFrames;
             BitmapSource[] useDownFrames;
@@ -463,7 +451,7 @@ namespace shooter
 
                 case EnemyType.MeleeBasic:
                 default:
-                    // Default to the standard Melee bush textures
+                    // Default to the standard Melee Enemy textures
                     useSideFrames = TextureManager.MeleeSideFrames;
                     useUpFrames = TextureManager.MeleeUpFrames;
                     useDownFrames = TextureManager.MeleeDownFrames;
@@ -474,22 +462,21 @@ namespace shooter
 
             if (Math.Abs(dirX) > Math.Abs(dirY))
             {
-                // Moving Horizontally (Left or Right)
-                // Use LeftFrames for both, but flip the sprite for Right
+                //Moving Horizontally (Left or Right)
                 currentAnimSet = useSideFrames;
 
                 if (dirX > 0)
                 {
-                    _flipTransform.ScaleX = 1; // Face Right (Flip Left image)
+                    _flipTransform.ScaleX = 1; //Face Right
                 }
                 else
                 {
-                    _flipTransform.ScaleX = -1;  // Face Left (Normal)
+                    _flipTransform.ScaleX = -1;  //Face Left
                 }
             }
             else
             {
-                // Moving Vertically (Up or Down)
+                //Moving Vertically (Up or Down)
                 _flipTransform.ScaleX = 1; // Reset flip
 
                 if (dirY > 0)
@@ -502,33 +489,33 @@ namespace shooter
                 }
             }
 
-            // 2. Only Animate if actually moving
+            //Only Animate if moving
             if (Math.Abs(dirX) > 0.01 || Math.Abs(dirY) > 0.01)
             {
                 Animate(currentAnimSet, deltaTime);
             }
             else
             {
-                // Optional: If standing still, show Frame 0 (Idle)
+                //If standing still, show Frame 0 (Idle)
                 SetSprite(currentAnimSet, 0);
             }
 
             UpdateBurnVisuals(deltaTime);
 
-            // --- 4. UPDATE POSITION ---
+            //UPDATE POSITION
             X = newX;
             Y = newY;
             UpdatePosition();
 
-            // --- 5. SHOOTING LOGIC ---
+            //SHOOTING LOGIC
             if (Type == EnemyType.Ranged)
             {
                 if (_fireTimerEnemy > 0) _fireTimerEnemy -= deltaTime;
 
                 if (_fireTimerEnemy <= 0)
                 {
-                    // Only fire if we are actually close enough 
-                    if (distanceToPlayer <= 600) // Example range
+                    //Only fire if close enough 
+                    if (distanceToPlayer <= 600)
                     {
                         SpawnBullet(canvas, player, globalBulletList);
                         _fireTimerEnemy = ENEMY_COOLDOWN_DURATION;
@@ -548,17 +535,17 @@ namespace shooter
                 if (_burnDurationTimer <= 0)
                 {
                     _isBurning = false;
-                    Sprite.Opacity = 1.0; // Reset Opacity to normal
+                    Sprite.Opacity = 1.0; //Reset Opacity
                 }
             }
         }
 
-        private void SpawnBullet(Canvas canvas, Player player, List<EnemyProjectile> globalBulletList)
+        private void SpawnBullet(Canvas canvas, Player player, List<EnemyProjectile> globalProjectileList)
         {
             double enemy_startX = X + 20;
             double enemy_startY = Y + 20;
 
-            // Calculate direction towards player
+            //Calculate direction towards player
             double diffX = player.X - enemy_startX;
             double diffY = player.Y - enemy_startY;
             double length = Math.Sqrt(diffX * diffX + diffY * diffY);
@@ -570,10 +557,10 @@ namespace shooter
                 dirY = diffY / length;
             }
 
-            // Create Bullet
-            EnemyProjectile newEnemyBullet = new EnemyProjectile(enemy_startX - 5, enemy_startY - 5, dirX, dirY);
-            globalBulletList.Add(newEnemyBullet);
-            canvas.Children.Add(newEnemyBullet.Sprite);
+            //Create Enemy Projectile
+            EnemyProjectile newEnemyProjectile = new EnemyProjectile(enemy_startX - 5, enemy_startY - 5, dirX, dirY);
+            globalProjectileList.Add(newEnemyProjectile);
+            canvas.Children.Add(newEnemyProjectile.Sprite);
         }
 
         private void Animate(BitmapSource[] frames, double deltaTime)
@@ -587,8 +574,7 @@ namespace shooter
                 _animTimer = 0;
                 _currentFrame++;
 
-                // Loop: Reset to 1 (skipping 0 if 0 is the "Idle" static pose)
-                // If you want to use the first frame too, change 1 to 0
+                // Loop: Reset to 1 (skipping 0 because 0 is the "Idle" static pose)
                 if (_currentFrame >= frames.Length)
                     _currentFrame = 1;
 
@@ -597,18 +583,20 @@ namespace shooter
         }
         private void SetSprite(BitmapSource[] frames, int index)
         {
-            // 1. Safety Checks
-            if (_bodyImage == null || frames == null || frames.Length == 0) return;
-            if (index < 0 || index >= frames.Length) return;
+            //Checks Images are not Null
+            if (_bodyImage == null || frames == null || frames.Length == 0) 
+                return;
+            if (index < 0 || index >= frames.Length) 
+                return;
 
-            // 2. Get the current frame
+            //Get the current frame
             var currentFrame = frames[index];
 
-            // 3. Update the visible Body
+            //Update the visible Body
             _bodyImage.Source = currentFrame;
 
-            // 4. Update the Red Overlay Mask 
-            // This tells the red rectangle to only appear where the sprite pixels are
+            //Update the Red Overlay Mask 
+            //Only appear where the sprite pixels are
             if (_redOverlay != null)
             {
                 var maskBrush = new ImageBrush();
@@ -619,24 +607,23 @@ namespace shooter
 
         private void UpdateBurnVisuals(double deltaTime)
         {
-            // 1. If we are currently taking "Hit Damage" (Red Flash), do not interfere!
-            // The Damage() method has priority.
+            //If we are currently taking "Hit Damage" (Red Flash), do not interfere
+            //The Damage() method has priority.
             if (_isTakingDamage) return;
 
-            // 2. Are we Burning?
             if (_isBurning)
             {
                 // Set color to Orange
                 _redOverlay.Fill = Brushes.Orange;
 
-                // Run the Blink Timer
+                //Run the Blink Timer
                 _burnBlinkTimer += deltaTime;
 
                 if (_burnBlinkTimer >= BURN_BLINK_SPEED)
                 {
                     _burnBlinkTimer = 0; // Reset timer
 
-                    // Toggle Visibility (If Visible -> Hidden, If Hidden -> Visible)
+                    //Toggle Visibility (If Visible -> Hidden, If Hidden -> Visible)
                     if (_redOverlay.Visibility == Visibility.Visible)
                         _redOverlay.Visibility = Visibility.Hidden;
                     else
@@ -645,7 +632,7 @@ namespace shooter
             }
             else
             {
-                // 3. Not Burning and Not Taking Damage? Ensure overlay is off.
+                //IF Not Burning and Not Taking Damage
                 _redOverlay.Visibility = Visibility.Hidden;
             }
         }

@@ -235,7 +235,7 @@ namespace shooter
             {
                 Enemies[i].UpdateEnemy(deltaTime, joueur, globalEnemyProjectiles, _gameCanvas, _mapLayout.obstacles, Enemies);
 
-                if (Enemies[i].Pv <= 0)
+                if (Enemies[i].Hp <= 0)
                 {
                     switch (Enemies[i].Type)
                     {

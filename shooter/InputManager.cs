@@ -22,18 +22,18 @@ namespace shooter
         public bool IsKey3Pressed;
         public bool IsKey4Pressed;
 
-        private Point mousePosition;
+        private Point _mousePosition;
 
         public Point MousePosition
         {
             get
             {
-                return this.mousePosition;
+                return this._mousePosition;
             }
 
             set
             {
-                this.mousePosition = value;
+                this._mousePosition = value;
             }
         }
 

@@ -13,29 +13,20 @@ namespace shooter
     public enum Direction { Up, Down, Left, Right }
     public class Player
     {
-        private double x;
-        private double y;
-        private double speed;
-        private int hp;
+        private double _x;
+        private double _y;
+        private double _speed;
+        private int _hp;
 
-        private Image sprite;
+        private Image _sprite;
 
         private double _invincibilityTimer = 0;
         private const double INVINCIBILITY_DURATION = 1.0; // 1 second of safety after hit
-        public bool IsInvincible { get; private set; } = false;
+        private bool isInvincible = false;
 
         private ScaleTransform _flipTransform;
 
-        private BitmapImage[] _animUpFrames;
-        private BitmapImage[] _animDownFrames;
-        private BitmapImage[] _animLeftFrames;
-        private BitmapImage[] _animRightFrames;
-
-        private int _numFrames;
         private int _currentFrame = 0;
-        private int _currentDownFrame = 0;
-        private int _currentLeftFrame = 0;
-        private int _currentRightFrame = 0;
         private double _animTimer = 0;
         private const double FRAME_DURATION = 0.05;
 
@@ -45,12 +36,12 @@ namespace shooter
         {
             get
             {
-                return this.x;
+                return this._x;
             }
 
             set
             {
-                this.x = value;
+                this._x = value;
             }
         }
 
@@ -58,12 +49,12 @@ namespace shooter
         {
             get
             {
-                return this.y;
+                return this._y;
             }
 
             set
             {
-                this.y = value;
+                this._y = value;
             }
         }
 
@@ -71,12 +62,12 @@ namespace shooter
         {
             get
             {
-                return this.speed;
+                return this._speed;
             }
 
             set
             {
-                this.speed = value;
+                this._speed = value;
             }
         }
 
@@ -84,16 +75,16 @@ namespace shooter
         {
             get
             {
-                return this.hp;
+                return this._hp;
             }
 
             set
             {
-                if (hp < 0)
+                if (_hp < 0)
                 {
                     //throw new ArgumentOutOfRangeException("HP must be a positive number");
                 }
-                this.hp = value;
+                this._hp = value;
             }
         }
 
@@ -101,12 +92,25 @@ namespace shooter
         {
             get
             {
-                return this.sprite;
+                return this._sprite;
             }
 
             set
             {
-                this.sprite = value;
+                this._sprite = value;
+            }
+        }
+
+        public bool IsInvincible
+        {
+            get
+            {
+                return this.isInvincible;
+            }
+
+            set
+            {
+                this.isInvincible = value;
             }
         }
 
@@ -264,7 +268,7 @@ namespace shooter
         {
             if (IsInvincible) return;
 
-            // 2. Apply Damage
+            //Apply Damage
             this.Hp -= amount;
 
             IsInvincible = true;

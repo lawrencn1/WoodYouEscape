@@ -16,29 +16,130 @@ namespace shooter
     {
         Standard,
         FireAxe,
-        LightAxe,  
-        HeavyAxe   
+        LightAxe,
+        HeavyAxe
     }
-}
 
     public class PlayerProjectile
     {
-        public ProjectileTypePlayer Type { get; private set; }
-        public double X { get; set; }
-        public double Y { get; set; }
-        public double DirX { get; set; }
-        public double DirY { get; set; }
-        public double Speed { get; set; } = 15;
-        public Image Sprite { get; private set; }
-        public bool IsMarkedForRemoval { get; set; } = false;
-        
+        private ProjectileTypePlayer type;
+        private double x;
+        private double y;
+        private double dirX;
+        private double dirY;
+        private double speed = 15;
+        private Image sprite;
+        private bool isMarkedForRemoval = false;
+
         private RotateTransform _rotationTransform;
         private double _rotationSpeed;
 
         private ScaleTransform _scaleTransform;
-        public bool CausesBurn { get; set; } = false; 
+        public bool CausesBurn { get; set; } = false;
 
+        public ProjectileTypePlayer Type
+        {
+            get
+            {
+                return this.type;
+            }
 
+            set
+            {
+                this.type = value;
+            }
+        }
+
+        public double X
+        {
+            get
+            {
+                return this.x;
+            }
+
+            set
+            {
+                this.x = value;
+            }
+        }
+
+        public double Y
+        {
+            get
+            {
+                return this.y;
+            }
+
+            set
+            {
+                this.y = value;
+            }
+        }
+
+        public double DirX
+        {
+            get
+            {
+                return this.dirX;
+            }
+
+            set
+            {
+                this.dirX = value;
+            }
+        }
+
+        public double DirY
+        {
+            get
+            {
+                return this.dirY;
+            }
+
+            set
+            {
+                this.dirY = value;
+            }
+        }
+
+        public double Speed
+        {
+            get
+            {
+                return this.speed;
+            }
+
+            set
+            {
+                this.speed = value;
+            }
+        }
+
+        public Image Sprite
+        {
+            get
+            {
+                return this.sprite;
+            }
+
+            set
+            {
+                this.sprite = value;
+            }
+        }
+
+        public bool IsMarkedForRemoval
+        {
+            get
+            {
+                return this.isMarkedForRemoval;
+            }
+
+            set
+            {
+                this.isMarkedForRemoval = value;
+            }
+        }
 
         public PlayerProjectile(double x, double y, double dirX, double dirY, ProjectileTypePlayer type = ProjectileTypePlayer.Standard)
         {
@@ -49,12 +150,12 @@ namespace shooter
 
             this.Type = type;
 
-            // 1. Initialize Transform & Image container
+            //Initialize Transform & Image container
             _rotationTransform = new RotateTransform();
             _scaleTransform = new ScaleTransform();
-            
+
             var transformGroup = new TransformGroup();
-            transformGroup.Children.Add(_scaleTransform);     
+            transformGroup.Children.Add(_scaleTransform);
             transformGroup.Children.Add(_rotationTransform);
 
 
@@ -65,101 +166,97 @@ namespace shooter
                 RenderTransform = transformGroup
             };
 
-            // 2. Configure Stats & Textures based on Type
+            //Configure Stats & Textures based on Type
             switch (type)
             {
                 case ProjectileTypePlayer.FireAxe:
-                {
-                    Speed = 500;
-
-                    CausesBurn = true; // TRIGGERS THE BURN
-
-                    Sprite.Width = 120;
-                    Sprite.Height = 120;
-                    // Ensure you have a FireAxe texture, or fallback to Axe
-                    Sprite.Source = TextureManager.FireAxeTexture;
-
-                    if (DirX < 0)
                     {
-                        _scaleTransform.ScaleX = -1; // Flip Horizontally
-                        _rotationSpeed = -540;       // Spin Counter-Clockwise
-                    }
-                    else
-                    {
-                        _scaleTransform.ScaleX = 1;  // Normal
-                        _rotationSpeed = 540;        // Spin Clockwise
-                    }
+                        Speed = 500;
 
-                    break;
-                }
+                        CausesBurn = true; // Triggers Burn
+
+                        Sprite.Width = 120;
+                        Sprite.Height = 120;
+                        Sprite.Source = TextureManager.FireAxeTexture;
+
+                        if (DirX < 0)
+                        {
+                            _scaleTransform.ScaleX = -1; // Flip Horizontally
+                            _rotationSpeed = -540;       // Spin Counter-Clockwise
+                        }
+                        else
+                        {
+                            _scaleTransform.ScaleX = 1;  // Normal
+                            _rotationSpeed = 540;        // Spin Clockwise
+                        }
+
+                        break;
+                    }
 
                 case ProjectileTypePlayer.LightAxe:
-                {
-                    Speed = 690; // Very fast
-                    Sprite.Width = 90;
-                    Sprite.Height = 90;
-                    Sprite.Source = TextureManager.LightAxeTexture;
+                    {
+                        Speed = 690; 
+                        Sprite.Width = 90;
+                        Sprite.Height = 90;
+                        Sprite.Source = TextureManager.LightAxeTexture;
 
-                    // No spin, or align to direction
-                    if (DirX < 0)
-                    {
-                        _scaleTransform.ScaleX = -1; // Flip Horizontally
-                        _rotationSpeed = -630;       // Spin Counter-Clockwise
+                        if (DirX < 0)
+                        {
+                            _scaleTransform.ScaleX = -1; // Flip Horizontally
+                            _rotationSpeed = -630;       // Spin Counter-Clockwise
+                        }
+                        else
+                        {
+                            _scaleTransform.ScaleX = 1;  // Normal
+                            _rotationSpeed = 630;        // Spin Clockwise
+                        }
+                        break;
                     }
-                    else
-                    {
-                        _scaleTransform.ScaleX = 1;  // Normal
-                        _rotationSpeed = 630;        // Spin Clockwise
-                    }
-                    break;
-                }
 
                 case ProjectileTypePlayer.HeavyAxe:
-                {
-                    Speed = 300; // Slow
-
-                    Sprite.Width = 130;
-                    Sprite.Height = 130;
-                    Sprite.Source = TextureManager.HeavyAxeTexture;
-
-                    // Rotate to face direction of travel
-                    if (DirX < 0)
                     {
-                        _scaleTransform.ScaleX = -1; // Flip Horizontally
-                        _rotationSpeed = -495;       // Spin Counter-Clockwise
+                        Speed = 300; 
+
+                        Sprite.Width = 130;
+                        Sprite.Height = 130;
+                        Sprite.Source = TextureManager.HeavyAxeTexture;
+
+                        if (DirX < 0)
+                        {
+                            _scaleTransform.ScaleX = -1; // Flip Horizontally
+                            _rotationSpeed = -495;       // Spin Counter-Clockwise
+                        }
+                        else
+                        {
+                            _scaleTransform.ScaleX = 1;  // Normal
+                            _rotationSpeed = 495;        // Spin Clockwise
+                        }
+                        break;
                     }
-                    else
-                    {
-                        _scaleTransform.ScaleX = 1;  // Normal
-                        _rotationSpeed = 495;        // Spin Clockwise
-                    }
-                    break;
-                }
-                case ProjectileTypePlayer.Standard: 
+                case ProjectileTypePlayer.Standard:
                 default:
-                {
-                    Speed = 450;
-
-                    Sprite.Width = 120;
-                    Sprite.Height = 120;
-                    Sprite.Source = TextureManager.AxeTexture;
-
-                    // Standard Spin
-                    if (DirX < 0)
                     {
-                        _scaleTransform.ScaleX = -1; // Flip Horizontally
-                        _rotationSpeed = -540;       // Spin Counter-Clockwise
+                        Speed = 450;
+
+                        Sprite.Width = 120;
+                        Sprite.Height = 120;
+                        Sprite.Source = TextureManager.AxeTexture;
+
+                        if (DirX < 0)
+                        {
+                            _scaleTransform.ScaleX = -1; // Flip Horizontally
+                            _rotationSpeed = -540;       // Spin Counter-Clockwise
+                        }
+                        else
+                        {
+                            _scaleTransform.ScaleX = 1;  // Normal
+                            _rotationSpeed = 540;        // Spin Clockwise
+                        }
+                        break;
                     }
-                    else
-                    {
-                        _scaleTransform.ScaleX = 1;  // Normal
-                        _rotationSpeed = 540;        // Spin Clockwise
-                    }
-                    break; 
-                }
             }
 
-            // 3. Set Initial Position
+            //Set Initial Position
             if (Sprite != null)
             {
                 Canvas.SetLeft(Sprite, X);
@@ -190,4 +287,5 @@ namespace shooter
             }
         }
     }
+}
 

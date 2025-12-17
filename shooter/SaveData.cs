@@ -8,7 +8,20 @@ namespace shooter
 {
     public class SaveData
     {
-        public static HashSet<ProjectileTypePlayer> UnlockedWeapons { get; private set; } = new HashSet<ProjectileTypePlayer>();
+        private static HashSet<ProjectileTypePlayer> unlockedWeapons = new HashSet<ProjectileTypePlayer>();
+
+        public static HashSet<ProjectileTypePlayer> UnlockedWeapons
+        {
+            get
+            {
+                return unlockedWeapons;
+            }
+
+            set
+            {
+                unlockedWeapons = value;
+            }
+        }
 
         public static void Initialize()
         {
@@ -24,7 +37,6 @@ namespace shooter
                 UnlockedWeapons.Add(weapon);
             }
         }
-
         public static bool IsWeaponUnlocked(ProjectileTypePlayer weapon)
         {
             return UnlockedWeapons.Contains(weapon);

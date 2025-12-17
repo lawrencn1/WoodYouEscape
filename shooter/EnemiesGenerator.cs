@@ -9,20 +9,20 @@ namespace shooter
 {
     public class EnemiesGenerator
     {
-        private EnemyType type;
-        private double posX;
-        private double posY;
+        private EnemyType _type;
+        private double _posX;
+        private double _posY;
         public List<Obstacles> obstacles = new List<Obstacles>();
         public EnemyType Type
         {
             get
             {
-                return this.type;
+                return this._type;
             }
 
             set
             {
-                this.type = value;
+                this._type = value;
             }
         }
 
@@ -30,12 +30,12 @@ namespace shooter
         {
             get
             {
-                return this.posX;
+                return this._posX;
             }
 
             set
             {
-                this.posX = value;
+                this._posX = value;
             }
         }
 
@@ -43,12 +43,12 @@ namespace shooter
         {
             get
             {
-                return this.posY;
+                return this._posY;
             }
 
             set
             {
-                this.posY = value;
+                this._posY = value;
             }
         }
 
@@ -56,10 +56,9 @@ namespace shooter
         public EnemiesGenerator(EnemyType type, double posX, double posY, Canvas canva)
         {
             this.Type = type;
-            this.posX = posX;
-            this.posY = posY;
+            this._posX = posX;
+            this._posY = posY;
 
-        
             SpawnEnemies(canva, posX, posY, type);
         }
 

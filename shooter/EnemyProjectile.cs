@@ -48,11 +48,11 @@ namespace shooter
             
             if (DirX < 0)
             {
-                _scaleTransform.ScaleX = -1; // Flip Horizontally
+                _scaleTransform.ScaleX = -1; // Flip Horizontally (Left)
             }
             else
             {
-                _scaleTransform.ScaleX = 1;  // Normal
+                _scaleTransform.ScaleX = 1;  // Normal (Right)
             }
             Canvas.SetLeft(Sprite, X);
             Canvas.SetTop(Sprite, Y);
@@ -68,7 +68,7 @@ namespace shooter
             Canvas.SetLeft(Sprite, X);
             Canvas.SetTop(Sprite, Y);
 
-            // Cleanup if it goes off screen (checking all boundaries now)
+            // Cleanup if it goes off screen (Should not happen since porjectile has collision with play area)
             if (Y < -50 || Y > 2000 || X < -50 || X > 2000)
             {
                 IsMarkedForRemoval = true;

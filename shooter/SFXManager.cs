@@ -13,62 +13,129 @@ namespace shooter
 
         private static List<MediaPlayer> _sfxPool;
         private static int _sfxPoolIndex = 0;
-        private static int _poolSize = 10;
-        public static double MasterVolume { get; private set; } = 1.0;
+        private static int _poolSize = 5;
+        private static double masterVolume = 1.0;
+
+        public static MediaPlayer MusicPlayer
+        {
+            get
+            {
+                return _musicPlayer;
+            }
+
+            set
+            {
+                _musicPlayer = value;
+            }
+        }
+
+        public static List<MediaPlayer> SfxPool
+        {
+            get
+            {
+                return _sfxPool;
+            }
+
+            set
+            {
+                _sfxPool = value;
+            }
+        }
+
+        public static int SfxPoolIndex
+        {
+            get
+            {
+                return _sfxPoolIndex;
+            }
+
+            set
+            {
+                _sfxPoolIndex = value;
+            }
+        }
+
+        public static int PoolSize
+        {
+            get
+            {
+                return _poolSize;
+            }
+
+            set
+            {
+                _poolSize = value;
+            }
+        }
+
+        public static double MasterVolume
+        {
+            get
+            {
+                return masterVolume;
+            }
+
+            set
+            {
+                masterVolume = value;
+            }
+        }
 
         static SFXManager()
         {
-            _sfxPool = new List<MediaPlayer>();
+            SfxPool = new List<MediaPlayer>();
 
-            for (int i = 0; i < _poolSize; i++)
+            for (int i = 0; i < PoolSize; i++)
             {
-                _sfxPool.Add(new MediaPlayer());
+                SfxPool.Add(new MediaPlayer());
             }
         }
 
         public static void LoadMusic(string fileName)
         {
             string path = AppDomain.CurrentDomain.BaseDirectory+ "Music/" + fileName;
-            _musicPlayer.Open(new Uri(path));
+            MusicPlayer.Open(new Uri(path));
 
-            // Set up looping immediately
-            _musicPlayer.MediaEnded += (sender, e) =>
+            //Set up looping immediately
+            MusicPlayer.MediaEnded += (sender, e) =>
             {
-                _musicPlayer.Position = TimeSpan.Zero;
-                _musicPlayer.Play();
+                MusicPlayer.Position = TimeSpan.Zero;
+                MusicPlayer.Play();
             };
 
             // Prepare volume
-            _musicPlayer.Volume = MasterVolume;
+            MusicPlayer.Volume = MasterVolume;
         }
         public static void PlayMusic()
         {
-            _musicPlayer.Play();
+            MusicPlayer.Play();
         }
 
         public static void StopMusic()
         {
-            _musicPlayer.Stop();
+            MusicPlayer.Stop();
         }
         public static void SetVolume(double volume)
         {
             // Ensure volume is between 0.0 and 1.0
-            if (volume < 0) volume = 0;
-            if (volume > 1) volume = 1;
+            if (volume < 0)
+                volume = 0;
+            if (volume > 1) 
+                volume = 1;
 
             MasterVolume = volume;
-            _musicPlayer.Volume = MasterVolume; // Update music immediately
+            MusicPlayer.Volume = MasterVolume; // Update volume immediately
         }
 
-        // SFX method (Creates a new player for every sound so they can overlap)
+        // SFX method
         public static void PlaySound(string fileName)
         {
             string path = AppDomain.CurrentDomain.BaseDirectory + "Music/" + fileName;
 
-            MediaPlayer sfxPlayer = _sfxPool[_sfxPoolIndex];
-            _sfxPoolIndex++;
-            if (_sfxPoolIndex >= _poolSize) 
-                _sfxPoolIndex = 0;
+            MediaPlayer sfxPlayer = SfxPool[SfxPoolIndex];
+            SfxPoolIndex++;
+            if (SfxPoolIndex >= PoolSize) 
+                SfxPoolIndex = 0;
             sfxPlayer.Open(new Uri(path));
             sfxPlayer.Volume = 1.5;
             sfxPlayer.Play();

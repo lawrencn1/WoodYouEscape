@@ -35,8 +35,7 @@ namespace shooter
         public static BitmapImage[] UpFrames;
         public static BitmapImage[] DownFrames;
         public static BitmapImage[] LeftFrames;
-        public static BitmapImage[] RightFrames;
-
+        //public static BitmapImage[] RightFrames;
 
 
         public static void LoadTextures()
@@ -121,29 +120,29 @@ namespace shooter
 
         private static BitmapSource[] SliceSpriteSheet(string path, int totalColumns, int totalRows, int targetRow, int framesToTake)
         {
-            // 1. Load the full Master Sheet
+            //Load the full Srite Sheet
             BitmapImage fullSheet = LoadBitmap(path);
 
             if (fullSheet == null) return new BitmapSource[0];
 
-            // 2. Calculate the size of one single frame
+            //Calculate the size of one single frame
             int frameWidth = fullSheet.PixelWidth / totalColumns;
             int frameHeight = fullSheet.PixelHeight / totalRows;
 
             BitmapSource[] frames = new BitmapSource[framesToTake];
 
-            // 3. Loop through columns and cut the frames
+            //Loop through columns and cut the frames
             for (int i = 0; i < framesToTake; i++)
             {
-                // Calculate X and Y coordinates for the cut
+                //Calculate X and Y coordinates for the cut
                 int x = i * frameWidth;
                 int y = targetRow * frameHeight; // Jump down to the specific row
 
-                // Create the crop
-                // Int32Rect defines the rectangle (X, Y, Width, Height)
+                //Create the crop
+                //Defines the rectangle (X, Y, Width, Height)
                 var crop = new CroppedBitmap(fullSheet, new Int32Rect(x, y, frameWidth, frameHeight));
 
-                // Freeze it for performance
+                // Freeze for performance
                 crop.Freeze();
 
                 frames[i] = crop;
