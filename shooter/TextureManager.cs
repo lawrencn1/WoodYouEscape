@@ -16,6 +16,7 @@ namespace shooter
         public static BitmapImage FireAxeTexture;
         public static BitmapImage LightAxeTexture;
         public static BitmapImage HeavyAxeTexture;
+        public static BitmapImage EnemyProjectileTexture;
 
         //ENEMY TEXTURES
         public static BitmapSource[] MeleeUpFrames;
@@ -26,9 +27,9 @@ namespace shooter
         public static BitmapSource[] TankDownFrames;
         public static BitmapSource[] TankSideFrames;
 
-        public static BitmapImage[] RangedUpFrames;
-        public static BitmapImage[] RangedDownFrames;
-        public static BitmapImage[] RangedSideFrames;
+        public static BitmapSource[] RangedUpFrames;
+        public static BitmapSource[] RangedDownFrames;
+        public static BitmapSource[] RangedSideFrames;
 
         // PLAYER TEXTURES
         public static BitmapImage[] UpFrames;
@@ -44,24 +45,25 @@ namespace shooter
             {
                 // Load Enemy Animations
                 // Bushbush
-                string bushSheetPath = "pack://application:,,,/enemySpritesheet/MeleeSpriteSheet.png";
-                string treeSheetPath = "pack://application:,,,/enemySpritesheet/TankSpriteSheet.png";
+                string meleeSheetPath = "pack://application:,,,/enemySpritesheet/MeleeSpriteSheet.png";
+                string tankSheetPath = "pack://application:,,,/enemySpritesheet/TankSpriteSheet.png";
+                string rangedSheetPath = "pack://application:,,,/enemySpritesheet/RangedSpriteSheet.png";
 
                 // Row 0 is Down (Front)
-                MeleeDownFrames = SliceSpriteSheet(bushSheetPath, 8, 3, 0, 8);
+                MeleeDownFrames = SliceSpriteSheet(meleeSheetPath, 8, 3, 0, 8);
                 // Row 1 is Side
-                MeleeSideFrames = SliceSpriteSheet(bushSheetPath, 8, 3, 1, 8);
+                MeleeSideFrames = SliceSpriteSheet(meleeSheetPath, 8, 3, 1, 8);
                 // Row 2 is Up (Back)
-                MeleeUpFrames = SliceSpriteSheet(bushSheetPath, 8, 3, 2, 8);
+                MeleeUpFrames = SliceSpriteSheet(meleeSheetPath, 8, 3, 2, 8);
 
                 // 
-                TankUpFrames = SliceSpriteSheet(treeSheetPath, 8, 3, 2, 8);
-                TankSideFrames = SliceSpriteSheet(treeSheetPath, 8, 3, 1, 8);
-                TankDownFrames = SliceSpriteSheet(treeSheetPath, 8, 3, 0, 8);
+                TankUpFrames = SliceSpriteSheet(tankSheetPath, 8, 3, 2, 8);
+                TankSideFrames = SliceSpriteSheet(tankSheetPath, 8, 3, 1, 8);
+                TankDownFrames = SliceSpriteSheet(tankSheetPath, 8, 3, 0, 8);
 
-                RangedUpFrames = LoadPlayerDirection("pack://application:,,,/playerIdleSpritesheet/backwardsIdle1.png", "pack://application:,,,/playerUpSpritesheet/walkingUp");
-                RangedDownFrames = LoadPlayerDirection("pack://application:,,,/playerIdleSpritesheet/fowardIdle1.png", "pack://application:,,,/playerDownSpritesheet/walkingDown");
-                RangedSideFrames = LoadPlayerDirection("pack://application:,,,/playerIdleSpritesheet/leftIdle1.png", "pack://application:,,,/playerLeftSpritesheet/walkingLeft");
+                RangedUpFrames = SliceSpriteSheet(rangedSheetPath, 8, 3, 2, 8);
+                RangedDownFrames = SliceSpriteSheet(rangedSheetPath, 8, 3, 0, 8);
+                RangedSideFrames = SliceSpriteSheet(rangedSheetPath, 8, 3, 1, 8);
 
 
                 // Load Player Animations
@@ -75,6 +77,7 @@ namespace shooter
                 FireAxeTexture = LoadBitmap("pack://application:,,,/axes/fireAxe.png");
                 LightAxeTexture = LoadBitmap("pack://application:,,,/axes/lightAxe.png");
                 HeavyAxeTexture = LoadBitmap("pack://application:,,,/axes/heavyAxe.png");
+                EnemyProjectileTexture = LoadBitmap("pack://application:,,,/enemySpritesheet/enemyProjectile.png");
 
             }
             catch (Exception ex)

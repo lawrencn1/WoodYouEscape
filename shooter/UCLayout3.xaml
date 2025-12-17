@@ -53,8 +53,16 @@
                     <ImageBrush ImageSource="/hole1.png"/>
                 </Rectangle.Fill>
             </Rectangle>
-            <Rectangle x:Name="a10" Tag="Start" HorizontalAlignment="Left" Height="40" Stroke="#FFFFD8D8" VerticalAlignment="Top" Width="100" Fill="White" Margin="56,285,0,0" RenderTransformOrigin="0.337,0.236" />
-            <Rectangle x:Name="a11" Tag="End" HorizontalAlignment="Left" Height="40" Stroke="#FFFFD8D8" VerticalAlignment="Top" Width="100" Fill="White" Margin="633,40,0,0" />
+            <Rectangle x:Name="a10" Tag="Start" HorizontalAlignment="Left" Height="79" VerticalAlignment="Top" Width="100" Margin="56,246,0,0" RenderTransformOrigin="0.337,0.236" >
+                <Rectangle.Fill>
+                    <ImageBrush ImageSource="/portal.png"/>
+                </Rectangle.Fill>
+            </Rectangle>
+            <Rectangle x:Name="a11" Tag="End" HorizontalAlignment="Left" Height="77" VerticalAlignment="Top" Width="100" Margin="633,40,0,0" >
+                <Rectangle.Fill>
+                    <ImageBrush ImageSource="/portal.png"/>
+                </Rectangle.Fill>
+            </Rectangle>
         </Grid>
     </Viewbox>
 </UserControl>

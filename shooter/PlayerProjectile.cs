@@ -78,7 +78,6 @@ namespace shooter
                     Sprite.Height = 120;
                     // Ensure you have a FireAxe texture, or fallback to Axe
                     Sprite.Source = TextureManager.FireAxeTexture;
-                    Sprite.OpacityMask = Brushes.Red;
 
                     if (DirX < 0)
                     {

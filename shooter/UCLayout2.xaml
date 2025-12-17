@@ -54,8 +54,16 @@
                     <ImageBrush ImageSource="/smallHorizontalMushrooms1.png"/>
                 </Rectangle.Fill>
             </Rectangle>
-            <Rectangle x:Name="a10" Tag="Start" HorizontalAlignment="Left" Height="40" Stroke="#FFFFD8D8" VerticalAlignment="Top" Width="100" Fill="White" Margin="56,285,0,0" RenderTransformOrigin="0.337,0.236" />
-            <Rectangle x:Name="a11" Tag="End" HorizontalAlignment="Left" Height="40" Stroke="#FFFFD8D8" VerticalAlignment="Top" Width="100" Fill="White" Margin="628,40,0,0" />
+            <Rectangle x:Name="a10" Tag="Start" HorizontalAlignment="Left" Height="75" VerticalAlignment="Top" Width="100" Margin="56,250,0,0" RenderTransformOrigin="0.337,0.236" >
+                <Rectangle.Fill>
+                    <ImageBrush ImageSource="/portal.png"/>
+                </Rectangle.Fill>
+            </Rectangle>
+            <Rectangle x:Name="a11" Tag="End" HorizontalAlignment="Left" Height="78" VerticalAlignment="Top" Width="100" Margin="628,40,0,0" >
+                <Rectangle.Fill>
+                    <ImageBrush ImageSource="/portal.png"/>
+                </Rectangle.Fill>
+            </Rectangle>
         </Grid>
     </Viewbox>
 </UserControl>

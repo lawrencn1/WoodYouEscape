@@ -18,9 +18,11 @@
     <None Remove="bush2.png" />
     <None Remove="bush3.png" />
     <None Remove="enemySpritesheet\enemyDown.png" />
+    <None Remove="enemySpritesheet\enemyProjectile.png" />
     <None Remove="enemySpritesheet\enemySide.png" />
     <None Remove="enemySpritesheet\enemyUp.png" />
     <None Remove="enemySpritesheet\MeleeSpriteSheet.png" />
+    <None Remove="enemySpritesheet\RangedSpritesheet.png" />
     <None Remove="enemySpritesheet\TankSpriteSheet.png" />
     <None Remove="hole1.png" />
     <None Remove="horizontalBush1.png" />
@@ -39,6 +41,7 @@
     <None Remove="mapAssets\mushromm1.png" />
     <None Remove="mapAssets\obstacles.png" />
     <None Remove="mapAssets\obstaclesBG.png" />
+    <None Remove="mapAssets\portal.png" />
     <None Remove="mapAssets\smallHorizontalMushrooms1.png" />
     <None Remove="mapAssets\smallHorizontalTrunck1.png" />
     <None Remove="mapAssets\smallHorizontalTrunck2.png" />
@@ -101,6 +104,7 @@
     <None Remove="playerUpSpritesheet\walkingUp8 %282%29.png" />
     <None Remove="playerUpSpritesheet\walkingUp8.png" />
     <None Remove="playerUpSpritesheet\walkingUp9.png" />
+    <None Remove="portal.png" />
     <None Remove="smallHorizontalMushrooms1.png" />
     <None Remove="smallHorizontalTrunck1.png" />
     <None Remove="smallHorizontalTrunck2.png" />
@@ -218,9 +222,11 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="enemySpritesheet\enemyDown.png" />
+    <Resource Include="enemySpritesheet\enemyProjectile.png" />
     <Resource Include="enemySpritesheet\enemySide.png" />
     <Resource Include="enemySpritesheet\enemyUp.png" />
     <Resource Include="enemySpritesheet\MeleeSpriteSheet.png" />
+    <Resource Include="enemySpritesheet\RangedSpritesheet.png" />
     <Resource Include="enemySpritesheet\TankSpriteSheet.png" />
     <Resource Include="hole1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -271,6 +277,7 @@
     <Resource Include="mapAssets\obstaclesBG.png">
       <CopyToOutputDirectory></CopyToOutputDirectory>
     </Resource>
+    <Resource Include="mapAssets\portal.png" />
     <Resource Include="mapAssets\smallHorizontalMushrooms1.png">
       <CopyToOutputDirectory></CopyToOutputDirectory>
     </Resource>
@@ -354,6 +361,7 @@
     <Resource Include="playerUpSpritesheet\walkingUp8 (2).png" />
     <Resource Include="playerUpSpritesheet\walkingUp8.png" />
     <Resource Include="playerUpSpritesheet\walkingUp9.png" />
+    <Resource Include="portal.png" />
     <Resource Include="smallHorizontalMushrooms1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>

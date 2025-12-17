@@ -23,15 +23,23 @@
                     <ImageBrush ImageSource="/bush1.png"/>
                 </Rectangle.Fill>
             </Rectangle>
-            <Rectangle x:Name="a4" HorizontalAlignment="Left" Height="65" Margin="322,247,0,0" VerticalAlignment="Top" Width="65" RenderTransformOrigin="0.523,0.383">
+            <Rectangle x:Name="a4" HorizontalAlignment="Left" Height="65" Margin="335,205,0,0" VerticalAlignment="Top" Width="65" RenderTransformOrigin="0.523,0.383">
                 <Rectangle.Fill>
                     <ImageBrush ImageSource="/stump3.png"/>
                 </Rectangle.Fill>
             </Rectangle>
             <!--MAX TOP LEFT (left margin 10, top margin 8)-->
-            <Rectangle x:Name="a5" Tag="Start" HorizontalAlignment="Left" Height="40" Stroke="#FFFFD8D8" VerticalAlignment="Top" Width="100" Fill="White" Margin="10,8,0,0" />
+            <Rectangle x:Name="a5" Tag="Start" HorizontalAlignment="Left" Height="71" VerticalAlignment="Top" Width="100" Margin="10,8,0,0" >
+                <Rectangle.Fill>
+                    <ImageBrush ImageSource="/portal.png"/>
+                </Rectangle.Fill>
+            </Rectangle>
             <!-- MAX BOTTOM RIGHT (left margin 628, top margin 292)-->
-            <Rectangle x:Name="a6" Tag="End" HorizontalAlignment="Left" Height="40" Stroke="#FFFFD8D8" VerticalAlignment="Top" Width="100" Fill="White" Margin="628,292,0,0" />
+            <Rectangle x:Name="a6" Tag="End" HorizontalAlignment="Left" Height="68" VerticalAlignment="Top" Width="100" Margin="628,264,0,0" >
+                <Rectangle.Fill>
+                    <ImageBrush ImageSource="/portal.png"/>
+                </Rectangle.Fill>
+            </Rectangle>
         </Grid>
     </Viewbox>
 </UserControl>

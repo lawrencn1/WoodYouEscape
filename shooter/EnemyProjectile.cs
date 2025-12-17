@@ -10,13 +10,6 @@ using System.Windows.Shapes;
 
 namespace shooter
 {
-    public enum ProjectileTypeEnemy
-    {
-        Standard,
-        Sniper,
-        MachineGun,
-        Rocket
-    }
 
     public class EnemyProjectile
     {
@@ -25,8 +18,11 @@ namespace shooter
         public double DirX { get; set; }
         public double DirY { get; set; }
         public double Speed { get; set; } = 15;
-        public UIElement Sprite { get; private set; }
+        public Image Sprite { get; private set; }
         public bool IsMarkedForRemoval { get; set; } = false;
+        
+        private ScaleTransform _scaleTransform;
+        private RotateTransform _rotateTransform;
 
         public EnemyProjectile(double x, double y, double dirX, double dirY)
         {
@@ -34,14 +30,30 @@ namespace shooter
             Y = y;
             DirX = dirX;
             DirY = dirY;
+            _scaleTransform = new ScaleTransform();
+            _rotateTransform = new RotateTransform();
 
-            Sprite = new Rectangle
+            Sprite = new Image
             {
-                Width = 10,
-                Height = 10,
-                Fill = Brushes.Purple,
+                Width = 30,
+                Height = 30,
+                Stretch = Stretch.Uniform,
+                RenderTransformOrigin = new Point(0.5, 0.5),
+                Source = TextureManager.EnemyProjectileTexture,
+                RenderTransform = _rotateTransform
             };
 
+            double angle = Math.Atan2(DirY, DirX) * (180 / Math.PI);
+            _rotateTransform.Angle = angle;
+            
+            if (DirX < 0)
+            {
+                _scaleTransform.ScaleX = -1; // Flip Horizontally
+            }
+            else
+            {
+                _scaleTransform.ScaleX = 1;  // Normal
+            }
             Canvas.SetLeft(Sprite, X);
             Canvas.SetTop(Sprite, Y);
 
