@@ -750,7 +750,14 @@ namespace shooter
             uc.Settings.Click += (sender, e) =>
             {
                 Pause();
-                Settings(canva, UCsettings);
+                if (canva.Children.Contains(UCsettings))
+                {
+                    SFXManager.SetVolume(UCsettings.volume.Value);
+                    Resume();
+                    canva.Children.Remove(UCsettings);
+                }
+                else
+                  Settings(canva, UCsettings);
             };
         }
 
