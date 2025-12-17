@@ -165,15 +165,17 @@ namespace shooter
             {
                 _gameCanvas.Children.Add(joueur.Sprite);
             }
-            joueur.UpdatePosition();           
+            joueur.UpdatePosition();
 
             // 3. Start Game Loop
             var border = new Rectangle
             {
                 Width = PlayableArea.Width,
                 Height = PlayableArea.Height,
+#if DEBUG
                 Stroke = Brushes.Yellow,
                 StrokeThickness = 3
+#endif  
             };
             Canvas.SetLeft(border, PlayableArea.X);
             Canvas.SetTop(border, PlayableArea.Y);

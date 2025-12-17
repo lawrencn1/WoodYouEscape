@@ -106,8 +106,10 @@ namespace shooter
             {
                 Width = width,
                 Height = heigth,
+#if DEBUG
                 Fill = Brushes.Transparent,
                 Stroke = Brushes.White
+#endif
             };
 
             SetPosition(x, y);
