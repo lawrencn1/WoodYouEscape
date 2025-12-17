@@ -18,9 +18,9 @@ namespace shooter
     /// <summary>
     /// Interaction logic for GameRules.xaml
     /// </summary>
-    public partial class GameRules : UserControl
+    public partial class UCGameRules : UserControl
     {
-        public GameRules()
+        public UCGameRules()
         {
             InitializeComponent();
         }

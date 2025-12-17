@@ -22,7 +22,7 @@ namespace shooter
 
         
         public InputManager inputMng;
-        public Player joueur;
+        public Player player;
         public List<EnemyProjectile> globalEnemyProjectiles = new List<EnemyProjectile>();
         public List<Enemy> Enemies = new List<Enemy>();
         public static Rect PlayableArea = new Rect(100,295,1080,1080);
@@ -141,9 +141,9 @@ namespace shooter
             _mapLayout.obstacles.Clear();
 
             //Clears player
-            if (_gameCanvas.Children.Contains(joueur.Sprite))
+            if (_gameCanvas.Children.Contains(player.Sprite))
             {
-                _gameCanvas.Children.Remove(joueur.Sprite);
+                _gameCanvas.Children.Remove(player.Sprite);
             }
 
             UCGUI = new UCGUI();
@@ -165,14 +165,14 @@ namespace shooter
             {
                 if (_mapLayout.obstacles[i].Type == ObstacleType.Start)
                 {
-                    joueur = new Player(_mapLayout.obstacles[i].X + _mapLayout.obstacles[i].X * 0.20, _mapLayout.obstacles[i].Y , 200);
+                    player = new Player(_mapLayout.obstacles[i].X + _mapLayout.obstacles[i].X * 0.20, _mapLayout.obstacles[i].Y , 200);
                 }
             }
-            if (!_gameCanvas.Children.Contains(joueur.Sprite))
+            if (!_gameCanvas.Children.Contains(player.Sprite))
             {
-                _gameCanvas.Children.Add(joueur.Sprite);
+                _gameCanvas.Children.Add(player.Sprite);
             }
-            joueur.UpdatePosition();
+            player.UpdatePosition();
 
             //Start Game Loop
             var border = new Rectangle
@@ -222,7 +222,7 @@ namespace shooter
         private void GameLoop(object sender, EventArgs e)
         {
       
-            if (joueur.Hp < 0)
+            if (player.Hp < 0)
             {
                 Stop();
                 Lose(_gameCanvas);
@@ -233,13 +233,13 @@ namespace shooter
             _lastTick = currentTick;
 
             UpdatePlayer(deltaTime);
-            joueur.UpdateInvincibility(deltaTime);
+            player.UpdateInvincibility(deltaTime);
             UpdatePlayerBullets(deltaTime, _gameCanvas);
             UpdateEnemyBullets(deltaTime, _gameCanvas);
 
             for (int i = 0; i < Enemies.Count; i++)
             {
-                Enemies[i].UpdateEnemy(deltaTime, joueur, globalEnemyProjectiles, _gameCanvas, _mapLayout.obstacles, Enemies);
+                Enemies[i].UpdateEnemy(deltaTime, player, globalEnemyProjectiles, _gameCanvas, _mapLayout.obstacles, Enemies);
 
                 if (Enemies[i].Hp <= 0)
                 {
@@ -261,7 +261,7 @@ namespace shooter
                 }
             }
             CheckCollisions();
-            GUI(_gameCanvas, joueur);
+            GUI(_gameCanvas, player);
             
         }
 
@@ -344,20 +344,20 @@ namespace shooter
 
                 if (_godModeActive)
                 {
-                    joueur.Hp = 99999;
+                    player.Hp = 99999;
                     UCGUI.Life.Content = "GOD MODE";
                     UCGUI.Green.Width = 200;
                 }
                 else
                 {
-                    joueur.Hp = 100;
+                    player.Hp = 100;
                     UCGUI.Life.Content = "100/100";
                 }
             }
             else if (!inputMng.IsKeyF4Pressed) _cheatGodModeLocked = false;
 
             // Keep HP full if God Mode is on
-            if (_godModeActive) joueur.Hp = 99999;
+            if (_godModeActive) player.Hp = 99999;
 
             //F2: UNLOCK ALL WEAPONS
             if (inputMng.IsKeyF2Pressed && !_cheatUnlockLocked)
@@ -395,8 +395,8 @@ namespace shooter
             }
             //Collision Check with Obstacles
 
-            Rect futureX = new Rect(joueur.X + (dx * pixeldist), joueur.Y, 80, 100 - (margin * 2));
-            Rect futureY = new Rect(joueur.X, joueur.Y + (dy * pixeldist), 80 - (margin * 2), 100);
+            Rect futureX = new Rect(player.X + (dx * pixeldist), player.Y, 80, 100 - (margin * 2));
+            Rect futureY = new Rect(player.X, player.Y + (dy * pixeldist), 80 - (margin * 2), 100);
 
             for (int i = 0; i < _mapLayout.obstacles.Count; i++)
             {
@@ -438,7 +438,7 @@ namespace shooter
                 }
             }
 
-            joueur.Deplacement(dx, dy, deltaTime);
+            player.Deplacement(dx, dy, deltaTime);
 
             //Weapon switching 
             if (inputMng.IsKey1Pressed)
@@ -560,7 +560,7 @@ namespace shooter
 
             // ENEMY BULLETS VS PLAYER
 
-            Rect playerRect = new Rect(joueur.X, joueur.Y, 80, 100);
+            Rect playerRect = new Rect(player.X, player.Y, 80, 100);
 
             for (int k = globalEnemyProjectiles.Count - 1; k >= 0; k--)
             {
@@ -571,7 +571,7 @@ namespace shooter
 
                 if (eProjectileRect.IntersectsWith(playerRect))
                 {
-                    joueur.Damage(15);
+                    player.Damage(15);
 
                     if (enemyProjectile.Sprite != null)
                     {
@@ -579,7 +579,7 @@ namespace shooter
                     }
                     globalEnemyProjectiles.RemoveAt(k);
 
-                    if (joueur.Hp <= 0)
+                    if (player.Hp <= 0)
                     {
                         Stop();
                         Lose(_gameCanvas);
@@ -605,9 +605,9 @@ namespace shooter
                         case EnemyType.Ranged: contactDamage = 5; break;
                     }
 
-                    joueur.Damage(contactDamage);
+                    player.Damage(contactDamage);
 
-                    if (joueur.Hp < 0)
+                    if (player.Hp < 0)
                     {
                         Stop();
                         Lose(_gameCanvas);
@@ -688,8 +688,8 @@ namespace shooter
         {
             if (Sprite == "Player")
             {
-                double player_startX = joueur.X;
-                double player_startY = joueur.Y;
+                double player_startX = player.X;
+                double player_startY = player.Y;
 
                 Point target = inputMng.MousePosition;
                 double diffX = (target.X)- player_startX;
@@ -712,7 +712,7 @@ namespace shooter
         //User controls functions
         private void GameRule(Canvas canva)
         {   
-            GameRules uc = new GameRules();
+            UCGameRules uc = new UCGameRules();
 
             uc.Width = canva.Width;   
             uc.Height = canva.Height; 
@@ -890,7 +890,11 @@ namespace shooter
             }
             else
             {
-                UCGUI.Lvl.Content = $"Niveau : {_mapNumber + 1} / {_mapMax}";
+                if (MainWindow.GAMEMODE != "Infinite")
+                    UCGUI.Lvl.Content = $"Niveau : {_mapNumber + 1} / {_mapMax}";
+                else 
+                    UCGUI.Lvl.Content = $"Niveau : {_mapNumber + 1}";
+
             }
 
             UCGUI.Score.Content = $"Score : {_score}";
@@ -916,8 +920,6 @@ namespace shooter
             canva.Children.Add(popup);
             Panel.SetZIndex(popup, 100);
 
-            // --- BUTTON LOGIC ---
-            // When they click Continue, remove the popup and start next level
             popup.ContinueBtn.Click += (sender, e) =>
             {
                 canva.Children.Remove(popup);
