@@ -64,6 +64,7 @@ namespace shooter
 
         public void Start()
         {
+            SaveData.Initialize();
             GameRule(_gameCanvas);  
         }
 
@@ -375,10 +376,18 @@ namespace shooter
             joueur.Deplacement(dx, dy, deltaTime);
 
             // Weapon switching 
-            if (inputMng.IsKey1Pressed) SetWeapon(ProjectileTypePlayer.Standard);
-            if (inputMng.IsKey2Pressed) SetWeapon(ProjectileTypePlayer.LightAxe);
-            if (inputMng.IsKey3Pressed) SetWeapon(ProjectileTypePlayer.FireAxe);
-            if (inputMng.IsKey4Pressed) SetWeapon(ProjectileTypePlayer.HeavyAxe);
+            if (inputMng.IsKey1Pressed)
+                SetWeapon(ProjectileTypePlayer.Standard); // Standard is always unlocked
+
+            // ONLY switch if the weapon is actually unlocked
+            if (inputMng.IsKey2Pressed && SaveData.IsWeaponUnlocked(ProjectileTypePlayer.LightAxe))
+                SetWeapon(ProjectileTypePlayer.LightAxe);
+
+            if (inputMng.IsKey3Pressed && SaveData.IsWeaponUnlocked(ProjectileTypePlayer.FireAxe))
+                SetWeapon(ProjectileTypePlayer.FireAxe);
+
+            if (inputMng.IsKey4Pressed && SaveData.IsWeaponUnlocked(ProjectileTypePlayer.HeavyAxe))
+                SetWeapon(ProjectileTypePlayer.HeavyAxe);
 
             if (_fireTimerPlayer > 0) _fireTimerPlayer -= deltaTime;
 
@@ -391,6 +400,20 @@ namespace shooter
 
             if (restartGame)
             {
+                if(_mapNumber == 0) // Just finished Level 1
+    {
+                    SaveData.UnlockWeapon(ProjectileTypePlayer.LightAxe);
+                    // Optional: Play a sound here!
+                }
+                else if (_mapNumber == 1) // Just finished Level 2
+                {
+                    SaveData.UnlockWeapon(ProjectileTypePlayer.FireAxe);
+                }
+                else if (_mapNumber == 2) // Just finished Level 3
+                {
+                    SaveData.UnlockWeapon(ProjectileTypePlayer.HeavyAxe);
+                }
+
                 if (_mapNumber == _mapMax - 1 && MainWindow.GAMEMODE != "Infinite")
                 {
                     Stop();
@@ -694,6 +717,9 @@ namespace shooter
 
             uc.Restart.Click += (sender, e) =>
             {
+
+                SaveData.Initialize();
+
                 canva.Children.Remove(uc);
                 _mapNumber = 0;
                 _score = 0;
@@ -714,6 +740,7 @@ namespace shooter
 
             uc.Restart.Click += (sender, e) =>
             {
+                SaveData.Initialize();
                 canva.Children.Remove(uc);
                 _mapNumber = 0;
                 _score = 0;
