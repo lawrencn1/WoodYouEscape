@@ -26,6 +26,7 @@ namespace shooter
         public static void Initialize()
         {
             UnlockedWeapons.Clear();
+            
             // Start ONLY with the Standard Axe
             UnlockedWeapons.Add(ProjectileTypePlayer.Standard);
         }

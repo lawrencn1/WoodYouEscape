@@ -45,6 +45,13 @@ namespace shooter
         private int _mapMax;
         private int _score = 0;
 
+        //Cheat codes
+        private bool _cheatGodModeLocked = false;
+        private bool _cheatUnlockLocked = false;
+        private bool _cheatSkipLocked = false;
+        private bool _godModeActive = false;
+
+        private bool _escKeyLocked = false;
 
         public GameEngine(Canvas canvas)
         {
@@ -210,7 +217,6 @@ namespace shooter
                 EnemiesRandomizer(_gameCanvas, 1, EnemyType.MeleeTank);
                 _mapMax = 7;
             }
- 
         }
 
         private void GameLoop(object sender, EventArgs e)
@@ -255,7 +261,7 @@ namespace shooter
                 }
             }
             CheckCollisions();
-            Life(_gameCanvas, joueur);
+            GUI(_gameCanvas, joueur);
             
         }
 
@@ -330,6 +336,63 @@ namespace shooter
                 dy /= length;
             }
 
+            //F4: God Mode
+            if (inputMng.IsKeyF4Pressed && !_cheatGodModeLocked)
+            {
+                _cheatGodModeLocked = true;
+                _godModeActive = !_godModeActive; // Toggle
+
+                if (_godModeActive)
+                {
+                    joueur.Hp = 99999;
+                    UCGUI.Life.Content = "GOD MODE";
+                    UCGUI.Green.Width = 200;
+                }
+                else
+                {
+                    joueur.Hp = 100;
+                    UCGUI.Life.Content = "100/100";
+                }
+            }
+            else if (!inputMng.IsKeyF4Pressed) _cheatGodModeLocked = false;
+
+            // Keep HP full if God Mode is on
+            if (_godModeActive) joueur.Hp = 99999;
+
+            //F2: UNLOCK ALL WEAPONS
+            if (inputMng.IsKeyF2Pressed && !_cheatUnlockLocked)
+            {
+                _cheatUnlockLocked = true;
+                SaveData.UnlockWeapon(ProjectileTypePlayer.LightAxe);
+                SaveData.UnlockWeapon(ProjectileTypePlayer.FireAxe);
+                SaveData.UnlockWeapon(ProjectileTypePlayer.HeavyAxe);
+                UCGUI.Weapon.Content = "CHEAT: Toutes les Haches Débloquées";
+            }
+            else if (!inputMng.IsKeyF2Pressed) _cheatUnlockLocked = false;
+
+            //F3: SKIP LEVEL
+            if (inputMng.IsKeyF3Pressed && !_cheatSkipLocked)
+            {
+                _cheatSkipLocked = true;
+                restartGame = true;
+            }
+            else if (!inputMng.IsKeyF3Pressed) _cheatSkipLocked = false;
+            
+            if (inputMng.IsKeyEscPressed && !_escKeyLocked)
+            {
+                _escKeyLocked = true; //Only triggers once
+
+                // Check if settings are NOT already open
+                if (!_gameCanvas.Children.Contains(UCsettings))
+                {
+                    Pause();
+                    Settings(_gameCanvas, UCsettings);
+                }
+            }
+            else if (!inputMng.IsKeyEscPressed)
+            {
+                _escKeyLocked = false; 
+            }
             //Collision Check with Obstacles
 
             Rect futureX = new Rect(joueur.X + (dx * pixeldist), joueur.Y, 80, 100 - (margin * 2));
@@ -399,6 +462,7 @@ namespace shooter
                 SpawnProjectile(mainWindow.canvas, "Player");
                 _fireTimerPlayer = _currentCooldownDuration;
             }
+
 
             if (restartGame)
             {
@@ -723,6 +787,7 @@ namespace shooter
             uc.Restart.Click += (sender, e) =>
             {
                 SaveData.Initialize();
+                SetWeapon(ProjectileTypePlayer.Standard);
 
                 canva.Children.Remove(uc);
                 _mapNumber = 0;
@@ -745,6 +810,7 @@ namespace shooter
             uc.Restart.Click += (sender, e) =>
             {
                 SaveData.Initialize();
+                SetWeapon(ProjectileTypePlayer.Standard);
                 canva.Children.Remove(uc);
                 _mapNumber = 0;
                 _score = 0;
@@ -772,7 +838,6 @@ namespace shooter
         private void GUI(Canvas canva, UCGUI uc)
         {
             
-
             uc.Width = canva.Width;   
             uc.Height = canva.Height; 
 
@@ -799,8 +864,15 @@ namespace shooter
             _mapLayout = new MapLayout(_map, _gameCanvas);
         }
 
-        public void Life(Canvas canvas, Player player)
+        public void GUI(Canvas canvas, Player player)
         {
+            if (player.Hp > 100)
+            {
+                UCGUI.Life.Content = "GOD MODE";
+                UCGUI.Green.Width = 500; 
+                return;
+            }
+
             double put;
             int playerMaxLife = 100;
             int life = player.Hp;

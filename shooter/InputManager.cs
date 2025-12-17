@@ -22,6 +22,13 @@ namespace shooter
         public bool IsKey3Pressed;
         public bool IsKey4Pressed;
 
+        //Cheat codes
+        public bool IsKeyF2Pressed; // Unlock All Weapons
+        public bool IsKeyF3Pressed; // Skip Level
+        public bool IsKeyF4Pressed; // God Mode
+
+        public bool IsKeyEscPressed;
+
         private Point _mousePosition;
 
         public Point MousePosition
@@ -50,6 +57,12 @@ namespace shooter
             if (key == Key.Left || key == Key.Q) IsLeftPressed = true;
             if (key == Key.Up || key == Key.Z) IsUpPressed = true;
             if (key == Key.Down || key == Key.S) IsDownPressed = true;
+
+            if (key == Key.F4) IsKeyF4Pressed = true;
+            if (key == Key.F2) IsKeyF2Pressed = true;
+            if (key == Key.F3) IsKeyF3Pressed = true;
+
+            if (key == Key.Escape) IsKeyEscPressed = true;
         }
 
         public void OnKeyUp(Key key)
@@ -65,6 +78,12 @@ namespace shooter
             if (key == Key.Left || key == Key.Q) IsLeftPressed = false;
             if (key == Key.Up || key == Key.Z) IsUpPressed = false;
             if (key == Key.Down || key == Key.S) IsDownPressed = false;
+
+            if (key == Key.F4) IsKeyF4Pressed = false;
+            if (key == Key.F2) IsKeyF2Pressed = false;
+            if (key == Key.F3) IsKeyF3Pressed = false;
+
+            if (key == Key.Escape) IsKeyEscPressed = false;
         }
     }
 }
