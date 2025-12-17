@@ -48,7 +48,7 @@
                     <ImageBrush ImageSource="/stump1.png"/>
                 </Rectangle.Fill>
             </Rectangle>
-            <Rectangle x:Name="a9" HorizontalAlignment="Left" Height="74" Margin="521,195,0,0" VerticalAlignment="Top" Width="69">
+            <Rectangle x:Name="a9" HorizontalAlignment="Left" Height="56" Margin="569,269,0,0" VerticalAlignment="Top" Width="55">
                 <Rectangle.Fill>
                     <ImageBrush ImageSource="/hole1.png"/>
                 </Rectangle.Fill>

@@ -488,14 +488,16 @@ namespace shooter
                     {
                         Stop();
                         Lose(_gameCanvas);
+                        return;
                     }
                 }
             }
 
             // MELEE COLLISION (Enemy Body vs Player Body)
 
-            foreach (var enemy in Enemies)
+            for (int i = Enemies.Count - 1; i >= 0; i--)
             {
+                var enemy = Enemies[i];
                 Rect enemyBodyRect = new Rect(enemy.X, enemy.Y, enemy.Width, enemy.Height);
 
                 if (playerRect.IntersectsWith(enemyBodyRect))
@@ -510,10 +512,11 @@ namespace shooter
 
                     joueur.Damage(contactDamage);
 
-                    if (joueur.Hp <= 0)
+                    if (joueur.Hp < 0)
                     {
                         Stop();
                         Lose(_gameCanvas);
+                        return;
                     }
                 }
             }

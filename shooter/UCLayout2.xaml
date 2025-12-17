@@ -19,17 +19,17 @@
                     <ImageBrush ImageSource="/veticalTrunck.png"/>
                 </Rectangle.Fill>
             </Rectangle>
-            <Rectangle x:Name="a3" HorizontalAlignment="Left" Height="93" Margin="531,185,0,0" VerticalAlignment="Top" Width="51" RenderTransformOrigin="0.04,-0.016">
+            <Rectangle x:Name="a3" HorizontalAlignment="Left" Height="93" Margin="536,185,0,0" VerticalAlignment="Top" Width="51" RenderTransformOrigin="0.04,-0.016">
                 <Rectangle.Fill>
                     <ImageBrush ImageSource="/verticalBush1.png"/>
                 </Rectangle.Fill>
             </Rectangle>
-            <Rectangle x:Name="a4" HorizontalAlignment="Left" Height="93" Margin="343,60,0,0" VerticalAlignment="Top" Width="49" RenderTransformOrigin="0.427,0.988">
+            <Rectangle x:Name="a4" HorizontalAlignment="Left" Height="93" Margin="389,79,0,0" VerticalAlignment="Top" Width="49" RenderTransformOrigin="0.427,0.988">
                 <Rectangle.Fill>
                     <ImageBrush ImageSource="/verticalHole.png"/>
                 </Rectangle.Fill>
             </Rectangle>
-            <Rectangle x:Name="a5" HorizontalAlignment="Left" Height="185" Margin="496,0,0,0" VerticalAlignment="Top" Width="60">
+            <Rectangle x:Name="a5" HorizontalAlignment="Left" Height="134" Margin="496,0,0,0" VerticalAlignment="Top" Width="60">
                 <Rectangle.Fill>
                     <ImageBrush ImageSource="/veticalTrunck.png"/>
                 </Rectangle.Fill>
@@ -44,22 +44,17 @@
                     <ImageBrush ImageSource="/verticalBush2.png"/>
                 </Rectangle.Fill>
             </Rectangle>
-            <Rectangle x:Name="a8" HorizontalAlignment="Left" Height="50" Margin="250,130,0,0" VerticalAlignment="Top" Width="88">
-                <Rectangle.Fill>
-                    <ImageBrush ImageSource="/smallHorizontalTrunck1.png"/>
-                </Rectangle.Fill>
-            </Rectangle>
-            <Rectangle x:Name="a9" HorizontalAlignment="Left" Height="51" Margin="556,134,0,0" VerticalAlignment="Top" Width="75">
+            <Rectangle x:Name="a8" HorizontalAlignment="Left" Height="50" Margin="205,54,0,0" VerticalAlignment="Top" Width="75">
                 <Rectangle.Fill>
                     <ImageBrush ImageSource="/smallHorizontalMushrooms1.png"/>
                 </Rectangle.Fill>
             </Rectangle>
-            <Rectangle x:Name="a10" Tag="Start" HorizontalAlignment="Left" Height="75" VerticalAlignment="Top" Width="100" Margin="56,250,0,0" RenderTransformOrigin="0.337,0.236" >
+            <Rectangle x:Name="a9" Tag="Start" HorizontalAlignment="Left" Height="75" VerticalAlignment="Top" Width="100" Margin="56,250,0,0" RenderTransformOrigin="0.337,0.236" >
                 <Rectangle.Fill>
                     <ImageBrush ImageSource="/portal.png"/>
                 </Rectangle.Fill>
             </Rectangle>
-            <Rectangle x:Name="a11" Tag="End" HorizontalAlignment="Left" Height="78" VerticalAlignment="Top" Width="100" Margin="628,40,0,0" >
+            <Rectangle x:Name="a10" Tag="End" HorizontalAlignment="Left" Height="78" VerticalAlignment="Top" Width="100" Margin="628,40,0,0" >
                 <Rectangle.Fill>
                     <ImageBrush ImageSource="/portal.png"/>
                 </Rectangle.Fill>
