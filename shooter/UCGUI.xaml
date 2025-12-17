@@ -14,7 +14,7 @@
             <Label x:Name="Life"  Content="" HorizontalAlignment="Left" Height="31" Margin="-114,41,0,0" VerticalAlignment="Top" Width="86" Foreground="White" FontSize="18"/>
             <Label x:Name="Lvl"  Content="" HorizontalAlignment="Left" Height="108" Margin="2292,2,0,0" VerticalAlignment="Top" Width="364" Foreground="#FFA3E6A7" FontSize="72" HorizontalContentAlignment="Center" FontWeight="Bold"/>
             <Label x:Name="Weapon" Content="" HorizontalAlignment="Left" Margin="202,99,0,0" VerticalAlignment="Top" Width="500" Foreground="#FFB8D0B0" FontSize="48" FontWeight="Bold"/>
-            <Button x:Name="Settings" Content="Settings" HorizontalAlignment="Left" Height="68" Margin="1899,35,0,0" VerticalAlignment="Top" Width="348" Foreground="#FFB8D0B0" FontSize="48" FontWeight="Bold"/>
+            <Button x:Name="Settings" Content="Settings" HorizontalAlignment="Left" Height="68" Margin="1899,35,0,0" VerticalAlignment="Top" Width="348" Foreground="#FFB8D0B0" FontSize="48" FontWeight="Bold" Background="#FF2B573E"/>
             <Label x:Name="Score"  Content="" HorizontalAlignment="Left" Height="108" Margin="943,15,0,0" VerticalAlignment="Top" Width="743" Foreground="#FFA3E6A7" FontSize="72" HorizontalContentAlignment="Center" FontWeight="Bold"/>
         </Grid>
     </Viewbox>

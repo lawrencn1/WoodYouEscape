@@ -20,7 +20,7 @@ namespace shooter
     {
         MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
 
-        //Public
+        
         public InputManager inputMng;
         public Player joueur;
         public List<EnemyProjectile> globalEnemyProjectiles = new List<EnemyProjectile>();
@@ -29,14 +29,15 @@ namespace shooter
         public EnemiesGenerator enemiesGenerator;
         public UCGUI UCGUI = new UCGUI();
         public UCSettings UCsettings = new UCSettings();
-        //Private
+        
+        
         private double _fireTimerPlayer = 0;
         private double _currentCooldownDuration = 1;
         private Canvas _gameCanvas;
         private Stopwatch _stopwatch;
         private long _lastTick;
         private MapLayout _mapLayout;
-        private List<PlayerProjectile> playerProjectiles = new List<PlayerProjectile>();
+        private List<PlayerProjectile> _playerProjectiles = new List<PlayerProjectile>();
         private ProjectileTypePlayer _currentWeapon = ProjectileTypePlayer.Standard;
         private int _map;
         private Random _random = new Random();
@@ -47,7 +48,6 @@ namespace shooter
 
         public GameEngine(Canvas canvas)
         {
-
             _gameCanvas = canvas;
 
             double nativeWidth = _gameCanvas.Width;   
@@ -93,18 +93,18 @@ namespace shooter
                 _gameCanvas.Children.Remove(UCGUI);
             }
 
-            // 2. Remove Settings if they are open
+            //Remove Settings if they are open
             if (_gameCanvas.Children.Contains(UCsettings))
             {
                 _gameCanvas.Children.Remove(UCsettings);
             }
 
             //Clears projectiles
-            for (int i = 0; i < playerProjectiles.Count; i++)
+            for (int i = 0; i < _playerProjectiles.Count; i++)
             {
-                _gameCanvas.Children.Remove(playerProjectiles[i].Sprite);
+                _gameCanvas.Children.Remove(_playerProjectiles[i].Sprite);
             }
-            playerProjectiles.Clear();
+            _playerProjectiles.Clear();
 
             
             for (int i = 0;i < globalEnemyProjectiles.Count; i++)
@@ -113,27 +113,27 @@ namespace shooter
             }
             globalEnemyProjectiles.Clear();
 
-            // Clears Enemies
+            //Clears Enemies
             for (int i = 0; i < Enemies.Count; i++) 
             {
                 _gameCanvas.Children.Remove(Enemies[i].Sprite);
             }
             Enemies.Clear();
 
-            // Clears Layout UC
+            //Clears Layout UC
             if (_mapLayout != null && _mapLayout.layoutVisual != null)
             {
                 _gameCanvas.Children.Remove(_mapLayout.layoutVisual);
             }
 
-            //clears obstacles
+            //Clears obstacles
             for (int i = 0; i < _mapLayout.obstacles.Count; i++)
             {
                 _gameCanvas.Children.Remove(_mapLayout.obstacles[i].Sprite);
             }
             _mapLayout.obstacles.Clear();
 
-            //clears player
+            //Clears player
             if (_gameCanvas.Children.Contains(joueur.Sprite))
             {
                 _gameCanvas.Children.Remove(joueur.Sprite);
@@ -167,7 +167,7 @@ namespace shooter
             }
             joueur.UpdatePosition();
 
-            // 3. Start Game Loop
+            //Start Game Loop
             var border = new Rectangle
             {
                 Width = PlayableArea.Width,
@@ -186,7 +186,7 @@ namespace shooter
             _lastTick = _stopwatch.ElapsedTicks;
             CompositionTarget.Rendering += GameLoop;
 
-            //SPAWN
+            //Enemy Spawn
             if (MainWindow.DIFFICULTY == "easy")
             {
                 EnemiesRandomizer(_gameCanvas, 1, EnemyType.MeleeBasic);
@@ -261,10 +261,10 @@ namespace shooter
 
         private void UpdatePlayerBullets(double deltaTime, Canvas canvas)
         {
-            for (int i = playerProjectiles.Count - 1; i >= 0; i--)
+            for (int i = _playerProjectiles.Count - 1; i >= 0; i--)
             {
-                var bullet = playerProjectiles[i];
-                playerProjectiles[i].Update(deltaTime);
+                var bullet = _playerProjectiles[i];
+                _playerProjectiles[i].Update(deltaTime);
                 var sprite = bullet.Sprite as FrameworkElement;
 
                 double centerX = bullet.X + (sprite.Width / 2);
@@ -277,10 +277,10 @@ namespace shooter
                     bullet.IsMarkedForRemoval = true;
                 }
 
-                if (playerProjectiles[i].IsMarkedForRemoval)
+                if (_playerProjectiles[i].IsMarkedForRemoval)
                 {
-                    canvas.Children.Remove(playerProjectiles[i].Sprite);
-                    playerProjectiles.RemoveAt(i);
+                    canvas.Children.Remove(_playerProjectiles[i].Sprite);
+                    _playerProjectiles.RemoveAt(i);
                 }
             }
         }
@@ -330,7 +330,7 @@ namespace shooter
                 dy /= length;
             }
 
-            //CollisionCheck
+            //Collision Check with Obstacles
 
             Rect futureX = new Rect(joueur.X + (dx * pixeldist), joueur.Y, 80, 100 - (margin * 2));
             Rect futureY = new Rect(joueur.X, joueur.Y + (dy * pixeldist), 80 - (margin * 2), 100);
@@ -377,9 +377,9 @@ namespace shooter
 
             joueur.Deplacement(dx, dy, deltaTime);
 
-            // Weapon switching 
+            //Weapon switching 
             if (inputMng.IsKey1Pressed)
-                SetWeapon(ProjectileTypePlayer.Standard); // Standard is always unlocked
+                SetWeapon(ProjectileTypePlayer.Standard); //Always unlocked
 
             // ONLY switch if the weapon is actually unlocked
             if (inputMng.IsKey2Pressed && SaveData.IsWeaponUnlocked(ProjectileTypePlayer.LightAxe))
@@ -396,13 +396,13 @@ namespace shooter
             if (inputMng.IsShootPressed && _fireTimerPlayer <= 0)
             {
                 SFXManager.PlaySound("axeSpinning.wav");
-                SpawnBullet(mainWindow.canvas, "Player");
+                SpawnProjectile(mainWindow.canvas, "Player");
                 _fireTimerPlayer = _currentCooldownDuration;
             }
 
             if (restartGame)
             {
-                // 1. Determine what message to show
+                //Determine what message to show
                 string unlockMessage = "";
 
                 if (_mapNumber == 0)
@@ -421,7 +421,7 @@ namespace shooter
                     unlockMessage = "Hache Lourde Débloquée (Appuyer sur 4)";
                 }
 
-                // 2. Check if we beat the final level
+                //Check if we beat the final level
                 if (_mapNumber == _mapMax - 1 && MainWindow.GAMEMODE != "Infinite")
                 {
                     Stop();
@@ -429,10 +429,10 @@ namespace shooter
                 }
                 else
                 {
-                    // 3. STOP THE CURRENT LEVEL
+                    //Stop the current level
                     Stop();
 
-                    // 4. SHOW THE POP-UP
+                    //Show Pop-Up
                     ShowLevelNotification(_gameCanvas, unlockMessage);
                 }
             }
@@ -441,25 +441,25 @@ namespace shooter
         private void CheckCollisions()
         {
 
-            // PLAYER BULLETS VS ENEMIES
-            for (int i = playerProjectiles.Count - 1; i >= 0; i--)
+            // PLAYER Projectiles VS ENEMIES
+            for (int i = _playerProjectiles.Count - 1; i >= 0; i--)
             {
-                var bullet = playerProjectiles[i];
+                var projectile = _playerProjectiles[i];
 
 
-                double bWidth = (bullet.Sprite != null) ? bullet.Sprite.Width : 60;
-                double bHeight = (bullet.Sprite != null) ? bullet.Sprite.Height : 60;
-                Rect bulletRect = new Rect(bullet.X, bullet.Y, bWidth, bHeight);
+                double pWidth = (projectile.Sprite != null) ? projectile.Sprite.Width : 60;
+                double pHeight = (projectile.Sprite != null) ? projectile.Sprite.Height : 60;
+                Rect projectileRect = new Rect(projectile.X, projectile.Y, pWidth, pHeight);
 
                 for (int j = Enemies.Count - 1; j >= 0; j--)
                 {
                     var enemy = Enemies[j];
                     Rect enemyRect = new Rect(enemy.X, enemy.Y, enemy.Width, enemy.Height);
 
-                    if (bulletRect.IntersectsWith(enemyRect))
+                    if (projectileRect.IntersectsWith(enemyRect))
                     {
                         
-                        switch (bullet.Type)
+                        switch (projectile.Type)
                         {
                             case ProjectileTypePlayer.LightAxe:
                                 enemy.Damage(5); 
@@ -476,17 +476,17 @@ namespace shooter
                                 break;
                         }
 
-                        if (bullet.CausesBurn)
+                        if (projectile.CausesBurn)
                         {
                             enemy.ApplyBurn(3.0);
                         }
 
                         // Cleanup
-                        if (bullet.Sprite != null)
+                        if (projectile.Sprite != null)
                         {
-                            _gameCanvas.Children.Remove(bullet.Sprite);
+                            _gameCanvas.Children.Remove(projectile.Sprite);
                         }
-                        playerProjectiles.RemoveAt(i);
+                        _playerProjectiles.RemoveAt(i);
 
                         break; // Stop checking enemies for this bullet
                     }
@@ -500,18 +500,18 @@ namespace shooter
 
             for (int k = globalEnemyProjectiles.Count - 1; k >= 0; k--)
             {
-                var enemyBullet = globalEnemyProjectiles[k];
+                var enemyProjectile = globalEnemyProjectiles[k];
 
                 // Use sprite size or default 10x10
-                Rect eBulletRect = new Rect(enemyBullet.X, enemyBullet.Y, 10, 10);
+                Rect eProjectileRect = new Rect(enemyProjectile.X, enemyProjectile.Y, 10, 10);
 
-                if (eBulletRect.IntersectsWith(playerRect))
+                if (eProjectileRect.IntersectsWith(playerRect))
                 {
                     joueur.Damage(15);
 
-                    if (enemyBullet.Sprite != null)
+                    if (enemyProjectile.Sprite != null)
                     {
-                        _gameCanvas.Children.Remove(enemyBullet.Sprite);
+                        _gameCanvas.Children.Remove(enemyProjectile.Sprite);
                     }
                     globalEnemyProjectiles.RemoveAt(k);
 
@@ -553,13 +553,13 @@ namespace shooter
             }
         }
 
-        public void EnemiesRandomizer(Canvas canvas, int Enemiesnumber, EnemyType type)
+        public void EnemiesRandomizer(Canvas canvas, int enemiesCount, EnemyType type)
         {
             Random random = new Random();
             double height = 80;
             double width = 80;
 
-            for (int x = 0; x < Enemiesnumber; x++)
+            for (int x = 0; x < enemiesCount; x++)
             {
                 bool validPosition = false;
                 
@@ -594,7 +594,6 @@ namespace shooter
 
         }
         
-
         private void SetWeapon(ProjectileTypePlayer type)
         {
             _currentWeapon = type;
@@ -606,11 +605,11 @@ namespace shooter
                     UCGUI.Weapon.Content = "Hachette";
                     break;
                 case ProjectileTypePlayer.FireAxe:
-                    _currentCooldownDuration = 1.2; // Slow 
+                    _currentCooldownDuration = 1.2; 
                     UCGUI.Weapon.Content = "Hache Enflammée";
                     break;
                 case ProjectileTypePlayer.HeavyAxe:
-                    _currentCooldownDuration = 2.2;
+                    _currentCooldownDuration = 2.2; // Slow 
                     UCGUI.Weapon.Content = "Hache Lourde";
                     break;
                 case ProjectileTypePlayer.Standard:
@@ -621,7 +620,7 @@ namespace shooter
             }
         }
 
-        private void SpawnBullet(Canvas canvas, String Sprite)
+        private void SpawnProjectile(Canvas canvas, String Sprite)
         {
             if (Sprite == "Player")
             {
@@ -639,22 +638,20 @@ namespace shooter
                     dirY = diffY / length; 
                 }
 
-                PlayerProjectile newBullet = new PlayerProjectile(player_startX-10, player_startY-10, dirX, dirY, _currentWeapon);
-                playerProjectiles.Add(newBullet);
-                canvas.Children.Add(newBullet.Sprite);
+                PlayerProjectile newProjectile = new PlayerProjectile(player_startX-10, player_startY-10, dirX, dirY, _currentWeapon);
+                _playerProjectiles.Add(newProjectile);
+                canvas.Children.Add(newProjectile.Sprite);
             }
   
         }
 
-        
-        
         //User controls functions
         private void GameRule(Canvas canva)
         {   
             GameRules uc = new GameRules();
 
-            uc.Width = canva.Width;   // 1920
-            uc.Height = canva.Height; // 1080
+            uc.Width = canva.Width;   
+            uc.Height = canva.Height; 
 
             canva.Children.Add(uc);
 
@@ -669,8 +666,8 @@ namespace shooter
         {
             UCGameControls uc = new UCGameControls();
 
-            uc.Width = canva.Width;   // 1920
-            uc.Height = canva.Height; // 1080
+            uc.Width = canva.Width;   
+            uc.Height = canva.Height; 
 
             canva.Children.Add(uc);
 
@@ -685,8 +682,8 @@ namespace shooter
         {
             UCGameMode uc = new UCGameMode();
 
-            uc.Width = canva.Width;   // 1920
-            uc.Height = canva.Height; // 1080
+            uc.Width = canva.Width;   
+            uc.Height = canva.Height; 
 
             canva.Children.Add(uc);
 
@@ -702,8 +699,8 @@ namespace shooter
             UCDifficulty uc = new UCDifficulty();
             canva.Children.Add(uc);
 
-            uc.Width = canva.Width;   // 1920
-            uc.Height = canva.Height; // 1080
+            uc.Width = canva.Width;   
+            uc.Height = canva.Height; 
 
             uc.play.Click += (sender, e) =>
             {
@@ -717,15 +714,14 @@ namespace shooter
         {
             UCWin uc = new UCWin();
 
-            uc.Width = canva.Width;   // 1920
-            uc.Height = canva.Height; // 1080
+            uc.Width = canva.Width;   
+            uc.Height = canva.Height; 
 
             canva.Children.Add(uc);
             uc.Score.Content = $"Score : {_score}";
 
             uc.Restart.Click += (sender, e) =>
             {
-
                 SaveData.Initialize();
 
                 canva.Children.Remove(uc);
@@ -740,8 +736,8 @@ namespace shooter
         {
             UCLose uc = new UCLose();
 
-            uc.Width = canva.Width;   // 1920
-            uc.Height = canva.Height; // 1080
+            uc.Width = canva.Width;   
+            uc.Height = canva.Height; 
 
             canva.Children.Add(uc);
             uc.Score.Content = $"Score : {_score}";
@@ -753,7 +749,6 @@ namespace shooter
                 _mapNumber = 0;
                 _score = 0;
                 GameMode(canva);
-
             };
         }
 
@@ -762,8 +757,8 @@ namespace shooter
             canva.Children.Add(settings);
             Panel.SetZIndex(settings, 98);
 
-            settings.Width = canva.Width;   // 1920
-            settings.Height = canva.Height; // 1080
+            settings.Width = canva.Width;   
+            settings.Height = canva.Height; 
 
             settings.volume.Value = SFXManager.MasterVolume;
 
@@ -772,15 +767,14 @@ namespace shooter
                 SFXManager.SetVolume(settings.volume.Value);
                 Resume();
                 canva.Children.Remove(settings);
-                
             };
         }
         private void GUI(Canvas canva, UCGUI uc)
         {
             
 
-            uc.Width = canva.Width;   // 1920
-            uc.Height = canva.Height; // 1080
+            uc.Width = canva.Width;   
+            uc.Height = canva.Height; 
 
             canva.Children.Add(uc);
 
@@ -818,13 +812,13 @@ namespace shooter
                 UCGUI.Green.Width = put;
 
             UCGUI.Life.Content = $"{life}/{playerMaxLife}";
-            if (MainWindow.GAMEMODE == "Infinite")
+            if (MainWindow.GAMEMODE == "Infini")
             {
-                UCGUI.Lvl.Content = $"Lvl : {_mapNumber + 1}";
+                UCGUI.Lvl.Content = $"Niveau : {_mapNumber + 1}";
             }
             else
             {
-                UCGUI.Lvl.Content = $"Lvl : {_mapNumber + 1} / {_mapMax}";
+                UCGUI.Lvl.Content = $"Niveau : {_mapNumber + 1} / {_mapMax}";
             }
 
             UCGUI.Score.Content = $"Score : {_score}";
@@ -833,36 +827,30 @@ namespace shooter
 
         private void ShowLevelNotification(Canvas canva, string message)
         {
-            // Create the UserControl
             UCNotifications popup = new UCNotifications();
 
-            // Set size to cover the whole screen
             popup.Width = canva.Width;
             popup.Height = canva.Height;
 
-            // Set the text
             if (string.IsNullOrEmpty(message))
             {
-                popup.MessageLabel.Content = "Next Level Ready...";
+                popup.MessageLabel.Content = "Prochain niveau prêt ...";
             }
             else
             {
                 popup.MessageLabel.Content = message;
             }
 
-            // Add to screen
             canva.Children.Add(popup);
-            Panel.SetZIndex(popup, 100); // Make sure it's on top
+            Panel.SetZIndex(popup, 100);
 
             // --- BUTTON LOGIC ---
-            // When they click Continue, remove the popup and START THE NEXT LEVEL
+            // When they click Continue, remove the popup and start next level
             popup.ContinueBtn.Click += (sender, e) =>
             {
                 canva.Children.Remove(popup);
-
                 // Increment Map
                 _mapNumber++;
-
                 // Start Next Level
                 BeginGameplay();
             };
