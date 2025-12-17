@@ -18,7 +18,7 @@
                     <ImageBrush ImageSource="/horizontalBush1.png"/>
                 </Rectangle.Fill>
             </Rectangle>
-            <Rectangle x:Name="a3" HorizontalAlignment="Left" Height="70" Margin="349,176,0,0" VerticalAlignment="Top" Width="70" RenderTransformOrigin="0.04,-0.016">
+            <Rectangle x:Name="a3" HorizontalAlignment="Left" Height="60" Margin="400,176,0,0" VerticalAlignment="Top" Width="64" RenderTransformOrigin="0.04,-0.016">
                 <Rectangle.Fill>
                     <ImageBrush ImageSource="/mushromm1.png"/>
                 </Rectangle.Fill>
@@ -28,7 +28,7 @@
                     <ImageBrush ImageSource="/smallHorizontalTrunck2.png"/>
                 </Rectangle.Fill>
             </Rectangle>
-            <Rectangle x:Name="a5" HorizontalAlignment="Left" Height="185" Margin="531,10,0,0" VerticalAlignment="Top" Width="49">
+            <Rectangle x:Name="a5" HorizontalAlignment="Left" Height="157" Margin="531,10,0,0" VerticalAlignment="Top" Width="49">
                 <Rectangle.Fill>
                     <ImageBrush ImageSource="/veticalTrunck.png"/>
                 </Rectangle.Fill>
@@ -38,12 +38,12 @@
                     <ImageBrush ImageSource="/horizontalHole1.png"/>
                 </Rectangle.Fill>
             </Rectangle>
-            <Rectangle x:Name="a7" HorizontalAlignment="Left" Height="157" Margin="221,168,0,0" VerticalAlignment="Top" Width="70">
+            <Rectangle x:Name="a7" HorizontalAlignment="Left" Height="100" Margin="234,225,0,0" VerticalAlignment="Top" Width="57">
                 <Rectangle.Fill>
                     <ImageBrush ImageSource="/verticalHole.png"/>
                 </Rectangle.Fill>
             </Rectangle>
-            <Rectangle x:Name="a8" HorizontalAlignment="Left" Height="71" Margin="221,92,0,0" VerticalAlignment="Top" Width="70">
+            <Rectangle x:Name="a8" HorizontalAlignment="Left" Height="71" Margin="234,96,0,0" VerticalAlignment="Top" Width="70">
                 <Rectangle.Fill>
                     <ImageBrush ImageSource="/stump1.png"/>
                 </Rectangle.Fill>

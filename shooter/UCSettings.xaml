@@ -9,10 +9,10 @@
     <Viewbox Stretch="Uniform">
         <Grid Height="450" Width="800" >
             <Canvas HorizontalAlignment="Center" Height="371" Margin="0,50,0,0" VerticalAlignment="Top" Width="720" Background="Black" Opacity="0.8">
-                <Slider x:Name="volume" Canvas.Left="119" Canvas.Top="169" Width="527" Height="50" HorizontalAlignment="Left" VerticalAlignment="Top" Minimum="0" Maximum="1" Value="0.5" ValueChanged="volume_ValueChanged" TickPlacement="BottomRight" TickFrequency="0.1" IsSnapToTickEnabled="True" />
+                <Slider x:Name="volume" Canvas.Left="119" Canvas.Top="169" Width="485" Height="50" HorizontalAlignment="Left" VerticalAlignment="Center" Minimum="0" Maximum="1" Value="0.5" ValueChanged="volume_ValueChanged" TickPlacement="BottomRight" TickFrequency="0.1" IsSnapToTickEnabled="True" />
             </Canvas>
-            <Button x:Name="Close" Content="Close" HorizontalAlignment="Center" Height="58" Margin="0,297,0,0" VerticalAlignment="Top" Width="190" Background="#FF4DCC3C" Foreground="White" FontSize="36" FontWeight="Bold"/>
-            <Label Content="Volume" HorizontalAlignment="Center" Height="80" Margin="0,66,0,0" VerticalAlignment="Top" Width="220" Foreground="#FF4DCC3C" HorizontalContentAlignment="Center" FontSize="48" FontWeight="Bold"/>
+            <Button x:Name="Close" Content="Close" HorizontalAlignment="Center" Height="58" Margin="0,297,0,0" VerticalAlignment="Top" Width="190" Background="#FF2B573E" Foreground="White" FontSize="36" FontWeight="Bold"/>
+            <Label Content="Volume" HorizontalAlignment="Center" Height="80" Margin="0,66,0,0" VerticalAlignment="Top" Width="220" Foreground="White" HorizontalContentAlignment="Center" FontSize="48" FontWeight="Bold" Background="#FF2B573E"/>
         </Grid>
     </Viewbox>
 </UserControl>

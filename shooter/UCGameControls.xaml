@@ -39,7 +39,7 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <Label Grid.Row="0" Grid.Column="0" Content="Deplacement" Style="{StaticResource HeaderLabelStyle}" Margin="0,20,0,0"/>
+            <Label Grid.Row="0" Grid.Column="0" Content="Deplacement" Style="{StaticResource HeaderLabelStyle}" Margin="0,20,0,0" Background="#FF2B573E"/>
 
             <StackPanel Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center">
 
@@ -78,7 +78,7 @@
                 </Grid>
             </StackPanel>
 
-            <Label Grid.Row="0" Grid.Column="1" Content="Tirer" Style="{StaticResource HeaderLabelStyle}" Margin="0,20,0,0"/>
+            <Label Grid.Row="0" Grid.Column="1" Content="Tirer" Style="{StaticResource HeaderLabelStyle}" Margin="0,20,0,0" Background="#FF2B573E"/>
 
             <StackPanel Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <Image Source="/UIAssets/SPACEALTERNATIVE.png" Height="44" Width="200" Stretch="Uniform"/>
@@ -90,7 +90,7 @@
                     HorizontalAlignment="Center" Margin="0,0,0,30" 
                     Height="50" Width="250" 
                     FontSize="36" FontWeight="Bold" 
-                    Background="#FF50841D" Foreground="#FFBAE0A9" BorderBrush="#FF20481C"/>
+                    Background="#FF2B573E" Foreground="#FFBAE0A9" BorderBrush="#FF20481C"/>
         </Grid>
     </Viewbox>
 </UserControl>

@@ -8,16 +8,16 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Viewbox Stretch="Uniform">
         <Grid>
-            <Label Content="Difficulté" HorizontalAlignment="Center" Height="77" Margin="0,10,0,0" VerticalAlignment="Top" Width="661" Background="#FF50841D" FontSize="48" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="#FFC9FFBE"/>
-            
-            <RadioButton x:Name="easy" HorizontalAlignment="Left" Margin="142,250,0,0" VerticalAlignment="Top" Foreground="#FFABEC9A" FontWeight="Bold" FontSize="24" Click="easy_Click" IsChecked="True"/>
+            <Label Content="Difficulté" HorizontalAlignment="Center" Height="77" Margin="0,10,0,0" VerticalAlignment="Top" Width="661" Background="#FF2B573E" FontSize="48" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="#FFC9FFBE"/>
+
+            <RadioButton x:Name="easy" HorizontalAlignment="Left" Margin="103,250,0,0" VerticalAlignment="Top" Foreground="#FFABEC9A" FontWeight="Bold" FontSize="24" Click="easy_Click" IsChecked="True"/>
             <RadioButton x:Name="normal" HorizontalAlignment="Left" Margin="370,250,0,0" VerticalAlignment="Top" Foreground="#FFABEC9A" FontWeight="Bold" FontSize="24" Click="normal_Click"/>
-            <RadioButton x:Name="hard" HorizontalAlignment="Left" Margin="643,250,0,0" VerticalAlignment="Top" Foreground="#FFABEC9A" FontWeight="Bold" FontSize="24" Checked="hard_Checked"/>
-           
-            <Label Content="Facile" HorizontalAlignment="Left" Height="60" Margin="70,181,0,0" VerticalAlignment="Top" Width="161" Foreground="#FF7ABB81" FontWeight="Bold" FontSize="36" HorizontalContentAlignment="Center"/>
+            <RadioButton x:Name="hard" HorizontalAlignment="Left" Margin="617,250,0,0" VerticalAlignment="Top" Foreground="#FFABEC9A" FontWeight="Bold" FontSize="24" Checked="hard_Checked"/>
+
+            <Label Content="Facile" HorizontalAlignment="Left" Height="60" Margin="30,181,0,0" VerticalAlignment="Top" Width="161" Foreground="#FF7ABB81" FontWeight="Bold" FontSize="36" HorizontalContentAlignment="Center"/>
             <Label Content="Normal" HorizontalAlignment="Left" Height="60" Margin="300,181,0,0" VerticalAlignment="Top" Width="161" Foreground="#FF7ABB81" FontWeight="Bold" FontSize="36" HorizontalContentAlignment="Center"/>
-            <Label Content="Difficile" HorizontalAlignment="Left" Height="60" Margin="560,181,0,0" VerticalAlignment="Top" Width="161" Foreground="#FF7ABB81" FontWeight="Bold" FontSize="36" HorizontalContentAlignment="Center"/>
-            <Button x:Name="play"  Content="Jouer" HorizontalAlignment="Center" Margin="0,319,0,33"  Height="51" Width="384" FontSize="36" FontWeight="Bold" Background="#FF50841D" Foreground="#FFBAE0A9" BorderBrush="#FF20481C" Click="play_Click"/>
+            <Label Content="Difficile" HorizontalAlignment="Left" Height="60" Margin="528,181,0,0" VerticalAlignment="Top" Width="193" Foreground="#FF7ABB81" FontWeight="Bold" FontSize="36" HorizontalContentAlignment="Center"/>
+            <Button x:Name="play"  Content="Jouer" HorizontalAlignment="Center" Margin="0,319,0,33"  Height="51" Width="384" FontSize="36" FontWeight="Bold" Background="#FF2B573E" Foreground="#FFBAE0A9" BorderBrush="#FF20481C" Click="play_Click"/>
         </Grid>
     </Viewbox>
 

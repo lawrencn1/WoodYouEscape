@@ -27,7 +27,7 @@
                 <Button x:Name="ContinueBtn" 
                         Content="CONTINUER" 
                         Width="200" Height="50" FontSize="20" FontWeight="Bold"
-                        Background="Orange"/>
+                        Background="#FF2B573E" Foreground="#FFEBEBEB"/>
             </StackPanel>
         </Border>
     </Grid>
